@@ -24,13 +24,14 @@ namespace Assets.Sources.DatabaseClient.Services
             };
         }
 
-        public User GetUser(int userId)
+        public User LoginUser(string username, string password)
         {
             RestCommunication restCom = new RestCommunication();
-            restCom.SetUrl(URL + "/GetUser");
+            restCom.SetUrl(URL + "/LoginUser");
             StringBuilder parameters = new StringBuilder();
             JsonWriter writer = new JsonWriter(parameters, jsonWriterSettings);
-            writer.Write(new { userId });
+            writer.Write(new { username, password });
+            Debug.Log("Login user, sending: " + parameters.ToString());
             string response = restCom.SendAndRecive(parameters.ToString(), null);
             if (String.IsNullOrEmpty(response)) return null;
             JsonReader reader = new JsonReader(response);
@@ -38,15 +39,14 @@ namespace Assets.Sources.DatabaseClient.Services
             return result;
         }
 
-        public User AddNewUser(string username)
+        public User AddNewUser(string username, string password)
         {
             RestCommunication restCom = new RestCommunication();
             restCom.SetUrl(URL + "/AddNewUser");
             StringBuilder parameters = new StringBuilder();
             JsonWriter writer = new JsonWriter(parameters, jsonWriterSettings);
-            writer.Write(new { username });
+            writer.Write(new { username, password });
             string response = restCom.SendAndRecive(parameters.ToString(), null);
-
             Debug.Log("Response: " + response);
             if (String.IsNullOrEmpty(response)) return null;
             JsonReader reader = new JsonReader(response);

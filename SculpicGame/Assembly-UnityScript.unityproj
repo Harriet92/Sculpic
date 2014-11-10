@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{D8B50F5B-036F-5424-E275-9361D8B4DF45}</ProjectGuid>
+	<ProjectGuid>{49D5EF2F-9759-9F72-5E71-F6567EB8AE52}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-UnityScript</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,41 +46,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\DataReaderProvider.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\DataWriterProvider.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\DateTimeConverter.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\EcmaScriptIdentifier.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\EcmaScriptWriter.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\IDataReader.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\IDataWriter.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\IJsonSerializable.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonDataReader.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonDataWriter.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonIgnoreAttribute.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonMemberAttribute.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonNameAttribute.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonOptInAttribute.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonReader.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonReaderSettings.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonSerializationException.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonSpecifiedPropertyAttribute.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonToken.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonWriter.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonWriterSettings.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\TypeCoercionUtility.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\XmlDataReader.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\XmlDataWriter.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\Models\User.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\REST\Request.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\REST\Response.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\REST\RestCommunication.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\Security\SecureString.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\Services\UserService.cs" />
-     <Compile Include="Assets\Sources\Scripts\Arithmetic.cs" />
-     <Compile Include="Assets\Sources\Scripts\DisplayUsernameScript.cs" />
-     <Compile Include="Assets\Sources\Scripts\LoginMenu.cs" />
-     <Compile Include="Assets\Sources\Scripts\Player.cs" />
-     <Compile Include="Assets\Sources\Scripts\Sculptor.cs" />
+     <Compile Include="Assets\Sources\Scripts\DragTransform.js" />
+     <Compile Include="Assets\Sources\Scripts\KeyboardOrbit.js" />
+     <Compile Include="Assets\Sources\Scripts\PaintVertices.js" />
      <None Include="Assets\Sources\DatabaseClient\JsonFx\Readme.txt" />
      <None Include="Assets\Sources\DatabaseClient\JsonFx\License.txt" />
  <Reference Include="UnityEngine.UI">
