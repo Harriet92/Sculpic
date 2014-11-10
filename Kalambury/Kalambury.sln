@@ -9,9 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kalambury.Database.Test", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kalambury.WcfServer", "Kalambury.WcfServer\Kalambury.WcfServer.csproj", "{23B927B5-7EB1-4F65-98F4-6F40128AB4EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kalambury.WcfServer.Test", "Kalambury.WcfServer.Test\Kalambury.WcfServer.Test.csproj", "{49A3EF6B-EB8B-4FCD-B893-B6578D58A560}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://deemi.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -24,6 +26,9 @@ Global
 		SccProjectUniqueName3 = Kalambury.WcfServer\\Kalambury.WcfServer.csproj
 		SccProjectName3 = Kalambury.WcfServer
 		SccLocalPath3 = Kalambury.WcfServer
+		SccProjectUniqueName4 = Kalambury.WcfServer.Test\\Kalambury.WcfServer.Test.csproj
+		SccProjectName4 = Kalambury.WcfServer.Test
+		SccLocalPath4 = Kalambury.WcfServer.Test
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +47,10 @@ Global
 		{23B927B5-7EB1-4F65-98F4-6F40128AB4EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23B927B5-7EB1-4F65-98F4-6F40128AB4EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23B927B5-7EB1-4F65-98F4-6F40128AB4EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49A3EF6B-EB8B-4FCD-B893-B6578D58A560}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49A3EF6B-EB8B-4FCD-B893-B6578D58A560}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49A3EF6B-EB8B-4FCD-B893-B6578D58A560}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49A3EF6B-EB8B-4FCD-B893-B6578D58A560}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,5 +14,10 @@ namespace Kalambury.WcfServer.Repositories
         {
             
         }
+
+        public User GetUserByUsername(string username)
+        {
+            return GetItemByQuery(x => x.Username == username);
+        }
     }
 }

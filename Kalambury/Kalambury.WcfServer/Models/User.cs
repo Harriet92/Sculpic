@@ -16,5 +16,6 @@ namespace Kalambury.WcfServer.Models
         public Int64 UserId { get; set; }
         [DataMember]
         public string Username { get; set; }
+        public string Password { get; set; }
     }
 }

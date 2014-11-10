@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.ServiceModel.Web;
+﻿using System.Runtime.InteropServices;
 using Kalambury.Database.Mongo;
 using Kalambury.Mongo.Interfaces;
 using Kalambury.WcfServer.Interfaces;
@@ -15,7 +10,6 @@ namespace Kalambury.WcfServer.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository userRepository;
-
         //For testing purposes
         public UserService()
         {
@@ -32,23 +26,30 @@ namespace Kalambury.WcfServer.Services
         public UserService(IDatabaseServer serverConnection)
         {
             userRepository = new UserMongoRepository(serverConnection);
-            //TODO: Container resolve
         }
 
-        public User GetUser(int userId)
+        public User LoginUser(string username, string password)
         {
-            return userRepository.GetItemByQuery(x => x.UserId == userId);
+            User user = userRepository.GetUserByUsername(username);
+            if (user == null || user.Password != password) 
+                return null;
+            return user;
         }
 
-        public User AddNewUser(string username)
+        public User AddNewUser(string username, string password)
         {
+            User user = LoginUser(username, password);
+            if (user != null)
+                return user;
+            if (userRepository.GetUserByUsername(username) != null)
+                return null;
             return userRepository.Insert(new User()
             {
                 UserId = userRepository.CountAll(),
-                Username = username
+                Username = username,
+                Password = password
             });
         }
-
 
         public string PingService()
         {
