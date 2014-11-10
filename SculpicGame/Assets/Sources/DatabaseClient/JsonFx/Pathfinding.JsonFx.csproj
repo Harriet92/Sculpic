@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ABA23F14-7E47-43FE-A3E7-1FF97840C3FB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Assets.Sources.DatabaseServer.JsonFx</RootNamespace>
+    <AssemblyName>Pathfinding.JsonFx</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY3D;NO_ECMASCRIPT</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <DocumentationFile>bin\Debug\Pathfinding.JsonFx.xml</DocumentationFile>
+    <NoWarn>1570,1571,1572,1573,1591,1592</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>TRACE;UNITY3D;NO_ECMASCRIPT</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <NoWarn>1570,1571,1572,1573,1591,1592</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugW8|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY3D;NO_ECMASCRIPT;WINDOWS_STORE;WINPHONE_8</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\JsonFx.Json.XML</DocumentationFile>
+    <NoWarn>1570,1571,1572,1573,1591,1592</NoWarn>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseW8|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;UNITY3D;NO_ECMASCRIPT;WINDOWS_STORE;WINPHONE_8</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>1570,1571,1572,1573,1591,1592</NoWarn>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataReaderProvider.cs" />
+    <Compile Include="DataWriterProvider.cs" />
+    <Compile Include="XmlDataReader.cs" />
+    <Compile Include="IDataReader.cs" />
+    <Compile Include="EcmaScriptIdentifier.cs" />
+    <Compile Include="EcmaScriptWriter.cs" />
+    <Compile Include="IDataWriter.cs" />
+    <Compile Include="IJsonSerializable.cs" />
+    <Compile Include="JsonDataReader.cs" />
+    <Compile Include="JsonDataWriter.cs" />
+    <Compile Include="JsonIgnoreAttribute.cs" />
+    <Compile Include="JsonNameAttribute.cs" />
+    <Compile Include="JsonReader.cs" />
+    <Compile Include="JsonReaderSettings.cs" />
+    <Compile Include="JsonSerializationException.cs" />
+    <Compile Include="JsonSpecifiedPropertyAttribute.cs" />
+    <Compile Include="JsonToken.cs" />
+    <Compile Include="JsonWriter.cs" />
+    <Compile Include="JsonWriterSettings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyVersion.cs" />
+    <Compile Include="TypeCoercionUtility.cs" />
+    <Compile Include="XmlDataWriter.cs" />
+    <Compile Include="JsonMemberAttribute.cs" />
+    <Compile Include="JsonOptInAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="License.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Readme.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
