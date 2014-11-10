@@ -79,6 +79,7 @@
     <Compile Include="Assets\Sources\DatabaseClient\Security\SecureString.cs" />
     <Compile Include="Assets\Sources\DatabaseClient\Services\UserService.cs" />
     <Compile Include="Assets\Sources\Scripts\Arithmetic.cs" />
+    <Compile Include="Assets\Sources\Scripts\RegisterMenu.cs" />
     <Compile Include="Assets\Sources\Scripts\LoginMenu.cs" />
     <Compile Include="Assets\Sources\Scripts\Player.cs" />
     <Compile Include="Assets\Sources\Scripts\Sculptor.cs" />

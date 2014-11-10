@@ -80,6 +80,7 @@
      <Compile Include="Assets\Sources\Scripts\DisplayUsernameScript.cs" />
      <Compile Include="Assets\Sources\Scripts\LoginMenu.cs" />
      <Compile Include="Assets\Sources\Scripts\Player.cs" />
+     <Compile Include="Assets\Sources\Scripts\RegisterMenu.cs" />
      <Compile Include="Assets\Sources\Scripts\Sculptor.cs" />
      <None Include="Assets\Sources\DatabaseClient\JsonFx\Readme.txt" />
      <None Include="Assets\Sources\DatabaseClient\JsonFx\License.txt" />
