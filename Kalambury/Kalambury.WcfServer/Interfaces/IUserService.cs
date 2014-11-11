@@ -12,11 +12,11 @@ namespace Kalambury.WcfServer.Interfaces
     [ServiceContract]
     public interface IUserService
     {
-        [WebInvoke(UriTemplate = "/LoginUser", Method = "POST", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        [WebInvoke(UriTemplate = "/LoginUser/{username}/{password}", Method = "GET", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         [OperationContract]
         User LoginUser(string username, string password);
 
-        [WebInvoke(UriTemplate = "/AddNewUser", Method = "POST", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        [WebInvoke(UriTemplate = "/AddNewUser/{username}/{password}", Method = "GET", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         [OperationContract]
         User AddNewUser(string username, string password);
 
