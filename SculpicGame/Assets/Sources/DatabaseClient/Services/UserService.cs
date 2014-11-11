@@ -11,7 +11,7 @@ namespace Assets.Sources.DatabaseClient.Services
 {
     public class UserService
     {
-        private const string URL = "http://localhost:8733/UserService";
+        private const string URL = "http://deemi.ddns.net:8733/UserService";
         private readonly JsonWriterSettings jsonWriterSettings;
         public UserService()
         {
@@ -51,8 +51,13 @@ namespace Assets.Sources.DatabaseClient.Services
         {
             WWW www = new WWW(url);
             Debug.Log(www.url);
-            Thread.Sleep(2000);
-            return www.text;
+            var maxNoOfRetry = 5;
+            int noOfRetry = 0;
+            while (!www.isDone && noOfRetry++ < maxNoOfRetry)
+            {
+                Thread.Sleep(2000);
+            }
+            return www.isDone ? www.text : null;
         }
     }
 }
