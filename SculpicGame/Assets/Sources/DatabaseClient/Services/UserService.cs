@@ -9,7 +9,7 @@ namespace Assets.Sources.DatabaseClient.Services
 {
     public class UserService
     {
-        private const string URL = "http://localhost:8733/UserService";
+        private const string URL = "http://deemi.ddns.net:8733/UserService";
         private readonly JsonWriterSettings jsonWriterSettings;
         public UserService()
         {
