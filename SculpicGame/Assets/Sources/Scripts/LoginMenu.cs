@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Assets.Sources.DatabaseClient.Security;
 using Assets.Sources.DatabaseClient.Services;
 using UnityEngine;
@@ -10,26 +11,79 @@ namespace Assets.Sources.Scripts
     {
         public InputField LoginField;
         public InputField PasswordField;
+        public Canvas IncorrectLoginCanvas;
+        private Canvas canvas;
+        public Image LoadingIndicator;
+        public Text LoginEmpty;
+        public Text PassEmpty;
+        private Color color;
+        void Start()
+        {
+            color = LoginField.GetComponentInChildren<Text>().color;
+            LoginField.GetComponentInChildren<Text>().color = new Color(131, 1, 1, 0);
+            ClearValidationMessages();
+        }
         public void LoginClick()
         {
             var login = LoginField.text;
             var password = PasswordField.text;
-            if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(password))
-                return;
-            
+            if (ValidateInput(login, password)) return;
             UserService userService = new UserService();
-            var result = userService.LoginUser(login,  SecureString.GetBase64Hash(password)); 
+            var result = userService.LoginUser(login, SecureString.GetBase64Hash(password));
             Debug.Log(result);
             if (result != null)
             {
                 Player.LogIn(result);
                 Application.LoadLevel("GameScreen");
             }
+            else if (!string.IsNullOrEmpty(UserService.LastError))
+            {
+                DisplayPopup("Internal server error, try again later.");
+            }
+            else
+            {
+                DisplayPopup("Incorrect login or password!");
+            }
+        }
+
+        private bool ValidateInput(string login, string password)
+        {
+            if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(password))
+            {
+                if (String.IsNullOrEmpty(login))
+                    LoginField.GetComponentInChildren<Text>().color = color;
+
+                if (String.IsNullOrEmpty(password))
+                    PasswordField.GetComponentInChildren<Text>().color = color;
+                return true;
+            }
+            return false;
         }
 
         public void RegisterClick()
         {
             Application.LoadLevel("RegisterScreen");
+        }
+
+        public void IncorrectInputButtonClick()
+        {
+            canvas.gameObject.SetActive(false);
+        }
+
+        private void DisplayPopup(string message)
+        {
+            if (canvas != null)
+                canvas.gameObject.SetActive(true);
+            else
+                canvas = (Canvas)Instantiate(IncorrectLoginCanvas);
+            canvas.GetComponentInChildren<Image>().GetComponentInChildren<Text>().text = message;
+            canvas.GetComponentInChildren<Image>().GetComponentInChildren<Button>().onClick.AddListener(() => IncorrectInputButtonClick());
+        }
+
+        public void ClearValidationMessages()
+        {
+            LoginField.GetComponentInChildren<Text>().color = new Color(131, 1, 1, 0);
+            PasswordField.GetComponentInChildren<Text>().color = new Color(131, 1, 1, 0);
         }
     }
 }

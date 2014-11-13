@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Sources.Scripts;
+using UnityEngine;
 using Assets.Sources;
 
 public class Sculptor : MonoBehaviour
@@ -20,8 +21,9 @@ public class Sculptor : MonoBehaviour
     {
         GUI.BeginGroup(new Rect(0, 0, 400, 180));
 
-        GUI.Box(new Rect(0, 0, 400, 180), "Sculpt the surface using the mouse. Use arrow keys to rotate view.");
-        fallOff = (FallOff)GUI.Toolbar(new Rect(20, 30, 360, 30), (int)fallOff, _fallOffScrings);
+        GUI.Box(new Rect(0, 0, 400, 180), "Hello " + (Player.Current == null ? "Stanger!" : Player.Current.Username + "!") + "\n" +
+                                          "Sculpt the surface using the mouse. Use arrow keys to rotate view.");
+        fallOff = (FallOff)GUI.Toolbar(new Rect(20, 35, 360, 30), (int)fallOff, _fallOffScrings);
         carve = GUI.Toggle(new Rect(20, 65, 60, 20), carve, "Carve");
         grid = GUI.Toggle(new Rect(100, 65, 60, 20), grid, "Grid");
         GUI.Label(new Rect(20, 90, 40, 20), "Radius");
