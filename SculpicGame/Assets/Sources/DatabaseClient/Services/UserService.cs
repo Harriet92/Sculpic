@@ -12,6 +12,7 @@ namespace Assets.Sources.DatabaseClient.Services
 {
     public class UserService
     {
+        public static string LastError;
         private static string ServiceEndpoint = RestCommunication.BaseURL + "/UserService";
         private readonly RestCommunication restCommunication;
         public UserService()
