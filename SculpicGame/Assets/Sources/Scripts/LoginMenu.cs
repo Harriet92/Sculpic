@@ -12,7 +12,7 @@ namespace Assets.Sources.Scripts
         public InputField LoginField;
         public InputField PasswordField;
         public Canvas IncorrectLoginCanvas;
-        private Canvas canvas;
+        private Canvas popUpCanvas;
         public Image LoadingIndicator;
         public Text LoginEmpty;
         public Text PassEmpty;
@@ -20,14 +20,13 @@ namespace Assets.Sources.Scripts
         void Start()
         {
             color = LoginField.GetComponentInChildren<Text>().color;
-            LoginField.GetComponentInChildren<Text>().color = new Color(131, 1, 1, 0);
             ClearValidationMessages();
         }
         public void LoginClick()
         {
             var login = LoginField.text;
             var password = PasswordField.text;
-            if (ValidateInput(login, password)) return;
+            if (InputNotValid(login, password)) return;
             UserService userService = new UserService();
             var result = userService.LoginUser(login, SecureString.GetBase64Hash(password));
             Debug.Log(result);
@@ -46,7 +45,7 @@ namespace Assets.Sources.Scripts
             }
         }
 
-        private bool ValidateInput(string login, string password)
+        private bool InputNotValid(string login, string password)
         {
             if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(password))
             {
@@ -67,17 +66,17 @@ namespace Assets.Sources.Scripts
 
         public void IncorrectInputButtonClick()
         {
-            canvas.gameObject.SetActive(false);
+            popUpCanvas.gameObject.SetActive(false);
         }
 
         private void DisplayPopup(string message)
         {
-            if (canvas != null)
-                canvas.gameObject.SetActive(true);
+            if (popUpCanvas != null)
+                popUpCanvas.gameObject.SetActive(true);
             else
-                canvas = (Canvas)Instantiate(IncorrectLoginCanvas);
-            canvas.GetComponentInChildren<Image>().GetComponentInChildren<Text>().text = message;
-            canvas.GetComponentInChildren<Image>().GetComponentInChildren<Button>().onClick.AddListener(() => IncorrectInputButtonClick());
+                popUpCanvas = (Canvas)Instantiate(IncorrectLoginCanvas);
+            popUpCanvas.GetComponentInChildren<Image>().GetComponentInChildren<Text>().text = message;
+            popUpCanvas.GetComponentInChildren<Image>().GetComponentInChildren<Button>().onClick.AddListener(() => IncorrectInputButtonClick());
         }
 
         public void ClearValidationMessages()

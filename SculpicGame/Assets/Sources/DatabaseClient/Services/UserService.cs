@@ -17,6 +17,7 @@ namespace Assets.Sources.DatabaseClient.Services
         private readonly RestCommunication restCommunication;
         public UserService()
         {
+            LastError = string.Empty;
             restCommunication = new RestCommunication();
         }
 
