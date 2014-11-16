@@ -42,17 +42,5 @@ namespace Assets.Sources.DatabaseClient.Services
             User result = (User)reader.Deserialize(typeof(User));
             return result;
         }
-        //string Send(string url)
-        //{
-        //    WWW www = new WWW(url);
-        //    Debug.Log(www.url);
-        //    var maxNoOfRetry = 5;
-        //    int noOfRetry = 0;
-        //    while (!www.isDone && noOfRetry++ < maxNoOfRetry)
-        //    {
-        //        Thread.Sleep(2000);
-        //    }
-        //    return www.isDone ? www.text : null;
-        //}
     }
 }

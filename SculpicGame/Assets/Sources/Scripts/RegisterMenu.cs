@@ -1,23 +1,24 @@
 ﻿using System;
+using System.Collections;
 using Assets.Sources.DatabaseClient.Security;
 using Assets.Sources.DatabaseClient.Services;
+using Assets.Sources.Enums;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Sources.Scripts
 {
-    public class RegisterMenu : MonoBehaviour
+    public class RegisterMenu : MenuBase
     {
         public InputField LoginField;
         public InputField PasswordField;
         public InputField PasswordField2;
-        public Canvas IncorrectLoginCanvas;
-        private Canvas popUpCanvas;
-        private Color color;
+        private Color warnColor;
+        private UserService userService;
 
         void Start()
         {
-            color = LoginField.GetComponentInChildren<Text>().color;
+            warnColor = LoginField.GetComponentInChildren<Text>().color;
             ClearValidationMessages();
         }
         public void RegisterClick()
@@ -26,57 +27,53 @@ namespace Assets.Sources.Scripts
             var password = PasswordField.text;
             var password2 = PasswordField2.text;
             if (InputNotValid(login, password, password2)) return;
-            UserService userService = new UserService();
+            DisplayLoadingPopup();
+            StartCoroutine(InvokeAddNewUser(login, password));
+        }
+
+        private IEnumerator InvokeAddNewUser(string login, string password)
+        {
+            yield return null;
+            userService = new UserService();
             var result = userService.AddNewUser(login, SecureString.GetBase64Hash(password));
             Debug.Log(result);
             if (result != null)
             {
                 Player.LogIn(result);
-                Application.LoadLevel("GameScreen");
+                Application.LoadLevel(SceneName.GameScreen.ToString());
             }
             else if (!string.IsNullOrEmpty(UserService.LastError))
             {
-                DisplayPopup("Internal server error, try again later.");
+                DisplayInfoPopup("Internal server error, try again later.");
             }
             else
             {
-                DisplayPopup("Username is already taken");
+                DisplayInfoPopup("Username is already taken");
             }
+            DismissLoadingPopup();
         }
+
         private bool InputNotValid(string login, string password, string password2)
         {
             if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(password2))
             {
                 if (String.IsNullOrEmpty(login))
-                    LoginField.GetComponentInChildren<Text>().color = color;
+                    LoginField.GetComponentInChildren<Text>().color = warnColor;
 
                 if (String.IsNullOrEmpty(password))
-                    PasswordField.GetComponentInChildren<Text>().color = color;
+                    PasswordField.GetComponentInChildren<Text>().color = warnColor;
 
                 if (String.IsNullOrEmpty(password2))
-                    PasswordField2.GetComponentInChildren<Text>().color = color;
+                    PasswordField2.GetComponentInChildren<Text>().color = warnColor;
                 return true;
             }
             if (password != password2)
             {
                 PasswordField.GetComponentInChildren<Text>().text = "Passwords don't match!";
-                PasswordField.GetComponentInChildren<Text>().color = color;
+                PasswordField.GetComponentInChildren<Text>().color = warnColor;
                 return true;
             }
             return false;
-        }
-        public void IncorrectInputButtonClick()
-        {
-            popUpCanvas.gameObject.SetActive(false);
-        }
-        private void DisplayPopup(string message)
-        {
-            if (popUpCanvas != null)
-                popUpCanvas.gameObject.SetActive(true);
-            else
-                popUpCanvas = (Canvas)Instantiate(IncorrectLoginCanvas);
-            popUpCanvas.GetComponentInChildren<Image>().GetComponentInChildren<Text>().text = message;
-            popUpCanvas.GetComponentInChildren<Image>().GetComponentInChildren<Button>().onClick.AddListener(() => IncorrectInputButtonClick());
         }
 
         public void ClearValidationMessages()

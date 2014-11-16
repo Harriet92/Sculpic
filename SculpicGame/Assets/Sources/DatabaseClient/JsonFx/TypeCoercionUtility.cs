@@ -396,7 +396,6 @@ namespace Assets.Sources.DatabaseServer.JsonFx
 			if (value is String)
 			{
 				if (Type.Equals (targetType, typeof(DateTime))) {
-                    //QQQQ
                     if (value.ToString().StartsWith("/Date("))
                     {
                         System.Text.RegularExpressions.Regex regExp = new System.Text.RegularExpressions.Regex(@"[^\d]");
@@ -413,7 +412,6 @@ namespace Assets.Sources.DatabaseServer.JsonFx
                         }
                         return dotnetTime;
                     }
-                    //QQQQ
 					DateTime date;
 					if (DateTime.TryParse (
 						    (string)value,
