@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Assets.Sources.DatabaseClient.REST;
 using Assets.Sources.DatabaseClient.Security;
 using Assets.Sources.DatabaseClient.Services;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace Assets.Sources.Scripts
         public Text LoginEmpty;
         public Text PassEmpty;
         private Color color;
+        private RestCommunication restCom;
         void Start()
         {
             color = LoginField.GetComponentInChildren<Text>().color;
@@ -28,11 +30,14 @@ namespace Assets.Sources.Scripts
             var password = PasswordField.text;
             if (InputNotValid(login, password)) return;
             UserService userService = new UserService();
-            var result = userService.LoginUser(login, SecureString.GetBase64Hash(password));
+            //var result = userService.LoginUser(login, SecureString.GetBase64Hash(password));
+            restCom = GameObject.Find("RestCommunication").GetComponentInChildren<RestCommunication>();
+            var result = restCom.GET("http://deemi.ddns.net:8733/UserService/LoginUser/" + login + "/" + password);
+            Debug.Log(result.text);
             Debug.Log(result);
             if (result != null)
             {
-                Player.LogIn(result);
+                //Player.LogIn(result.text);
                 Application.LoadLevel("GameScreen");
             }
             else if (!string.IsNullOrEmpty(UserService.LastError))
