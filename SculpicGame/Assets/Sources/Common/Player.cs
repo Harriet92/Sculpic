@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Assets.Sources.DatabaseServer.Models;
+﻿using Assets.Sources.DatabaseServer.Models;
 
-namespace Assets.Sources.Scripts
+namespace Assets.Sources.Common
 {
     public class Player
     {
@@ -12,6 +8,7 @@ namespace Assets.Sources.Scripts
 
         public string Username { get; private set; }
         public bool IsLoggedIn { get; private set; }
+        public bool IsHost { get; set; }
 
         public static void LogIn(User dbUser)
         {

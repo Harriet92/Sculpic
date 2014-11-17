@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
-namespace Assets.Sources
+namespace Assets.Sources.Scripts.GameScreen
 {
     public class Arithmetic
     {

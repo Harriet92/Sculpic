@@ -1,10 +1,12 @@
 ﻿using System;
+using Assets.Sources.Common;
 using Assets.Sources.DatabaseClient.Security;
 using Assets.Sources.DatabaseClient.Services;
+using Assets.Sources.Scripts.GameScreen;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Sources.Scripts
+namespace Assets.Sources.Scripts.RegisterScreen
 {
     public class RegisterMenu : MonoBehaviour
     {
@@ -32,7 +34,7 @@ namespace Assets.Sources.Scripts
             if (result != null)
             {
                 Player.LogIn(result);
-                Application.LoadLevel("GameScreen");
+                Application.LoadLevel("RoomChoiceScreen");
             }
             else if (!string.IsNullOrEmpty(UserService.LastError))
             {

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
-namespace Assets.Sources.Scripts
+namespace Assets.Sources.Scripts.GameScreen
 {
     public class DisplayUsernameScript : MonoBehaviour
     {
