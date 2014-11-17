@@ -9,6 +9,7 @@ namespace Assets.Sources.Enums
     {
         LoginScreen,
         RegisterScreen,
+        RoomChoiceScreen,
         GameScreen
     }
 }

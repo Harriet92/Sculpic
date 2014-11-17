@@ -76,10 +76,12 @@
      <Compile Include="Assets\Sources\DatabaseClient\REST\RestCommunication.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\Security\SecureString.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\Services\UserService.cs" />
+     <Compile Include="Assets\Sources\Enums\SceneName.cs" />
      <Compile Include="Assets\Sources\Scripts\GameScreen\Arithmetic.cs" />
      <Compile Include="Assets\Sources\Scripts\GameScreen\DisplayUsernameScript.cs" />
      <Compile Include="Assets\Sources\Scripts\GameScreen\Sculptor.cs" />
      <Compile Include="Assets\Sources\Scripts\LoginScreen\LoginMenu.cs" />
+     <Compile Include="Assets\Sources\Scripts\MenuBase.cs" />
      <Compile Include="Assets\Sources\Scripts\RegisterScreen\RegisterMenu.cs" />
      <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomChoiceManager.cs" />
      <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomChoiceMenu.cs" />

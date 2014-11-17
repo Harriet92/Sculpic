@@ -1,17 +1,9 @@
 ﻿using System;
-<<<<<<< HEAD:SculpicGame/Assets/Sources/Scripts/LoginScreen/LoginMenu.cs
 using Assets.Sources.Common;
 using Assets.Sources.DatabaseClient.Security;
 using Assets.Sources.DatabaseClient.Services;
-using Assets.Sources.Scripts.GameScreen;
-=======
 using System.Collections;
-using System.Runtime.InteropServices;
-using System.Threading;
-using Assets.Sources.DatabaseClient.Security;
-using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.Enums;
->>>>>>> origin/master:SculpicGame/Assets/Sources/Scripts/LoginMenu.cs
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,11 +38,7 @@ namespace Assets.Sources.Scripts.LoginScreen
             if (result != null)
             {
                 Player.LogIn(result);
-<<<<<<< HEAD:SculpicGame/Assets/Sources/Scripts/LoginScreen/LoginMenu.cs
-                Application.LoadLevel("RoomChoiceScreen");
-=======
-                Application.LoadLevel(SceneName.GameScreen.ToString());
->>>>>>> origin/master:SculpicGame/Assets/Sources/Scripts/LoginMenu.cs
+                Application.LoadLevel(SceneName.RoomChoiceScreen.ToString());
             }
             else if (!string.IsNullOrEmpty(UserService.LastError))
             {
