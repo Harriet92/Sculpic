@@ -27,6 +27,5 @@ namespace Assets.Sources.DatabaseClient.Security
             }
             return result;
         }
-
     }
 }

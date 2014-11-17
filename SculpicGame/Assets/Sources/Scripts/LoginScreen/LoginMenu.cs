@@ -1,26 +1,31 @@
 ﻿using System;
+<<<<<<< HEAD:SculpicGame/Assets/Sources/Scripts/LoginScreen/LoginMenu.cs
 using Assets.Sources.Common;
 using Assets.Sources.DatabaseClient.Security;
 using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.Scripts.GameScreen;
+=======
+using System.Collections;
+using System.Runtime.InteropServices;
+using System.Threading;
+using Assets.Sources.DatabaseClient.Security;
+using Assets.Sources.DatabaseClient.Services;
+using Assets.Sources.Enums;
+>>>>>>> origin/master:SculpicGame/Assets/Sources/Scripts/LoginMenu.cs
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Sources.Scripts.LoginScreen
 {
-    public class LoginMenu : MonoBehaviour
+    public class LoginMenu : MenuBase
     {
         public InputField LoginField;
         public InputField PasswordField;
-        public Canvas IncorrectLoginCanvas;
-        private Canvas popUpCanvas;
-        public Image LoadingIndicator;
-        public Text LoginEmpty;
-        public Text PassEmpty;
-        private Color color;
+        private UserService userService;
+        private Color warnColor;
         void Start()
         {
-            color = LoginField.GetComponentInChildren<Text>().color;
+            warnColor = LoginField.GetComponentInChildren<Text>().color;
             ClearValidationMessages();
         }
         public void LoginClick()
@@ -28,22 +33,34 @@ namespace Assets.Sources.Scripts.LoginScreen
             var login = LoginField.text;
             var password = PasswordField.text;
             if (InputNotValid(login, password)) return;
-            UserService userService = new UserService();
+            DisplayLoadingPopup();
+            StartCoroutine(InvokeLoginUser(login, password));
+        }
+
+        private IEnumerator InvokeLoginUser(string login, string password)
+        {
+            yield return null;
+            userService = new UserService();
             var result = userService.LoginUser(login, SecureString.GetBase64Hash(password));
             Debug.Log(result);
             if (result != null)
             {
                 Player.LogIn(result);
+<<<<<<< HEAD:SculpicGame/Assets/Sources/Scripts/LoginScreen/LoginMenu.cs
                 Application.LoadLevel("RoomChoiceScreen");
+=======
+                Application.LoadLevel(SceneName.GameScreen.ToString());
+>>>>>>> origin/master:SculpicGame/Assets/Sources/Scripts/LoginMenu.cs
             }
             else if (!string.IsNullOrEmpty(UserService.LastError))
             {
-                DisplayPopup("Internal server error, try again later.");
+                DisplayInfoPopup("Internal server error, try again later.");
             }
             else
             {
-                DisplayPopup("Incorrect login or password!");
+                DisplayInfoPopup("Incorrect login or password!");
             }
+            DismissLoadingPopup();
         }
 
         private bool InputNotValid(string login, string password)
@@ -51,10 +68,10 @@ namespace Assets.Sources.Scripts.LoginScreen
             if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(password))
             {
                 if (String.IsNullOrEmpty(login))
-                    LoginField.GetComponentInChildren<Text>().color = color;
+                    LoginField.GetComponentInChildren<Text>().color = warnColor;
 
                 if (String.IsNullOrEmpty(password))
-                    PasswordField.GetComponentInChildren<Text>().color = color;
+                    PasswordField.GetComponentInChildren<Text>().color = warnColor;
                 return true;
             }
             return false;
@@ -62,22 +79,7 @@ namespace Assets.Sources.Scripts.LoginScreen
 
         public void RegisterClick()
         {
-            Application.LoadLevel("RegisterScreen");
-        }
-
-        public void IncorrectInputButtonClick()
-        {
-            popUpCanvas.gameObject.SetActive(false);
-        }
-
-        private void DisplayPopup(string message)
-        {
-            if (popUpCanvas != null)
-                popUpCanvas.gameObject.SetActive(true);
-            else
-                popUpCanvas = (Canvas)Instantiate(IncorrectLoginCanvas);
-            popUpCanvas.GetComponentInChildren<Image>().GetComponentInChildren<Text>().text = message;
-            popUpCanvas.GetComponentInChildren<Image>().GetComponentInChildren<Button>().onClick.AddListener(() => IncorrectInputButtonClick());
+            Application.LoadLevel(SceneName.RegisterScreen.ToString());
         }
 
         public void ClearValidationMessages()

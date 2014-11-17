@@ -7,10 +7,11 @@ namespace Assets.Sources.DatabaseClient.REST
 {//TODO: Add logging
     public class RestCommunication
     {
-        private const bool isLocalhost = false;
-        private const int retryCount = 5;
-        private const int sleepTimeout = 500;
         public const string BaseURL = isLocalhost ? "http://localhost:8733" : "http://deemi.ddns.net:8733";
+        private const bool isLocalhost = false;
+        private const int retryOnErrorCount = 5;
+        private const int timeoutCount = 10;
+        private const int sleepTimeout = 100;
         public string SendAndReceive(string url)
         {
             WWW www = null;
@@ -19,21 +20,16 @@ namespace Assets.Sources.DatabaseClient.REST
             do
             {
                 www = new WWW(url);
-                Debug.Log("Sending:" + www.url);
                 int noOfRetry = 0;
-                while (!www.isDone && noOfRetry++ < retryCount)
-                {
-                    Debug.Log("Retry no: " + noOfRetry);
+                while (!www.isDone && noOfRetry++ < timeoutCount)
                     Thread.Sleep(sleepTimeout);
-                }
+
                 if (www.isDone && String.IsNullOrEmpty(www.error))
-                {
                     connectionSucceeded = true;
-                    Debug.Log(www.text);
-                }
                 else if(www.isDone)
                     noOfConnections++;
-            } while (!connectionSucceeded && noOfConnections < retryCount);
+
+            } while (!connectionSucceeded && noOfConnections < retryOnErrorCount);
             UserService.LastError = www.error;
             if (!www.isDone && String.IsNullOrEmpty(www.error))
             {

@@ -786,7 +786,6 @@ namespace Assets.Sources.DatabaseServer.JsonFx
 		{
 			string enumName = null;
 		    Type type = null;
-            //QQQ
             try
             {
                 type = value.GetType();
@@ -818,8 +817,6 @@ namespace Assets.Sources.DatabaseServer.JsonFx
 					enumName = value.ToString("f");
 				}
 			}
-            //QQQ
-            //No so good, but it should works
             var enums = Enum.GetValues(type);
             int retIndex = 0;
             for (int i = 0; i < enums.Length; i++)
@@ -831,7 +828,6 @@ namespace Assets.Sources.DatabaseServer.JsonFx
                 }
             }
             this.Write(retIndex);
-			//this.Write(enumName);
 		}
 
 		public virtual void Write(string value)
@@ -868,8 +864,6 @@ namespace Assets.Sources.DatabaseServer.JsonFx
 						case JsonReader.OperatorStringDelim:
 						case JsonReader.OperatorCharEscape:
 						{
-                            //QQQQ
-							//this.Writer.Write(JsonReader.OperatorCharEscape);
 							this.Writer.Write(ch);
 							continue;
 						}
