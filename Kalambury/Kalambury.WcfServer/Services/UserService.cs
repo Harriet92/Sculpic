@@ -38,12 +38,9 @@ namespace Kalambury.WcfServer.Services
 
         public User AddNewUser(string username, string password)
         {
-            User user = LoginUser(username, password);
-            if (user != null)
-                return user;
             if (userRepository.GetUserByUsername(username) != null)
                 return null;
-            return userRepository.Insert(new User()
+            return userRepository.Insert(new User
             {
                 UserId = userRepository.CountAll(),
                 Username = username,
