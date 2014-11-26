@@ -5,6 +5,7 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
 {
     public class RoomChoiceManager : MonoBehaviour
     {
+
         #region HostRoom
         public static void HostRoom(int roomPort, int connectionsNo, string gameName)
         {
@@ -16,6 +17,7 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         void OnServerInitialized()
         {
             Debug.Log("Method RoomChoiceManager.OnServerInitialized");
+            //TODO: uncomment
             //Player.Current.IsHost = true;
             Application.LoadLevel("GameScreen");
         }
@@ -38,6 +40,7 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         {
             Debug.Log("Method RoomChoiceManager.GetFirstRoom");
             var hostList = MasterServerConnectionManager.HostList;
+            Debug.Log("Host list length: " + (hostList == null ? "null" : hostList.Length.ToString()));
             if (hostList != null && hostList.Length >= 1)
             {
                 return hostList[0];
@@ -48,10 +51,11 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         void OnConnectedToServer()
         {
             Debug.Log("Method RoomChoiceManager.OnConnectedToServer");
+            // TODO: uncomment
             //Player.Current.IsHost = false;
             Application.LoadLevel("GameScreen");
         }
 
         #endregion JoinRoom
-    }
+        }
 }

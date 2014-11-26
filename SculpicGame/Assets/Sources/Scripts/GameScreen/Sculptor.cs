@@ -12,7 +12,7 @@ namespace Assets.Sources.Scripts.GameScreen
             Needle = 3
         }
 
-        private readonly string[] _fallOffScrings = {"Gauss", "Linear", "Needle"};
+        private readonly string[] _fallOffScrings = { "Gauss", "Linear", "Needle" };
 
         private bool grid;
         private bool carve;
@@ -31,7 +31,7 @@ namespace Assets.Sources.Scripts.GameScreen
             GUI.Box(new Rect(0, 0, 400, 180),
                 "Hello " + (Player.Current == null ? "Stanger!" : Player.Current.Username + "!") + "\n" +
                 "Sculpt the surface using the mouse. Use arrow keys to rotate view.");
-            fallOff = (FallOff) GUI.Toolbar(new Rect(20, 35, 360, 30), (int) fallOff, _fallOffScrings);
+            fallOff = (FallOff)GUI.Toolbar(new Rect(20, 35, 360, 30), (int)fallOff, _fallOffScrings);
             carve = GUI.Toggle(new Rect(20, 65, 60, 20), carve, "Carve");
             grid = GUI.Toggle(new Rect(100, 65, 60, 20), grid, "Grid");
             GUI.Label(new Rect(20, 90, 40, 20), "Radius");
@@ -50,7 +50,6 @@ namespace Assets.Sources.Scripts.GameScreen
             GUI.EndGroup();
         }
 
-
         private void Update()
         {
             // When no button is pressed we update the mesh collider
@@ -66,16 +65,16 @@ namespace Assets.Sources.Scripts.GameScreen
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                MeshFilter filter = (MeshFilter) hit.collider.GetComponent("MeshFilter");
+                MeshFilter filter = (MeshFilter)hit.collider.GetComponent("MeshFilter");
                 if (filter)
                 {
                     if (grid)
                     {
-                        Debug.Log("DRAW");
+                        // Debug.Log("DRAW");
                         DrawGrid(filter.mesh);
                         return;
                     }
-                    Debug.Log("UNDRAW");
+                    // Debug.Log("UNDRAW");
                     UnDrawGrid(filter.mesh);
                     // Don't update mesh collider every frame since physX
                     // does some heavy processing to optimize the collision mesh.
@@ -88,11 +87,11 @@ namespace Assets.Sources.Scripts.GameScreen
 
                     if (Input.GetMouseButton(0) && !grid)
                     {
-                        Debug.Log("MESH");
+                        // Debug.Log("MESH");
                         // Deform mesh
                         var relativePoint = filter.transform.InverseTransformPoint(hit.point);
                         Mesh newMesh = divMesh(hit, filter.mesh);
-                        DeformMesh(newMesh, relativePoint, pull*Time.deltaTime, radius);
+                        DeformMesh(newMesh, relativePoint, pull * Time.deltaTime, radius);
 
                     }
                 }
@@ -117,16 +116,16 @@ namespace Assets.Sources.Scripts.GameScreen
             vertices.CopyTo(newVerArr, 0);
 
             int[] triangles = mesh.triangles;
-            int[] newTriArr = new int[triangles.Length + 3*3]; //old triangle modified, two new triangles added
+            int[] newTriArr = new int[triangles.Length + 3 * 3]; //old triangle modified, two new triangles added
             triangles.CopyTo(newTriArr, 0);
 
             Vector2[] uvs = mesh.uv;
             Vector2[] newUvArr = new Vector2[vertices.Length + 1];
             uvs.CopyTo(newUvArr, 0);
 
-            int p0index = triangles[hit.triangleIndex*3 + 0];
-            int p1index = triangles[hit.triangleIndex*3 + 1];
-            int p2index = triangles[hit.triangleIndex*3 + 2];
+            int p0index = triangles[hit.triangleIndex * 3 + 0];
+            int p1index = triangles[hit.triangleIndex * 3 + 1];
+            int p2index = triangles[hit.triangleIndex * 3 + 2];
             int pCindex = newVerArr.Length - 1;
 
             Vector3 p0 = vertices[p0index];
@@ -135,13 +134,13 @@ namespace Assets.Sources.Scripts.GameScreen
 
             Vector3 pC = Arithmetic.CalculateIncenter(p0, p1, p2);
             newVerArr[pCindex] = pC;
-            newTriArr[hit.triangleIndex*3 + 2] = pCindex;
-            newTriArr[triangles.Length + 3*0 + 0] = p1index;
-            newTriArr[triangles.Length + 3*0 + 1] = p2index;
-            newTriArr[triangles.Length + 3*0 + 2] = pCindex;
-            newTriArr[triangles.Length + 3*1 + 0] = pCindex;
-            newTriArr[triangles.Length + 3*1 + 1] = p2index;
-            newTriArr[triangles.Length + 3*1 + 2] = p0index;
+            newTriArr[hit.triangleIndex * 3 + 2] = pCindex;
+            newTriArr[triangles.Length + 3 * 0 + 0] = p1index;
+            newTriArr[triangles.Length + 3 * 0 + 1] = p2index;
+            newTriArr[triangles.Length + 3 * 0 + 2] = pCindex;
+            newTriArr[triangles.Length + 3 * 1 + 0] = pCindex;
+            newTriArr[triangles.Length + 3 * 1 + 1] = p2index;
+            newTriArr[triangles.Length + 3 * 1 + 2] = p0index;
 
             newUvArr[pCindex] = findCenterUv(uvs[p0index], uvs[p1index], uvs[p2index]);
             mesh.Clear();
@@ -151,13 +150,13 @@ namespace Assets.Sources.Scripts.GameScreen
 
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
-            Debug.Log("DONE");
+            // Debug.Log("DONE");
             return mesh;
         }
 
         private Vector2 findCenterUv(Vector2 vector21, Vector2 vector22, Vector2 vector23)
         {
-            return new Vector2((vector21.x + vector22.x + vector23.x)/3, (vector21.y + vector22.y + vector23.y)/3);
+            return new Vector2((vector21.x + vector22.x + vector23.x) / 3, (vector21.y + vector22.y + vector23.y) / 3);
         }
 
         private void drawClickedTriangle(RaycastHit hit)
@@ -172,9 +171,9 @@ namespace Assets.Sources.Scripts.GameScreen
             Mesh mesh = meshCollider.sharedMesh;
             Vector3[] vertices = mesh.vertices;
             int[] triangles = mesh.triangles;
-            Vector3 p0 = vertices[triangles[hit.triangleIndex*3 + 0]];
-            Vector3 p1 = vertices[triangles[hit.triangleIndex*3 + 1]];
-            Vector3 p2 = vertices[triangles[hit.triangleIndex*3 + 2]];
+            Vector3 p0 = vertices[triangles[hit.triangleIndex * 3 + 0]];
+            Vector3 p1 = vertices[triangles[hit.triangleIndex * 3 + 1]];
+            Vector3 p2 = vertices[triangles[hit.triangleIndex * 3 + 2]];
             Transform hitTransform = hit.collider.transform;
             //transforms from local space to world space
             p0 = hitTransform.TransformPoint(p0);
@@ -187,24 +186,24 @@ namespace Assets.Sources.Scripts.GameScreen
 
         private static float LinearFalloff(float distance, float inRadius)
         {
-            return Mathf.Clamp01(1.0f - distance/inRadius);
+            return Mathf.Clamp01(1.0f - distance / inRadius);
         }
 
         private static float GaussFalloff(float distance, float inRadius)
         {
-            return Mathf.Clamp01(Mathf.Pow(360.0f, -Mathf.Pow(distance/inRadius, 2.5f) - 0.01f));
+            return Mathf.Clamp01(Mathf.Pow(360.0f, -Mathf.Pow(distance / inRadius, 2.5f) - 0.01f));
         }
 
         private static float NeedleFalloff(float dist, float inRadius)
         {
-            return -(dist*dist)/(inRadius*inRadius) + 1.0f;
+            return -(dist * dist) / (inRadius * inRadius) + 1.0f;
         }
 
         private void DeformMesh(Mesh mesh, Vector3 position, float power, float inRadius)
         {
             var vertices = mesh.vertices;
             var normals = mesh.normals;
-            var sqrRadius = inRadius*inRadius;
+            var sqrRadius = inRadius * inRadius;
 
             // Calculate averaged normal of all surrounding vertices	
             var averageNormal = Vector3.zero;
@@ -217,7 +216,7 @@ namespace Assets.Sources.Scripts.GameScreen
 
                 var distance = Mathf.Sqrt(sqrMagnitude);
                 var falloff_ = LinearFalloff(distance, inRadius);
-                averageNormal += falloff_*normals[i];
+                averageNormal += falloff_ * normals[i];
             }
             averageNormal = averageNormal.normalized;
 
@@ -244,7 +243,7 @@ namespace Assets.Sources.Scripts.GameScreen
                         break;
                 }
 
-                vertices[i] += averageNormal*falloff*power*(carve ? -1 : 1);
+                vertices[i] += averageNormal * falloff * power * (carve ? -1 : 1);
             }
 
             mesh.vertices = vertices;
