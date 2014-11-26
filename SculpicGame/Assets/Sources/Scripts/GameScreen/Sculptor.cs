@@ -90,8 +90,7 @@ namespace Assets.Sources.Scripts.GameScreen
                         // Debug.Log("MESH");
                         // Deform mesh
                         var relativePoint = filter.transform.InverseTransformPoint(hit.point);
-                        Mesh newMesh = divMesh(hit, filter.mesh);
-                        DeformMesh(newMesh, relativePoint, pull * Time.deltaTime, radius);
+                        DeformMesh(filter.mesh, relativePoint, pull * Time.deltaTime, radius);
 
                     }
                 }
@@ -107,81 +106,6 @@ namespace Assets.Sources.Scripts.GameScreen
         private static void UnDrawGrid(Mesh mesh)
         {
             mesh.SetIndices(mesh.GetIndices(0), MeshTopology.Triangles, 0);
-        }
-
-        private Mesh divMesh(RaycastHit hit, Mesh mesh)
-        {
-            Vector3[] vertices = mesh.vertices;
-            Vector3[] newVerArr = new Vector3[vertices.Length + 1];
-            vertices.CopyTo(newVerArr, 0);
-
-            int[] triangles = mesh.triangles;
-            int[] newTriArr = new int[triangles.Length + 3 * 3]; //old triangle modified, two new triangles added
-            triangles.CopyTo(newTriArr, 0);
-
-            Vector2[] uvs = mesh.uv;
-            Vector2[] newUvArr = new Vector2[vertices.Length + 1];
-            uvs.CopyTo(newUvArr, 0);
-
-            int p0index = triangles[hit.triangleIndex * 3 + 0];
-            int p1index = triangles[hit.triangleIndex * 3 + 1];
-            int p2index = triangles[hit.triangleIndex * 3 + 2];
-            int pCindex = newVerArr.Length - 1;
-
-            Vector3 p0 = vertices[p0index];
-            Vector3 p1 = vertices[p1index];
-            Vector3 p2 = vertices[p2index];
-
-            Vector3 pC = Arithmetic.CalculateIncenter(p0, p1, p2);
-            newVerArr[pCindex] = pC;
-            newTriArr[hit.triangleIndex * 3 + 2] = pCindex;
-            newTriArr[triangles.Length + 3 * 0 + 0] = p1index;
-            newTriArr[triangles.Length + 3 * 0 + 1] = p2index;
-            newTriArr[triangles.Length + 3 * 0 + 2] = pCindex;
-            newTriArr[triangles.Length + 3 * 1 + 0] = pCindex;
-            newTriArr[triangles.Length + 3 * 1 + 1] = p2index;
-            newTriArr[triangles.Length + 3 * 1 + 2] = p0index;
-
-            newUvArr[pCindex] = findCenterUv(uvs[p0index], uvs[p1index], uvs[p2index]);
-            mesh.Clear();
-            mesh.vertices = newVerArr;
-            mesh.uv = newUvArr;
-            mesh.triangles = newTriArr;
-
-            mesh.RecalculateNormals();
-            mesh.RecalculateBounds();
-            // Debug.Log("DONE");
-            return mesh;
-        }
-
-        private Vector2 findCenterUv(Vector2 vector21, Vector2 vector22, Vector2 vector23)
-        {
-            return new Vector2((vector21.x + vector22.x + vector23.x) / 3, (vector21.y + vector22.y + vector23.y) / 3);
-        }
-
-        private void drawClickedTriangle(RaycastHit hit)
-        {
-            MeshCollider meshCollider = hit.collider as MeshCollider;
-            if (meshCollider == null || meshCollider.sharedMesh == null)
-            {
-                Debug.Log("MEH");
-                return;
-            }
-            Debug.Log(hit.triangleIndex);
-            Mesh mesh = meshCollider.sharedMesh;
-            Vector3[] vertices = mesh.vertices;
-            int[] triangles = mesh.triangles;
-            Vector3 p0 = vertices[triangles[hit.triangleIndex * 3 + 0]];
-            Vector3 p1 = vertices[triangles[hit.triangleIndex * 3 + 1]];
-            Vector3 p2 = vertices[triangles[hit.triangleIndex * 3 + 2]];
-            Transform hitTransform = hit.collider.transform;
-            //transforms from local space to world space
-            p0 = hitTransform.TransformPoint(p0);
-            p1 = hitTransform.TransformPoint(p1);
-            p2 = hitTransform.TransformPoint(p2);
-            Debug.DrawLine(p0, p1, Color.black, 20);
-            Debug.DrawLine(p1, p2, Color.black, 20);
-            Debug.DrawLine(p2, p0, Color.black, 20);
         }
 
         private static float LinearFalloff(float distance, float inRadius)
