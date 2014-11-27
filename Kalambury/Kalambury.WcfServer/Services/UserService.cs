@@ -1,9 +1,11 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using Kalambury.Database.Mongo;
 using Kalambury.Mongo.Interfaces;
 using Kalambury.WcfServer.Interfaces;
 using Kalambury.WcfServer.Models;
 using Kalambury.WcfServer.Repositories;
+using Kalambury.WcfServer.Validators;
 
 namespace Kalambury.WcfServer.Services
 {
@@ -38,14 +40,19 @@ namespace Kalambury.WcfServer.Services
 
         public User AddNewUser(string username, string password)
         {
-            if (userRepository.GetUserByUsername(username) != null)
-                return null;
+            if (!IsNewUserDataValid(username, password)) return null;
             return userRepository.Insert(new User
             {
                 UserId = userRepository.CountAll(),
                 Username = username,
                 Password = password
             });
+        }
+
+        private bool IsNewUserDataValid(string username, string password)
+        {
+            return !String.IsNullOrEmpty(password) && !String.IsNullOrEmpty(username) &&
+                   UsernameValidator.IsUsernameValid(username) && userRepository.IsUsernameUnique(username);
         }
 
         public string PingService()

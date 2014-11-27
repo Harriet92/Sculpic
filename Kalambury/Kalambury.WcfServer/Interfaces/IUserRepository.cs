@@ -6,5 +6,6 @@ namespace Kalambury.WcfServer.Interfaces
     public interface IUserRepository: IRepository<User>
     {
         User GetUserByUsername(string username);
+        bool IsUsernameUnique(string username);
     }
 }

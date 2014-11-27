@@ -15,6 +15,11 @@ namespace Kalambury.WcfServer.Repositories
             
         }
 
+        public bool IsUsernameUnique(string username)
+        {
+            return GetUserByUsername(username) == null;
+        }
+
         public User GetUserByUsername(string username)
         {
             return GetItemByQuery(x => x.Username == username);

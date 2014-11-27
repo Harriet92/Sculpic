@@ -63,11 +63,16 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kalambury.Database\Kalambury.Database.csproj">
+      <Project>{0ad3f233-696a-45d7-bafc-354cfe4f5a74}</Project>
+      <Name>Kalambury.Database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kalambury.WcfServer\Kalambury.WcfServer.csproj">
       <Project>{23b927b5-7eb1-4f65-98f4-6f40128ab4ec}</Project>
       <Name>Kalambury.WcfServer</Name>
