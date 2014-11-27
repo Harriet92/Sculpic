@@ -79,7 +79,9 @@
      <Compile Include="Assets\Sources\Enums\SceneName.cs" />
      <Compile Include="Assets\Sources\Scripts\GameScreen\Arithmetic.cs" />
      <Compile Include="Assets\Sources\Scripts\GameScreen\DisplayUsernameScript.cs" />
+     <Compile Include="Assets\Sources\Scripts\GameScreen\GameManager.cs" />
      <Compile Include="Assets\Sources\Scripts\GameScreen\Sculptor.cs" />
+     <Compile Include="Assets\Sources\Scripts\GameScreen\SolidManagement\SolidNetworkManager.cs" />
      <Compile Include="Assets\Sources\Scripts\LoginScreen\LoginMenu.cs" />
      <Compile Include="Assets\Sources\Scripts\MenuBase.cs" />
      <Compile Include="Assets\Sources\Scripts\RegisterScreen\RegisterMenu.cs" />
