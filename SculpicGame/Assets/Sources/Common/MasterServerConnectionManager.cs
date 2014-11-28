@@ -9,6 +9,7 @@ namespace Assets.Sources.Common
         private const int MasterServerPort = 23466;
 
         public const string GameTypeName = "Sculpic";
+        public static bool HasHosts { get { return HostList != null && HostList.Length > 0; }}
         public static HostData[] HostList { get; private set; }
 
         public static void SetMasterServerLocation()

@@ -5,18 +5,10 @@ namespace Assets.Sources.Scripts.GameScreen
     public class GameManager : MonoBehaviour
     {
 
-        public GameObject SpherePrefab;
-
-        void Update()
+        public static void SpawnSolid(GameObject solidprefab, Vector3 position)
         {
-            if (Input.GetKey(KeyCode.Space))
-                SpawnSphere();
-        }
-
-        private void SpawnSphere()
-        {
-            Debug.Log("Method GameManager.SpawnSphere");
-            Network.Instantiate(SpherePrefab, Vector3.zero, Quaternion.identity, 0);
+            Debug.Log("Method GameManager.SpawnSolid");
+            Network.Instantiate(solidprefab, position, Quaternion.identity, 0);
         }
     }
 }

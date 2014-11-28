@@ -1,5 +1,6 @@
 ﻿using Assets.Sources.Common;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Sources.Scripts.RoomChoiceScreen
 {
@@ -9,11 +10,25 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         public const int RoomPort = 25001;
         public const int ConnectionsNo = 4;
         public string GameName = "First game";
+        private GameObject _joinRoomButton;
+        private GameObject _hostButton;
 
         private void Awake()
         {
             Debug.Log("Method RoomChoiceMenu.Awake");
             MasterServerConnectionManager.SetMasterServerLocation();
+            _joinRoomButton = GameObject.Find("JoinRoomButton");
+            _hostButton = GameObject.Find("HostButton");
+            _joinRoomButton.gameObject.SetActive(false);
+        }
+
+        private void Update()
+        {
+            if (MasterServerConnectionManager.HasHosts && _hostButton.gameObject.activeSelf)
+                _hostButton.gameObject.SetActive(false);
+
+            if (MasterServerConnectionManager.HasHosts && !_joinRoomButton.gameObject.activeSelf)
+                _joinRoomButton.gameObject.SetActive(true);
         }
 
         public void HostRoom()
