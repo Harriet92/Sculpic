@@ -5,8 +5,8 @@ namespace Assets.Sources.Common
 {
     public class MasterServerConnectionManager : MonoBehaviour
     {
-        private const string MasterServerIp = "127.0.0.1";
-        private const int MasterServerPort = 23466;
+        private const string MasterServerIp = "deemi.ddns.net";
+        private const int MasterServerPort = 8733;
 
         public const string GameTypeName = "Sculpic";
         public static bool HasHosts { get { return HostList != null && HostList.Length > 0; }}
