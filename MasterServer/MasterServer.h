@@ -14,5 +14,5 @@ static const int PORTINDEX = 10;
 static const int GUIDINDEX = 12;
 
 static const char* VERSION = "2.0.1f1";
-static const int DEFAULTPORT = 23466;
+static const int DEFAULTPORT = 8733;
 
