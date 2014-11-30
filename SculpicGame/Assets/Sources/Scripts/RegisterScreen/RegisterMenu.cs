@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Assets.Sources.Common;
 using Assets.Sources.DatabaseClient.Security;
 using Assets.Sources.DatabaseClient.Services;
 using System.Collections;
+using Assets.Sources.DatabaseServer.Models;
 using Assets.Sources.Enums;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,11 +18,12 @@ namespace Assets.Sources.Scripts.RegisterScreen
         public InputField PasswordField2;
         private Color warnColor;
         private UserService userService;
-
+        private Regex regexSpecialCharactersCheck;
         void Start()
         {
             warnColor = LoginField.GetComponentInChildren<Text>().color;
             ClearValidationMessages();
+            regexSpecialCharactersCheck = new Regex("^[a-zA-Z0-9]*$");
         }
         public void RegisterClick()
         {
@@ -30,6 +33,11 @@ namespace Assets.Sources.Scripts.RegisterScreen
             if (InputNotValid(login, password, password2)) return;
             DisplayLoadingPopup();
             StartCoroutine(InvokeAddNewUser(login, password));
+        }
+
+        public void BackClick()
+        {
+            Application.LoadLevel(SceneName.LoginScreen.ToString());
         }
 
         private IEnumerator InvokeAddNewUser(string login, string password)
@@ -72,6 +80,18 @@ namespace Assets.Sources.Scripts.RegisterScreen
             {
                 PasswordField.GetComponentInChildren<Text>().text = "Passwords don't match!";
                 PasswordField.GetComponentInChildren<Text>().color = warnColor;
+                return true;
+            }
+            if (login.Length < User.MIN_USERNAME_LEN)
+            {
+                LoginField.GetComponentInChildren<Text>().text = "Username is too short!";
+                LoginField.GetComponentInChildren<Text>().color = warnColor;
+                return true;
+            }
+            if(!regexSpecialCharactersCheck.IsMatch(login))
+            {
+                LoginField.GetComponentInChildren<Text>().text = "Only letters and numbers allowed!";
+                LoginField.GetComponentInChildren<Text>().color = warnColor;
                 return true;
             }
             return false;
