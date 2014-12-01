@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Sources.Scripts.GameScreen
+namespace Assets.Sources.Scripts.Sculptor
 {
     public class Arithmetic
     {

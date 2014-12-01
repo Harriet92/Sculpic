@@ -1,7 +1,7 @@
 ﻿using Assets.Sources.Common;
 using UnityEngine;
 
-namespace Assets.Sources.Scripts.GameScreen
+namespace Assets.Sources.Scripts.Sculptor
 {
     public class Sculptor : MonoBehaviour
     {
@@ -15,40 +15,12 @@ namespace Assets.Sources.Scripts.GameScreen
         private readonly string[] _fallOffScrings = { "Gauss", "Linear", "Needle" };
 
         private bool grid;
-        private bool carve;
-        private float radius = 1.0f;
-        private string radiusString = "0.3";
-        private float pull = 10.5f;
-        private string pullString = "2.0";
+        private bool carve { get { return SculptorCurrentSettings.Carve; } }
+        private float radius {get { return SculptorCurrentSettings.Radius; }}
+        private float pull {get { return SculptorCurrentSettings.Pull; }}
         private FallOff fallOff = FallOff.Gauss;
         private MeshFilter unappliedMesh;
         private Rect windowRect = new Rect(20, 20, 120, 50);
-
-        private void OnGUI()
-        {
-            GUI.BeginGroup(new Rect(0, 0, 400, 180));
-
-            GUI.Box(new Rect(0, 0, 400, 180),
-                "Hello " + (Player.Current == null ? "Stanger!" : Player.Current.Username + "!") + "\n" +
-                "Sculpt the surface using the mouse. Use arrow keys to rotate view.");
-            fallOff = (FallOff)GUI.Toolbar(new Rect(20, 35, 360, 30), (int)fallOff, _fallOffScrings);
-            carve = GUI.Toggle(new Rect(20, 65, 60, 20), carve, "Carve");
-            grid = GUI.Toggle(new Rect(100, 65, 60, 20), grid, "Grid");
-            GUI.Label(new Rect(20, 90, 40, 20), "Radius");
-            radiusString = GUI.TextField(new Rect(70, 90, 100, 20), radiusString, 4);
-            if (!radiusString.EndsWith(".") || !radiusString.EndsWith(".0"))
-            {
-                float.TryParse(radiusString, out radius);
-            }
-            GUI.Label(new Rect(20, 120, 40, 20), "Pull");
-            pullString = GUI.TextField(new Rect(70, 120, 100, 20), pullString, 4);
-            if (!pullString.EndsWith(".") || !pullString.EndsWith(".0"))
-            {
-                float.TryParse(pullString, out pull);
-            }
-
-            GUI.EndGroup();
-        }
 
         private void Update()
         {
@@ -65,6 +37,7 @@ namespace Assets.Sources.Scripts.GameScreen
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
+                Debug.Log(radius);
                 MeshFilter filter = (MeshFilter)hit.collider.GetComponent("MeshFilter");
                 if (filter)
                 {
