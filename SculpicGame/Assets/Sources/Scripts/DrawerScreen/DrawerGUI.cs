@@ -5,15 +5,17 @@ using System.Text;
 using Assets.Sources.Scripts.Sculptor;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace Assets.Sources.Scripts.DrawerScreen
 {
     public class DrawerGUI : MenuBase
     {
+        private List<UnityEngine.Object> instantiatedSolids = new List<Object>();
         public void AddSolidClick(GameObject solidToInstantiate)
         {
             Debug.Log("AddSolidClick");
-            Instantiate(solidToInstantiate, solidToInstantiate.gameObject.transform.position, solidToInstantiate.gameObject.transform.rotation);
+            instantiatedSolids.Add(Instantiate(solidToInstantiate, solidToInstantiate.gameObject.transform.position, solidToInstantiate.gameObject.transform.rotation));
         }
 
         public void MenuClick()
@@ -34,6 +36,13 @@ namespace Assets.Sources.Scripts.DrawerScreen
         public void OnCarveToggleValueChanged(Toggle callingObject)
         {
             SculptorCurrentSettings.Carve = callingObject.isOn;
+        }
+
+        public void ClearClick()
+        {
+            foreach(var solid in instantiatedSolids)
+                Destroy(solid);
+            instantiatedSolids.Clear();
         }
 
 
