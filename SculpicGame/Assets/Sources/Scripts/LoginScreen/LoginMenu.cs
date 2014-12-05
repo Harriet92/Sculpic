@@ -20,6 +20,11 @@ namespace Assets.Sources.Scripts.LoginScreen
             warnColor = LoginField.GetComponentInChildren<Text>().color;
             ClearValidationMessages();
         }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+        }
         public void LoginClick()
         {
             var login = LoginField.text;

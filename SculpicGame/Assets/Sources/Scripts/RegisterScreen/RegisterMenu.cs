@@ -25,6 +25,12 @@ namespace Assets.Sources.Scripts.RegisterScreen
             ClearValidationMessages();
             regexSpecialCharactersCheck = new Regex("^[a-zA-Z0-9]*$");
         }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape)) { Application.LoadLevel(SceneName.LoginScreen.ToString()); }
+        }
+
         public void RegisterClick()
         {
             var login = LoginField.text;

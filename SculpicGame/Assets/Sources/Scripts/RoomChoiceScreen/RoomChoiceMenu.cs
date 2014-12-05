@@ -1,4 +1,5 @@
 ﻿using Assets.Sources.Common;
+using Assets.Sources.Enums;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +25,8 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
 
         private void Update()
         {
+
+            if (Input.GetKeyDown(KeyCode.Escape)) { Application.LoadLevel(SceneName.LoginScreen.ToString()); }
             if (MasterServerConnectionManager.HasHosts && _hostButton.gameObject.activeSelf)
                 _hostButton.gameObject.SetActive(false);
 

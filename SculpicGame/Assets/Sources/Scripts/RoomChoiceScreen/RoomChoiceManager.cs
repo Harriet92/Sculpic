@@ -1,4 +1,5 @@
 ﻿using Assets.Sources.Common;
+using Assets.Sources.Enums;
 using UnityEngine;
 
 namespace Assets.Sources.Scripts.RoomChoiceScreen
@@ -19,7 +20,7 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
             Debug.Log("Method RoomChoiceManager.OnServerInitialized");
             //TODO: uncomment
             //Player.Current.IsHost = true;
-            Application.LoadLevel("GameScreen");
+            Application.LoadLevel(SceneName.DrawerScreen.ToString());
         }
         #endregion
 
@@ -53,7 +54,7 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
             Debug.Log("Method RoomChoiceManager.OnConnectedToServer");
             // TODO: uncomment
             //Player.Current.IsHost = false;
-            Application.LoadLevel("GameScreen");
+            Application.LoadLevel(SceneName.GuesserScreen.ToString());
         }
 
         #endregion JoinRoom
