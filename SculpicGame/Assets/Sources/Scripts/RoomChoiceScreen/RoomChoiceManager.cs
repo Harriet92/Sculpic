@@ -1,4 +1,5 @@
-﻿using Assets.Sources.Common;
+﻿using System.Collections;
+using Assets.Sources.Common;
 using Assets.Sources.Enums;
 using UnityEngine;
 
@@ -6,8 +7,13 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
 {
     public class RoomChoiceManager : MonoBehaviour
     {
+        void Awake()
+        {
+            DontDestroyOnLoad(this);
+        }
 
         #region HostRoom
+
         public static void HostRoom(int roomPort, int connectionsNo, string gameName)
         {
             Debug.Log("Method RoomChoiceManager.HostRoom");
@@ -15,13 +21,12 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
             MasterServerConnectionManager.RegisterHost(gameName);
         }
 
-        void OnServerInitialized()
+        private void OnServerInitialized()
         {
             Debug.Log("Method RoomChoiceManager.OnServerInitialized");
-            //TODO: uncomment
-            //Player.Current.IsHost = true;
-            Application.LoadLevel(SceneName.DrawerScreen.ToString());
+            StartCoroutine(LoadLevel(SceneName.DrawerScreen.ToString()));
         }
+
         #endregion
 
         #region JoinRoom
@@ -49,14 +54,31 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
             return null;
         }
 
-        void OnConnectedToServer()
+        private void OnConnectedToServer()
         {
             Debug.Log("Method RoomChoiceManager.OnConnectedToServer");
-            // TODO: uncomment
-            //Player.Current.IsHost = false;
-            Application.LoadLevel(SceneName.GuesserScreen.ToString());
+            StartCoroutine(LoadLevel(SceneName.GuesserScreen.ToString()));
         }
 
         #endregion JoinRoom
+
+        private IEnumerator LoadLevel(string level)
+        {
+            Debug.Log("Method RoomChoiceManager.LoadLevel");
+            Network.SetSendingEnabled(0, false);
+            Network.isMessageQueueRunning = false;
+
+            Debug.Log("Loading level: " + level);
+            Application.LoadLevel(level);
+
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+
+            Network.isMessageQueueRunning = true;
+            Network.SetSendingEnabled(0, true);
+
+            Debug.Log("End of RoomChoiceManager.LoadLevel method");
+
         }
+    }
 }
