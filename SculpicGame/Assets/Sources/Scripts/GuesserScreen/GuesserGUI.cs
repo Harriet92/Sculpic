@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 namespace Assets.Sources.Scripts.GuesserScreen
 {
+    // TODO: add leave and music buttons
+    // TODO: add "want to draw" checkbox
     public class GuesserGUI : MenuBase
     {
         public Text ChatTextField;

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Sources.Scripts.GameScreen.SolidManagement;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Sources.Scripts.GameScreen
@@ -31,8 +32,8 @@ namespace Assets.Sources.Scripts.GameScreen
 
         public void CreateRandomSphere()
         {
-            GameManager.SpawnSolid(SpherePrefab,
-                new Vector3(Random.Range(MinRand, MaxRand), Random.Range(MinRand, MaxRand), 0));
+            SolidNetworkManager.SpawnSolid(SpherePrefab,
+                new Vector3(Random.Range(MinRand, MaxRand), Random.Range(MinRand, MaxRand)), Quaternion.identity);
             _spheresCount++;
         }
 

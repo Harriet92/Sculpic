@@ -4,6 +4,8 @@ namespace Assets.Sources.Scripts.GameScreen.SolidManagement
 {
     public class SolidNetworkManager : MonoBehaviour
     {
+        // TODO: sending mesh
+
         //void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
         //{
         //    Debug.Log("Method NetworkSolidManager.OnSerializeNetworkView");
@@ -125,6 +127,14 @@ namespace Assets.Sources.Scripts.GameScreen.SolidManagement
             GameMenu.SpheresColorToChange--;
         }
 
+        public static Object SpawnSolid(GameObject solidprefab, Vector3 position, Quaternion rotation)
+        {
+            Debug.Log("Method GameManager.SpawnSolid");
+            return Network.Instantiate(solidprefab, position, rotation, 0);
+        }
+
+        // TODO: removing object from scene
+
         void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
         {
             Debug.Log("Method NetworkSolidManager.OnSerializeNetworkView");
@@ -143,6 +153,5 @@ namespace Assets.Sources.Scripts.GameScreen.SolidManagement
                 renderer.material.color = color;
             }
         }
-
     }
 }

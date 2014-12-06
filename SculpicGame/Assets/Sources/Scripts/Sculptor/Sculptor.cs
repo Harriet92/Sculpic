@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Assets.Sources.Scripts.Sculptor
 {
+    // TODO: redo
     public class Sculptor : MonoBehaviour
     {
         public enum FallOff
