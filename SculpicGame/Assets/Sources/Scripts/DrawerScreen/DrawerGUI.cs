@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using Assets.Sources.Enums;
 using Assets.Sources.Scripts.GameScreen;
-using Assets.Sources.Scripts.GameScreen.SolidManagement;
 using Assets.Sources.Scripts.GameServer;
+using Assets.Sources.Scripts.GameServer.SolidManagement;
 using Assets.Sources.Scripts.Sculptor;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace Assets.Sources.Scripts.DrawerScreen
 {
@@ -51,12 +52,26 @@ namespace Assets.Sources.Scripts.DrawerScreen
             SculptorCurrentSettings.Carve = callingObject.isOn;
         }
 
+        public void ColorClick()
+        {
+            // TODO: change
+            foreach (var instantiatedSolid in instantiatedSolids)
+            {
+                var solid = instantiatedSolid as GameObject;
+                if (solid != null)
+                {
+                    solid.renderer.material.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+                }
+            }
+        }
+
         public void ClearClick()
         {
             foreach(var solid in instantiatedSolids)
                 Destroy(solid);
             instantiatedSolids.Clear();
         }
+
         private void DisplayNewMessage(string message)
         {
             StringBuilder builder = new StringBuilder(ChatTextField.text);

@@ -1,4 +1,4 @@
-﻿using Assets.Sources.Scripts.GameScreen.SolidManagement;
+﻿using Assets.Sources.Scripts.GameServer.SolidManagement;
 using UnityEngine;
 using UnityEngine.UI;
 

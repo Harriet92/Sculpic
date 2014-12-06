@@ -1,28 +1,43 @@
 ﻿using UnityEngine;
 
-namespace Assets.Sources.Scripts.GameScreen.SolidManagement
+namespace Assets.Sources.Scripts.GameServer.SolidManagement
 {
     public class SolidNetworkManager : MonoBehaviour
     {
-        // TODO: sending mesh
-
         void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
         {
             Debug.Log("Method NetworkSolidManager.OnSerializeNetworkView");
+            if (stream.isWriting)
+                WriteData(stream);
+            else
+                ReadData(stream);
+        }
+
+        private void WriteData(BitStream stream)
+        {
+            Debug.Log("Method NetworkSolidManager.WriteData");
+            var color = renderer.material.color;
             var meshFilter = collider.GetComponent("MeshFilter") as MeshFilter;
             if (meshFilter != null && meshFilter.mesh != null)
             {
-                if (stream.isWriting)
-                {
-                    WriteMesh(ref stream, meshFilter.mesh);
-                }
-                else
-                {
-                    var mesh = new Mesh();
-                    ReadMesh(ref stream, ref mesh);
-                    meshFilter.mesh = mesh;
-                }
+                WriteMesh(ref stream, meshFilter.mesh);
             }
+            WriteColor(ref stream, color);
+        }
+
+        private void ReadData(BitStream stream)
+        {
+            Debug.Log("Method NetworkSolidManager.ReadData");
+            var meshFilter = collider.GetComponent("MeshFilter") as MeshFilter;
+            if (meshFilter != null && meshFilter.mesh != null)
+            {
+                var mesh = new Mesh();
+                ReadMesh(ref stream, ref mesh);
+                meshFilter.mesh = mesh;
+            }
+            Color color;
+            ReadColor(ref stream, out color);
+            renderer.material.color = color;
         }
 
         private static void WriteMesh(ref BitStream stream, Mesh mesh)
@@ -65,6 +80,13 @@ namespace Assets.Sources.Scripts.GameScreen.SolidManagement
                 stream.Serialize(ref meshTriangles[i]);
                 Debug.Log("Triangle [" + i + "]: " + meshTriangles[i]);
             }
+        }
+
+        private static void WriteColor(ref BitStream stream, Color color)
+        {
+            Debug.Log("Method NetworkSolidManager.WriteColor");
+            var colorRgb = new Vector3(color.r, color.g, color.b);
+            stream.Serialize(ref colorRgb);
         }
 
         private static void ReadMesh(ref BitStream stream, ref Mesh mesh)
@@ -111,38 +133,14 @@ namespace Assets.Sources.Scripts.GameScreen.SolidManagement
             //mesh.uv = newUv;
             mesh.triangles = newTrangles;
         }
-        
-        //void Update()
-        //{
-        //    if (Network.isServer && GameMenu.SpheresColorToChange > 0)
-        //        ChangeColor();
-        //}
 
-        //private void ChangeColor()
-        //{
-        //    Debug.Log("Method NetworkSolidManager.ChangeColor");
-        //    renderer.material.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-        //    GameMenu.SpheresColorToChange--;
-        //}
-
-        //void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
-        //{
-        //    Debug.Log("Method NetworkSolidManager.OnSerializeNetworkView");
-        //    var colorRgb = Vector3.zero;
-        //    if (stream.isWriting)
-        //    {
-        //        var color = renderer.material.color;
-        //        colorRgb = new Vector3(color.r, color.g, color.b);
-        //    }
-
-        //    stream.Serialize(ref colorRgb);
-
-        //    if (stream.isReading)
-        //    {
-        //        var color = new Color(colorRgb.x, colorRgb.y, colorRgb.z);
-        //        renderer.material.color = color;
-        //    }
-        //}
+        private void ReadColor(ref BitStream stream, out Color color)
+        {
+            Debug.Log("Method NetworkSolidManager.ReadColor");
+            var colorRgb = Vector3.zero;
+            stream.Serialize(ref colorRgb);
+            color = new Color(colorRgb.x, colorRgb.y, colorRgb.z);
+        }
 
         public static Object SpawnSolid(GameObject solidprefab, Vector3 position, Quaternion rotation)
         {
