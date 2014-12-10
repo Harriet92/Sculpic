@@ -24,6 +24,7 @@ namespace Assets.Sources.Scripts.GuesserScreen
 
         public void OnTextFieldEditEnd(string value)
         {
+            if (String.IsNullOrEmpty(value)) return;
             ChatInputField.text = String.Empty;
             ChatterState.PendingMessageToSend.Enqueue(CreateUserMessageLine(value));
         }
