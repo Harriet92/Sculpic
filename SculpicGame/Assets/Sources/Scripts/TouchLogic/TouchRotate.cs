@@ -10,10 +10,10 @@ namespace Assets.Sources.Scripts.TouchLogic
         public float distanceInitial = 12.5f;
         public float scrollSpeed = 1.0f;
 
-        public float xSpeed = 50.0f;
-        public float ySpeed = 50.0f;
+        public float xSpeed = 5.0f;
+        public float ySpeed = 5.0f;
 
-        public float yMinLimit = -20f;
+        public float yMinLimit = -80f;
         public float yMaxLimit = 80f;
 
         private float _x;
