@@ -17,7 +17,7 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         public static void HostRoom(int roomPort, int connectionsNo, string gameName)
         {
             Debug.Log("Method RoomChoiceManager.HostRoom");
-            Network.InitializeServer(connectionsNo, roomPort, !Network.HavePublicAddress());
+            Network.InitializeServer(connectionsNo, roomPort, true);
             MasterServerConnectionManager.RegisterHost(gameName);
         }
 

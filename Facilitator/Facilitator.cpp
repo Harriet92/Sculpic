@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 	RakPeerInterface *peer = RakNetworkFactory::GetRakPeerInterface();	// The facilitator
 	
 	// Default values
-	int facilitatorPort = 50005;
+	int facilitatorPort = 8735;
 	int connectionCount = 1000;
 
 	time_t timerInterval = 10;	// 10 seconds

@@ -5,8 +5,8 @@ namespace Assets.Sources.Common
 {
     public class MasterServerConnectionManager : MonoBehaviour
     {
-        private const string MasterServerIp = "localhost";
-        private const int MasterServerPort = 23466;
+        private const string MasterServerIp = "deemi.ddns.net";
+        private const int MasterServerPort = 8734;
 
         public const string GameTypeName = "Sculpic";
         public static bool HasHosts { get { return HostList != null && HostList.Length > 0; }}
@@ -15,10 +15,11 @@ namespace Assets.Sources.Common
         public static void SetMasterServerLocation()
         {
             Debug.Log("Method MasterServerConnectionManager.SetMasterServerLocation");
-            MasterServer.ipAddress = MasterServerIp;
+            Network.natFacilitatorIP = MasterServer.ipAddress = MasterServerIp;
+            Network.natFacilitatorPort = 8735;
             MasterServer.port = MasterServerPort;
+         
         }
-
         public static void RefreshHostList()
         {
             Debug.Log("Method MasterServerConnectionManager.RefreshHostList");
