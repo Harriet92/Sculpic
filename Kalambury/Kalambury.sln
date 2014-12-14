@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kalambury.Database", "Kalambury.Database\Kalambury.Database.csproj", "{0AD3F233-696A-45D7-BAFC-354CFE4F5A74}"
 EndProject
@@ -11,25 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kalambury.WcfServer", "Kala
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kalambury.WcfServer.Test", "Kalambury.WcfServer.Test\Kalambury.WcfServer.Test.csproj", "{49A3EF6B-EB8B-4FCD-B893-B6578D58A560}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseServerHost", "DatabaseServerHost\DatabaseServerHost.csproj", "{21D19D69-1B34-4771-930A-233038FBD88B}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://deemi.visualstudio.com/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Kalambury.Database\\Kalambury.Database.csproj
-		SccProjectName1 = Kalambury.Database
-		SccLocalPath1 = Kalambury.Database
-		SccProjectUniqueName2 = Kalambury.Database.Test\\Kalambury.Database.Test.csproj
-		SccProjectName2 = Kalambury.Database.Test
-		SccLocalPath2 = Kalambury.Database.Test
-		SccProjectUniqueName3 = Kalambury.WcfServer\\Kalambury.WcfServer.csproj
-		SccProjectName3 = Kalambury.WcfServer
-		SccLocalPath3 = Kalambury.WcfServer
-		SccProjectUniqueName4 = Kalambury.WcfServer.Test\\Kalambury.WcfServer.Test.csproj
-		SccProjectName4 = Kalambury.WcfServer.Test
-		SccLocalPath4 = Kalambury.WcfServer.Test
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -51,6 +35,10 @@ Global
 		{49A3EF6B-EB8B-4FCD-B893-B6578D58A560}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49A3EF6B-EB8B-4FCD-B893-B6578D58A560}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49A3EF6B-EB8B-4FCD-B893-B6578D58A560}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21D19D69-1B34-4771-930A-233038FBD88B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21D19D69-1B34-4771-930A-233038FBD88B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21D19D69-1B34-4771-930A-233038FBD88B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21D19D69-1B34-4771-930A-233038FBD88B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
