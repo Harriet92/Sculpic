@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Threading;
 using Assets.Sources.Common;
 using Assets.Sources.Enums;
 using UnityEngine;
@@ -12,22 +13,11 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
             DontDestroyOnLoad(this);
         }
 
-        #region HostRoom
-
-        public static void HostRoom(int roomPort, int connectionsNo, string gameName)
-        {
-            Debug.Log("Method RoomChoiceManager.HostRoom");
-            Network.InitializeServer(connectionsNo, roomPort, true);
-            MasterServerConnectionManager.RegisterHost(gameName);
-        }
-
         private void OnServerInitialized()
         {
             Debug.Log("Method RoomChoiceManager.OnServerInitialized");
             StartCoroutine(LoadLevel(SceneName.DrawerScreen.ToString()));
         }
-
-        #endregion
 
         #region JoinRoom
 

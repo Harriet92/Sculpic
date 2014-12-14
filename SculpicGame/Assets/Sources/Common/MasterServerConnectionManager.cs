@@ -10,19 +10,26 @@ namespace Assets.Sources.Common
 
         public const string GameTypeName = "Sculpic";
         public static bool HasHosts { get { return HostList != null && HostList.Length > 0; }}
+        public static bool HostsRefreshed { get; private set; }
         public static HostData[] HostList { get; private set; }
 
+        static MasterServerConnectionManager()
+        {
+            HostList = new HostData[0];
+        }
         public static void SetMasterServerLocation()
         {
             Debug.Log("Method MasterServerConnectionManager.SetMasterServerLocation");
-            Network.natFacilitatorIP = MasterServer.ipAddress = MasterServerIp;
-            Network.natFacilitatorPort = 8735;
+            //Network.natFacilitatorIP = 
+                MasterServer.ipAddress = MasterServerIp;
+            //Network.natFacilitatorPort = 8735;
             MasterServer.port = MasterServerPort;
          
         }
         public static void RefreshHostList()
         {
-            Debug.Log("Method MasterServerConnectionManager.RefreshHostList");
+            Debug.Log("Method MasterServerConnectionManager.RefreshHostList set FALSE");
+            HostsRefreshed = false;
             MasterServer.RequestHostList(GameTypeName);
         }
 
@@ -41,6 +48,7 @@ namespace Assets.Sources.Common
                     break;
                 case MasterServerEvent.HostListReceived:
                     HostList = MasterServer.PollHostList();
+                    HostsRefreshed = true;
                     Debug.Log("HostList.Length: " + HostList.Length);
                     break;
                 default:

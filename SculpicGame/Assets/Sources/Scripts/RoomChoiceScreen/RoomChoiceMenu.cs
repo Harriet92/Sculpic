@@ -1,4 +1,5 @@
-﻿using Assets.Sources.Common;
+﻿using System.Collections;
+using Assets.Sources.Common;
 using Assets.Sources.Enums;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,8 +28,6 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         {
 
             if (Input.GetKeyDown(KeyCode.Escape)) { Application.LoadLevel(SceneName.LoginScreen.ToString()); }
-            if (MasterServerConnectionManager.HasHosts && _hostButton.gameObject.activeSelf)
-                _hostButton.gameObject.SetActive(false);
 
             if (MasterServerConnectionManager.HasHosts && !_joinRoomButton.gameObject.activeSelf)
                 _joinRoomButton.gameObject.SetActive(true);
@@ -37,7 +36,17 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         public void HostRoom()
         {
             Debug.Log("Method RoomChoiceMenu.HostRoom");
-            RoomChoiceManager.HostRoom(RoomPort, ConnectionsNo, GameName);
+            MasterServerConnectionManager.RefreshHostList();
+            StartCoroutine(InitServerAndHostRoom(RoomPort, ConnectionsNo, GameName));
+        }
+
+        private IEnumerator InitServerAndHostRoom(int roomPort, int connectionsNo, string gameName)
+        {
+            while (!MasterServerConnectionManager.HostsRefreshed)
+                yield return null;
+
+            Network.InitializeServer(connectionsNo, roomPort + MasterServerConnectionManager.HostList.Length, true);
+            MasterServerConnectionManager.RegisterHost(gameName);
         }
 
         public void JoinFirstRoom()
