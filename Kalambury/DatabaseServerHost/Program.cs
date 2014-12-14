@@ -15,10 +15,10 @@ namespace DatabaseServerHost
                 Console.WriteLine("Server started at ");
                 Console.WriteLine("\nlocalhost:8733/UserService");
             }
-            catch (Exception eX)
+            catch (Exception ex)
             {
                 svcHost = null;
-                Console.WriteLine("Service can not be started \n\nError Message [" + eX.Message + "]");
+                Console.WriteLine("Service can not be started \n\nError message: " + ex.Message);
             }
             if (svcHost == null) return;
             Console.WriteLine("\nPress any key to exit...");

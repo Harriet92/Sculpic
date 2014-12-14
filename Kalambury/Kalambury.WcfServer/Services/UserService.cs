@@ -35,7 +35,8 @@ namespace Kalambury.WcfServer.Services
             User user = userRepository.GetUserByUsername(username);
             if (user == null || user.Password != password) 
                 return null;
-            return user;
+            user.LastLoginAt = DateTime.Now;
+            return userRepository.Save(user);
         }
 
         public User AddNewUser(string username, string password)
@@ -45,7 +46,9 @@ namespace Kalambury.WcfServer.Services
             {
                 UserId = userRepository.CountAll(),
                 Username = username,
-                Password = password
+                Password = password,
+                CreatedAt = DateTime.UtcNow,
+                LastLoginAt = DateTime.UtcNow
             });
         }
 
