@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Assets.Sources.Common;
 using Assets.Sources.Enums;
 using UnityEngine;
@@ -12,30 +13,23 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         public const int RoomPort = 25001;
         public const int ConnectionsNo = 4;
         public string GameName = "First game";
-        private GameObject _joinRoomButton;
-        private GameObject _hostButton;
+        public GameObject RoomButtonsPanel;
+        public Button RoomButton;
 
         private void Awake()
         {
             Debug.Log("Method RoomChoiceMenu.Awake");
             MasterServerConnectionManager.SetMasterServerLocation();
-            _joinRoomButton = GameObject.Find("JoinRoomButton");
-            _hostButton = GameObject.Find("HostButton");
-            _joinRoomButton.gameObject.SetActive(false);
+            RefreshRoomHosts();
         }
 
         private void Update()
         {
-
             if (Input.GetKeyDown(KeyCode.Escape)) { Application.LoadLevel(SceneName.LoginScreen.ToString()); }
-
-            if (MasterServerConnectionManager.HasHosts && !_joinRoomButton.gameObject.activeSelf)
-                _joinRoomButton.gameObject.SetActive(true);
         }
 
         public void HostRoom()
         {
-            Debug.Log("Method RoomChoiceMenu.HostRoom");
             MasterServerConnectionManager.RefreshHostList();
             StartCoroutine(InitServerAndHostRoom(RoomPort, ConnectionsNo, GameName));
         }
@@ -59,6 +53,29 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         {
             Debug.Log("Method RoomChoiceMenu.RefreshRoomHosts");
             MasterServerConnectionManager.RefreshHostList();
+            StartCoroutine(DisplayHostList());
+        }
+
+        private IEnumerator DisplayHostList()
+        {
+            while (!MasterServerConnectionManager.HostsRefreshed)
+                yield return null;
+            ClearRoomPanel();
+            foreach (var hostData in MasterServerConnectionManager.HostList)
+                AddRoomButton(hostData);
+        }
+
+        private void ClearRoomPanel()
+        {
+            var children = new List<GameObject>();
+            foreach (Transform child in RoomButtonsPanel.transform) children.Add(child.gameObject);
+            children.ForEach(Destroy);
+        }
+        private void AddRoomButton(HostData hostData)
+        {
+            var button = (Button) Instantiate(RoomButton);
+            var roomButtonScript = button.GetComponentInChildren<RoomButton>();
+            roomButtonScript.SetRoomData(hostData, RoomButtonsPanel);
         }
     }
 }
