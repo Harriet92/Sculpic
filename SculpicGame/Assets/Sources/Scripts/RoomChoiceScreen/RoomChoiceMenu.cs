@@ -10,8 +10,6 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
 
     public class RoomChoiceMenu : MonoBehaviour
     {
-        public const int RoomPort = 25001;
-        public const int ConnectionsNo = 4;
         public string GameName = "First game";
         public GameObject RoomButtonsPanel;
         public Button RoomButton;
@@ -31,7 +29,7 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         public void HostRoom()
         {
             MasterServerConnectionManager.RefreshHostList();
-            StartCoroutine(InitServerAndHostRoom(RoomPort, ConnectionsNo, GameName));
+            StartCoroutine(InitServerAndHostRoom(MasterServerConnectionManager.RoomPort, MasterServerConnectionManager.ConnectionsNo, GameName));
         }
 
         private IEnumerator InitServerAndHostRoom(int roomPort, int connectionsNo, string gameName)

@@ -5,10 +5,13 @@ namespace Assets.Sources.Common
 {
     public class MasterServerConnectionManager : MonoBehaviour
     {
+        //TODO: Config file
         private const string MasterServerIp = "localhost";//"deemi.ddns.net";
         private const int MasterServerPort = 23466;
 
         public const string GameTypeName = "Sculpic";
+        public const int RoomPort = 25001;
+        public const int ConnectionsNo = 4;
         public static bool HasHosts { get { return HostList != null && HostList.Length > 0; }}
         public static bool HostsRefreshed { get; private set; }
         public static HostData[] HostList { get; private set; }
