@@ -7,6 +7,7 @@ using System.Collections;
 using Assets.Sources.Enums;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Sources.Scripts.Authentication;
 
 namespace Assets.Sources.Scripts.LoginScreen
 {
@@ -14,7 +15,7 @@ namespace Assets.Sources.Scripts.LoginScreen
     {
         public InputField LoginField;
         public InputField PasswordField;
-        private UserService userService;
+        public AuthenticationManager AuthenticationManager;
         private Color warnColor;
 
         void Start()
@@ -24,20 +25,9 @@ namespace Assets.Sources.Scripts.LoginScreen
         }
         void Awake()
         {
-            LoginByPrefsData();
+            AuthenticationManager.LoginByPrefsData();
         }
-
-        private void LoginByPrefsData()
-        {
-            if (Preferences.RememberLogin && 
-                !String.IsNullOrEmpty(Preferences.SavedLogin) &&
-                !String.IsNullOrEmpty(Preferences.SavedPassword))
-            {
-                DisplayLoadingPopup();
-                StartCoroutine(InvokeLoginUser(Preferences.SavedLogin, Preferences.SavedPassword, true));
-            }
-        }
-
+        
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
@@ -47,34 +37,9 @@ namespace Assets.Sources.Scripts.LoginScreen
             var login = LoginField.text;
             var password = PasswordField.text;
             if (InputNotValid(login, password)) return;
-            Preferences.SaveLoginData(login, password);
-            DisplayLoadingPopup();
-            StartCoroutine(InvokeLoginUser(login, password));
+            AuthenticationManager.LoginByProvidedData(login, password);
         }
         
-        private IEnumerator InvokeLoginUser(string login, string password, bool passwordAlreadyHashed = false)
-        {
-            yield return null;
-            userService = new UserService();
-            var result = userService.LoginUser(login, passwordAlreadyHashed ? password : SecureString.GetBase64Hash(password));
-            Debug.Log(result);
-            if (result != null)
-            {
-                Player.LogIn(result);
-                Application.LoadLevel(SceneName.RoomChoiceScreen.ToString());
-            }
-            else if (!string.IsNullOrEmpty(UserService.LastError))
-            {
-                DisplayInfoPopup("Internal server error, try again later.");
-            }
-            else
-            {
-                DisplayInfoPopup("Incorrect login or password!");
-            }
-            Thread.Sleep(5000);
-            DismissLoadingPopup();
-        }
-
         private bool InputNotValid(string login, string password)
         {
             if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(password))

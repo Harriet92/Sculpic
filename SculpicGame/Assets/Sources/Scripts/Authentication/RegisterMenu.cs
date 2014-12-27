@@ -8,6 +8,7 @@ using Assets.Sources.DatabaseServer.Models;
 using Assets.Sources.Enums;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Sources.Scripts.Authentication;
 
 namespace Assets.Sources.Scripts.RegisterScreen
 {
@@ -16,8 +17,8 @@ namespace Assets.Sources.Scripts.RegisterScreen
         public InputField LoginField;
         public InputField PasswordField;
         public InputField PasswordField2;
+        public AuthenticationManager AuthenticationManager;
         private Color warnColor;
-        private UserService userService;
         private Regex regexSpecialCharactersCheck;
         void Start()
         {
@@ -37,8 +38,7 @@ namespace Assets.Sources.Scripts.RegisterScreen
             var password = PasswordField.text;
             var password2 = PasswordField2.text;
             if (InputNotValid(login, password, password2)) return;
-            DisplayLoadingPopup();
-            StartCoroutine(InvokeAddNewUser(login, password));
+            AuthenticationManager.RegisterNewUser(login, password);
         }
 
         public void BackClick()
@@ -46,26 +46,9 @@ namespace Assets.Sources.Scripts.RegisterScreen
             Application.LoadLevel(SceneName.LoginScreen.ToString());
         }
 
-        private IEnumerator InvokeAddNewUser(string login, string password)
+        public void RememberMeChecked(bool value)
         {
-            yield return null;
-            userService = new UserService();
-            var result = userService.AddNewUser(login, SecureString.GetBase64Hash(password));
-            Debug.Log(result);
-            if (result != null)
-            {
-                Player.LogIn(result);
-                Application.LoadLevel(SceneName.RoomChoiceScreen.ToString());
-            }
-            else if (!string.IsNullOrEmpty(UserService.LastError))
-            {
-                DisplayInfoPopup("Internal server error, try again later.");
-            }
-            else
-            {
-                DisplayInfoPopup("Username is already taken");
-            }
-            DismissLoadingPopup();
+            Preferences.RememberLogin = value;
         }
 
         private bool InputNotValid(string login, string password, string password2)
