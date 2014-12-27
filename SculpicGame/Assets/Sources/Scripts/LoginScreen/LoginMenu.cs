@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Assets.Sources.Common;
 using Assets.Sources.DatabaseClient.Security;
 using Assets.Sources.DatabaseClient.Services;
@@ -15,10 +16,26 @@ namespace Assets.Sources.Scripts.LoginScreen
         public InputField PasswordField;
         private UserService userService;
         private Color warnColor;
+
         void Start()
         {
             warnColor = LoginField.GetComponentInChildren<Text>().color;
             ClearValidationMessages();
+        }
+        void Awake()
+        {
+            LoginByPrefsData();
+        }
+
+        private void LoginByPrefsData()
+        {
+            if (Preferences.RememberLogin && 
+                !String.IsNullOrEmpty(Preferences.SavedLogin) &&
+                !String.IsNullOrEmpty(Preferences.SavedPassword))
+            {
+                DisplayLoadingPopup();
+                StartCoroutine(InvokeLoginUser(Preferences.SavedLogin, Preferences.SavedPassword, true));
+            }
         }
 
         void Update()
@@ -30,15 +47,16 @@ namespace Assets.Sources.Scripts.LoginScreen
             var login = LoginField.text;
             var password = PasswordField.text;
             if (InputNotValid(login, password)) return;
+            Preferences.SaveLoginData(login, password);
             DisplayLoadingPopup();
             StartCoroutine(InvokeLoginUser(login, password));
         }
-
-        private IEnumerator InvokeLoginUser(string login, string password)
+        
+        private IEnumerator InvokeLoginUser(string login, string password, bool passwordAlreadyHashed = false)
         {
             yield return null;
             userService = new UserService();
-            var result = userService.LoginUser(login, SecureString.GetBase64Hash(password));
+            var result = userService.LoginUser(login, passwordAlreadyHashed ? password : SecureString.GetBase64Hash(password));
             Debug.Log(result);
             if (result != null)
             {
@@ -53,6 +71,7 @@ namespace Assets.Sources.Scripts.LoginScreen
             {
                 DisplayInfoPopup("Incorrect login or password!");
             }
+            Thread.Sleep(5000);
             DismissLoadingPopup();
         }
 
@@ -68,6 +87,11 @@ namespace Assets.Sources.Scripts.LoginScreen
                 return true;
             }
             return false;
+        }
+
+        public void RememberMeChecked(bool value)
+        {
+            Preferences.RememberLogin = value;
         }
 
         public void RegisterClick()

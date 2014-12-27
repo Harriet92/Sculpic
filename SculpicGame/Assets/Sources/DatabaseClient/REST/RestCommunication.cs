@@ -8,7 +8,7 @@ namespace Assets.Sources.DatabaseClient.REST
     public class RestCommunication
     {
         public const string BaseURL = isLocalhost ? "http://localhost:8733" : "http://deemi.ddns.net:8733";
-        private const bool isLocalhost = false;
+        private const bool isLocalhost = true;
         private const int retryOnErrorCount = 5;
         private const int timeoutCount = 10;
         private const int sleepTimeout = 100;
