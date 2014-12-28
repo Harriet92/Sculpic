@@ -19,7 +19,7 @@ namespace Kalambury.WcfServer.Test
         [TestInitialize]
         public void Initialize()
         {
-            var settings = new MongoConnectionSettings { DatabaseName = "UserServiceTest", Ip = "localhost", Port = "27017" };
+            var settings = new MongoConnectionSettings { DatabaseName = "SculpicWcfTest", Ip = "localhost", Port = "27017" };
             var mongoServer = new MongoDatabaseServer(settings);
 
             userRepository = new UserMongoRepository(mongoServer);

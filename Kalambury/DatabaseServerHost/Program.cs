@@ -7,23 +7,30 @@ namespace DatabaseServerHost
     {
         static void Main(string[] args)
         {
-            ServiceHost svcHost = null;
+            ServiceHost userServiceHost = null;
+            ServiceHost phraseServiceHost = null;
             try
             {
-                svcHost = new ServiceHost(typeof(Kalambury.WcfServer.Services.UserService));
-                svcHost.Open(); 
-                Console.WriteLine("Server started at ");
+                userServiceHost = new ServiceHost(typeof(Kalambury.WcfServer.Services.UserService));
+                userServiceHost.Open();
+                Console.WriteLine("User service started at ");
                 Console.WriteLine("\nlocalhost:8733/UserService");
+                phraseServiceHost = new ServiceHost(typeof(Kalambury.WcfServer.Services.PhraseService));
+                phraseServiceHost.Open();
+                Console.WriteLine("Phrase service started at ");
+                Console.WriteLine("\nlocalhost:8733/PhraseService");
             }
             catch (Exception ex)
             {
-                svcHost = null;
+                userServiceHost = null;
+                phraseServiceHost = null;
                 Console.WriteLine("Service can not be started \n\nError message: " + ex.Message);
             }
-            if (svcHost == null) return;
+            if (userServiceHost == null || phraseServiceHost == null) return;
             Console.WriteLine("\nPress any key to exit...");
             Console.ReadKey();
-            svcHost.Close();
+            userServiceHost.Close();
+            phraseServiceHost.Close();
         }
     }
 }
