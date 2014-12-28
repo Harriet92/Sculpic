@@ -13,11 +13,13 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         public string GameName = "First game";
         public GameObject RoomButtonsPanel;
         public Button RoomButton;
+        public Text PlayerNameText;
 
         private void Awake()
         {
             Debug.Log("Method RoomChoiceMenu.Awake");
             MasterServerConnectionManager.SetMasterServerLocation();
+            PlayerNameText.text = Player.Current == null ? "Stranger" : Player.Current.Username;
             RefreshRoomHosts();
         }
 
@@ -74,6 +76,12 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
             var button = (Button) Instantiate(RoomButton);
             var roomButtonScript = button.GetComponentInChildren<RoomButton>();
             roomButtonScript.SetRoomData(hostData, RoomButtonsPanel);
+        }
+
+        public void LogOffClick()
+        {
+            Preferences.RememberLogin = false;
+            Application.LoadLevel(SceneName.LoginScreen.ToString());
         }
     }
 }
