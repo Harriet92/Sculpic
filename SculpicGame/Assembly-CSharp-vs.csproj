@@ -19,7 +19,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_4_6_0;UNITY_4_6;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_4_6_0;UNITY_4_6;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Sources\Common\MasterServerConnectionManager.cs" />
      <Compile Include="Assets\Sources\Common\Player.cs" />
+     <Compile Include="Assets\Sources\Common\Preferences.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\JsonFx\DataReaderProvider.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\JsonFx\DataWriterProvider.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\JsonFx\DateTimeConverter.cs" />
@@ -72,11 +73,16 @@
      <Compile Include="Assets\Sources\DatabaseClient\JsonFx\TypeCoercionUtility.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\JsonFx\XmlDataReader.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\JsonFx\XmlDataWriter.cs" />
+     <Compile Include="Assets\Sources\DatabaseClient\Models\Phrase.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\Models\User.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\REST\RestCommunication.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\Security\SecureString.cs" />
+     <Compile Include="Assets\Sources\DatabaseClient\Services\PhraseService.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\Services\UserService.cs" />
      <Compile Include="Assets\Sources\Enums\SceneName.cs" />
+     <Compile Include="Assets\Sources\Scripts\Authentication\AuthenticationManager.cs" />
+     <Compile Include="Assets\Sources\Scripts\Authentication\LoginMenu.cs" />
+     <Compile Include="Assets\Sources\Scripts\Authentication\RegisterMenu.cs" />
      <Compile Include="Assets\Sources\Scripts\DrawerScreen\DrawerGUI.cs" />
      <Compile Include="Assets\Sources\Scripts\GameScreen\CameraOrbit.cs" />
      <Compile Include="Assets\Sources\Scripts\GameScreen\GameMenu.cs" />
@@ -86,11 +92,11 @@
      <Compile Include="Assets\Sources\Scripts\GameServer\RoomOwner.cs" />
      <Compile Include="Assets\Sources\Scripts\GameServer\SolidManagement\SolidNetworkManager.cs" />
      <Compile Include="Assets\Sources\Scripts\GuesserScreen\GuesserGUI.cs" />
-     <Compile Include="Assets\Sources\Scripts\LoginScreen\LoginMenu.cs" />
      <Compile Include="Assets\Sources\Scripts\MenuBase.cs" />
-     <Compile Include="Assets\Sources\Scripts\RegisterScreen\RegisterMenu.cs" />
+     <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomButton.cs" />
      <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomChoiceManager.cs" />
      <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomChoiceMenu.cs" />
+     <Compile Include="Assets\Sources\Scripts\RoomHosterScreen\RoomHosterScreenMenu.cs" />
      <Compile Include="Assets\Sources\Scripts\Sculptor\Arithmetic.cs" />
      <Compile Include="Assets\Sources\Scripts\Sculptor\Sculptor.cs" />
      <Compile Include="Assets\Sources\Scripts\Sculptor\SculptorCurrentSettings.cs" />

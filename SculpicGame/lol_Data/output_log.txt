@@ -1,0 +1,85 @@
+Initialize engine version: 4.6.0f1 (8b19a19f0c27)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: Intel(R) HD Graphics 4600 (ID=0x416)
+    Vendor:   Intel
+    VRAM:     0 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Projekty\Prywatne\Praca Inżynierska GIT\Sculpic\SculpicGame\lol_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Projekty\Prywatne\Praca Inżynierska GIT\Sculpic\SculpicGame\lol_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Projekty\Prywatne\Praca Inżynierska GIT\Sculpic\SculpicGame\lol_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Projekty\Prywatne\Praca Inżynierska GIT\Sculpic\SculpicGame\lol_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Projekty\Prywatne\Praca Inżynierska GIT\Sculpic\SculpicGame\lol_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading C:\Projekty\Prywatne\Praca Inżynierska GIT\Sculpic\SculpicGame\lol_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: C:\Projekty\Prywatne\Praca Inżynierska GIT\Sculpic\SculpicGame\lol_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Projekty\Prywatne\Praca Inżynierska GIT\Sculpic\SculpicGame\lol_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.463 seconds
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Platform assembly: C:\Projekty\Prywatne\Praca Inżynierska GIT\Sculpic\SculpicGame\lol_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Projekty\Prywatne\Praca Inżynierska GIT\Sculpic\SculpicGame\lol_Data\Managed\System.Xml.dll (this message is harmless)
+Platform assembly: C:\Projekty\Prywatne\Praca Inżynierska GIT\Sculpic\SculpicGame\lol_Data\Managed\System.dll (this message is harmless)
+Method RoomChoiceMenu.Awake
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Method MasterServerConnectionManager.SetMasterServerLocation
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Method RoomChoiceMenu.RefreshRoomHosts
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Method MasterServerConnectionManager.RefreshHostList set FALSE
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Method MasterServerConnectionManager.OnMasterServerEvent: HostListReceived
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+HostList.Length: 0
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Method MasterServerConnectionManager.RefreshHostList set FALSE
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Method MasterServerConnectionManager.OnMasterServerEvent: HostListReceived
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+HostList.Length: 0
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Method RoomChoiceManager.OnServerInitialized
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Method RoomChoiceManager.LoadLevel
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Loading level: DrawerScreen
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Method MasterServerConnectionManager.RegisterHost: First game
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+UnloadTime: 29.527393 ms
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 25 unused Assets to reduce memory usage. Loaded Objects now: 389.
+Total: 0.660160 ms (FindLiveObjects: 0.018474 ms CreateObjectMapping: 0.009032 ms MarkObjects: 0.181461 ms  DeleteObjects: 0.018064 ms)
+
+End of RoomChoiceManager.LoadLevel method
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
