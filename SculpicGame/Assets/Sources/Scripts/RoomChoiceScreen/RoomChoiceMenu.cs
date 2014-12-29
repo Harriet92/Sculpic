@@ -71,6 +71,7 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
             foreach (Transform child in RoomButtonsPanel.transform) children.Add(child.gameObject);
             children.ForEach(Destroy);
         }
+
         private void AddRoomButton(HostData hostData)
         {
             var button = (Button) Instantiate(RoomButton);
