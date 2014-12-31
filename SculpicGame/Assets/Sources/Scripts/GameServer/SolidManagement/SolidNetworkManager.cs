@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using Assets.Sources.Scripts.DrawerScreen;
+using UnityEngine;
 
 namespace Assets.Sources.Scripts.GameServer.SolidManagement
 {
+    [RequireComponent(typeof(NetworkView))]
     public class SolidNetworkManager : MonoBehaviour
     {
         private const bool IsSendVertices = true;
@@ -10,13 +12,36 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
         private const bool IsSendUv = false;
         private const bool IsSendTriangles = true;
 
+        private bool _isRecieving;
+        
+        void Update()
+        {
+            if (DrawerGUI.IsSendingScene)
+            {
+                Debug.Log("Method NetworkSolidManager.Update: DrawerGUI.IsSendingScene");
+                DrawerGUI.IsSendingScene = false;
+                networkView.RPC("SynchronizeScene", RPCMode.All);
+            }
+        }
+
+        [RPC]
+        void SynchronizeScene()
+        {
+            Debug.Log("Method NetworkSolidManager.SynchronizeScene");
+            _isRecieving = true;
+        }
+
         void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
         {
-            Debug.Log("Method NetworkSolidManager.OnSerializeNetworkView");
-            if (stream.isWriting)
-                WriteData(stream);
-            else
-                ReadData(stream);
+            if (_isRecieving)
+            {
+                Debug.Log("Method NetworkSolidManager.OnSerializeNetworkView: _isRecieving");
+                if (stream.isWriting)
+                    WriteData(stream);
+                else
+                    ReadData(stream);
+                _isRecieving = false;
+            }
         }
 
         private void WriteData(BitStream stream)
@@ -64,8 +89,8 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
             for (int i = 0; i < meshVertices.Length; i++)
             {
                 stream.Serialize(ref meshVertices[i]);
-                Debug.Log("Vertex [" + i + "]: (" + meshVertices[i].x + ", " + meshVertices[i].y + ", " +
-                          meshVertices[i].z + ")");
+                //Debug.Log("Vertex [" + i + "]: (" + meshVertices[i].x + ", " + meshVertices[i].y + ", " +
+                //          meshVertices[i].z + ")");
             }
         }
 
@@ -77,8 +102,8 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
             for (int i = 0; i < meshNormals.Length; i++)
             {
                 stream.Serialize(ref meshNormals[i]);
-                Debug.Log("Normal [" + i + "]: (" + meshNormals[i].x + ", " + meshNormals[i].y + ", " +
-                          meshNormals[i].z + ")");
+                //Debug.Log("Normal [" + i + "]: (" + meshNormals[i].x + ", " + meshNormals[i].y + ", " +
+                //          meshNormals[i].z + ")");
             }
         }
 
@@ -92,8 +117,8 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
                 var quaternion = new Quaternion(meshTangents[i].x, meshTangents[i].y, meshTangents[i].z,
                     meshTangents[i].w);
                 stream.Serialize(ref quaternion);
-                Debug.Log("Tangent [" + i + "]: (" + quaternion.x + ", " + quaternion.y + ", " +
-                          quaternion.z + ", " + quaternion.w + ")");
+                //Debug.Log("Tangent [" + i + "]: (" + quaternion.x + ", " + quaternion.y + ", " +
+                //          quaternion.z + ", " + quaternion.w + ")");
             }
         }
 
@@ -106,7 +131,7 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
             {
                 var temporaryUv = new Vector3(meshUv[i].x, meshUv[i].y, 0);
                 stream.Serialize(ref temporaryUv);
-                Debug.Log("UV [" + i + "]: (" + temporaryUv.x + ", " + temporaryUv.y + ")");
+                //Debug.Log("UV [" + i + "]: (" + temporaryUv.x + ", " + temporaryUv.y + ")");
             }
         }
 
@@ -118,7 +143,7 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
             for (int i = 0; i < meshTriangles.Length; i++)
             {
                 stream.Serialize(ref meshTriangles[i]);
-                Debug.Log("Triangle [" + i + "]: " + meshTriangles[i]);
+                //Debug.Log("Triangle [" + i + "]: " + meshTriangles[i]);
             }
         }
 
@@ -145,13 +170,13 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
         {
             var newVerticesNo = 0;
             stream.Serialize(ref newVerticesNo);
-            Debug.Log("New vertices no: " + newVerticesNo);
+            //Debug.Log("New vertices no: " + newVerticesNo);
             var newVertices = new Vector3[newVerticesNo];
             for (int i = 0; i < newVertices.Length; i++)
             {
                 stream.Serialize(ref newVertices[i]);
-                Debug.Log("New vertex [" + i + "]: (" + newVertices[i].x + ", " + newVertices[i].y + ", " +
-                          newVertices[i].z + ")");
+                //Debug.Log("New vertex [" + i + "]: (" + newVertices[i].x + ", " + newVertices[i].y + ", " +
+                //          newVertices[i].z + ")");
             }
             return newVertices;
         }
@@ -160,13 +185,13 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
         {
             var newNormalsNo = 0;
             stream.Serialize(ref newNormalsNo);
-            Debug.Log("New normals no: " + newNormalsNo);
+            //Debug.Log("New normals no: " + newNormalsNo);
             var newNormals = new Vector3[newNormalsNo];
             for (int i = 0; i < newNormals.Length; i++)
             {
                 stream.Serialize(ref newNormals[i]);
-                Debug.Log("New normal [" + i + "]: (" + newNormals[i].x + ", " + newNormals[i].y + ", " +
-                          newNormals[i].z + ")");
+                //Debug.Log("New normal [" + i + "]: (" + newNormals[i].x + ", " + newNormals[i].y + ", " +
+                //          newNormals[i].z + ")");
             }
             return newNormals;
         }
@@ -175,15 +200,15 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
         {
             var newTangentsNo = 0;
             stream.Serialize(ref newTangentsNo);
-            Debug.Log("New tangents no: " + newTangentsNo);
+            //Debug.Log("New tangents no: " + newTangentsNo);
             var newTangents = new Vector4[newTangentsNo];
             for (int i = 0; i < newTangents.Length; i++)
             {
                 var quaternion = Quaternion.identity;
                 stream.Serialize(ref quaternion);
                 newTangents[i] = new Vector4(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
-                Debug.Log("New tangent [" + i + "]: (" + newTangents[i].x + ", " + newTangents[i].y + ", " +
-                          newTangents[i].z + ", " + newTangents[i].w + ")");
+                //Debug.Log("New tangent [" + i + "]: (" + newTangents[i].x + ", " + newTangents[i].y + ", " +
+                //          newTangents[i].z + ", " + newTangents[i].w + ")");
             }
             return newTangents;
         }
@@ -192,13 +217,13 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
         {
             var newUvNo = 0;
             stream.Serialize(ref newUvNo);
-            Debug.Log("New UV no: " + newUvNo);
+            //Debug.Log("New UV no: " + newUvNo);
             var newUv = new Vector2[newUvNo];
             for (int i = 0; i < newUv.Length; i++)
             {
                 var temporaryUv = Vector3.zero;
                 stream.Serialize(ref temporaryUv);
-                Debug.Log("New UV [" + i + "]: (" + temporaryUv.x + ", " + temporaryUv.y + ")");
+                //Debug.Log("New UV [" + i + "]: (" + temporaryUv.x + ", " + temporaryUv.y + ")");
                 newUv[i] = new Vector2(temporaryUv.x, temporaryUv.y);
             }
             return newUv;
@@ -208,12 +233,12 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
         {
             var newTrianglesNo = 0;
             stream.Serialize(ref newTrianglesNo);
-            Debug.Log("New triangles no: " + newTrianglesNo);
+            //Debug.Log("New triangles no: " + newTrianglesNo);
             var newTrangles = new int[newTrianglesNo];
             for (int i = 0; i < newTrangles.Length; i++)
             {
                 stream.Serialize(ref newTrangles[i]);
-                Debug.Log("New triangle [" + i + "]: " + newTrangles[i]);
+                //Debug.Log("New triangle [" + i + "]: " + newTrangles[i]);
             }
             return newTrangles;
         }
@@ -231,7 +256,5 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
             Debug.Log("Method GameManager.SpawnSolid");
             return Network.Instantiate(solidprefab, position, rotation, 0);
         }
-
-        // TODO: removing object from scene
     }
 }

@@ -17,6 +17,8 @@ namespace Assets.Sources.Scripts.DrawerScreen
     {
         public Text ChatTextField;
         private List<Object> instantiatedSolids = new List<Object>();
+        public static bool IsSendingScene;
+
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape)) { Application.LoadLevel(SceneName.RoomChoiceScreen.ToString()); }
@@ -26,8 +28,17 @@ namespace Assets.Sources.Scripts.DrawerScreen
 
         public void AddSolidClick(GameObject solidToInstantiate)
         {
-            Debug.Log("AddSolidClick");
+            Debug.Log("Method DrawerGUI.AddSolidClick");
             instantiatedSolids.Add(SolidNetworkManager.SpawnSolid(solidToInstantiate, solidToInstantiate.gameObject.transform.position, solidToInstantiate.gameObject.transform.rotation));
+        }
+
+        public void UpdateClick()
+        {
+            Debug.Log("Method DrawerGUI.UpdateClick");
+            if (!IsSendingScene)
+            {
+                IsSendingScene = true;
+            }
         }
 
         public void MenuClick()
@@ -75,7 +86,5 @@ namespace Assets.Sources.Scripts.DrawerScreen
             StringBuilder builder = new StringBuilder(ChatTextField.text);
             ChatTextField.text = builder.AppendLine(message).ToString();
         }
-
-
     }
 }
