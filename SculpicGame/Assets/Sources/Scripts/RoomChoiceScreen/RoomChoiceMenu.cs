@@ -68,7 +68,8 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         private void ClearRoomPanel()
         {
             var children = new List<GameObject>();
-            foreach (Transform child in RoomButtonsPanel.transform) children.Add(child.gameObject);
+            foreach (Transform child in RoomButtonsPanel.transform) 
+                children.Add(child.gameObject);
             children.ForEach(Destroy);
         }
 
