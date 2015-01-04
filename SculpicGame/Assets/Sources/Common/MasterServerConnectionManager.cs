@@ -7,12 +7,12 @@ namespace Assets.Sources.Common
     {
         //TODO: Config file
         private const string MasterServerIp = "localhost";//"deemi.ddns.net";
-        private const int MasterServerPort = 23466;
+        private const int MasterServerPort = 8734;
 
         public const string GameTypeName = "Sculpic";
         public const int RoomPort = 25001;
         public const int ConnectionsNo = 4;
-        public static bool HasHosts { get { return HostList != null && HostList.Length > 0; }}
+        public static bool HasHosts { get { return HostList != null && HostList.Length > 0; } }
         public static bool HostsRefreshed { get; private set; }
         public static HostData[] HostList { get; private set; }
 
@@ -23,11 +23,9 @@ namespace Assets.Sources.Common
         public static void SetMasterServerLocation()
         {
             Debug.Log("Method MasterServerConnectionManager.SetMasterServerLocation");
-            //Network.natFacilitatorIP = 
-                MasterServer.ipAddress = MasterServerIp;
-            //Network.natFacilitatorPort = 8735;
+            MasterServer.ipAddress = MasterServerIp;
             MasterServer.port = MasterServerPort;
-         
+
         }
         public static void RefreshHostList()
         {
@@ -65,5 +63,5 @@ namespace Assets.Sources.Common
             MasterServer.RegisterHost(GameTypeName, gameName);
         }
     }
-     
+
 }

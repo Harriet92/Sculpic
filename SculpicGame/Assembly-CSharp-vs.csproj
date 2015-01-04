@@ -74,10 +74,12 @@
      <Compile Include="Assets\Sources\DatabaseClient\JsonFx\XmlDataReader.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\JsonFx\XmlDataWriter.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\Models\Phrase.cs" />
+     <Compile Include="Assets\Sources\DatabaseClient\Models\RoomSettings.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\Models\User.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\REST\RestCommunication.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\Security\SecureString.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\Services\PhraseService.cs" />
+     <Compile Include="Assets\Sources\DatabaseClient\Services\RoomService.cs" />
      <Compile Include="Assets\Sources\DatabaseClient\Services\UserService.cs" />
      <Compile Include="Assets\Sources\Enums\SceneName.cs" />
      <Compile Include="Assets\Sources\Scripts\Authentication\AuthenticationManager.cs" />

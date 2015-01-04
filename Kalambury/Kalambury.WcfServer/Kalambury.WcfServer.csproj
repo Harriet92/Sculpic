@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JsonFx">
+      <HintPath>..\packages\JsonFx.2.0.1209.2802\lib\net40\JsonFx.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MongoDB.Bson">
       <HintPath>..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Bson.dll</HintPath>
@@ -59,16 +62,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\RandomNumber.cs" />
+    <Compile Include="Helpers\RoomManager.cs" />
     <Compile Include="Interfaces\IPhraseRepository.cs" />
     <Compile Include="Interfaces\IPhraseService.cs" />
+    <Compile Include="Interfaces\IRoomService.cs" />
     <Compile Include="Interfaces\IUserRepository.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Models\Phrase.cs" />
+    <Compile Include="Models\RoomSettings.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\PhraseMongoRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\PhraseService.cs" />
+    <Compile Include="Services\RoomService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Validators\UsernameValidator.cs" />
   </ItemGroup>
