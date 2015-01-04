@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Assets.Sources.Scripts.GameServer.SolidManagement
 {
     [RequireComponent(typeof(NetworkView))]
+    [RequireComponent(typeof(Renderer))]
     public class SolidNetworkManager : MonoBehaviour
     {
         private const bool IsSendVertices = true;
@@ -13,6 +14,13 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
         private const bool IsSendTriangles = true;
 
         private bool _isRecieving;
+
+        void Awake()
+        {
+            Debug.Log("Method NetworkSolidManager.Awake");
+            if (!networkView.isMine)
+                renderer.enabled = false;
+        }
         
         void Update()
         {
@@ -28,6 +36,8 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
         void SynchronizeScene()
         {
             Debug.Log("Method NetworkSolidManager.SynchronizeScene");
+            if (!renderer.enabled)
+                renderer.enabled = true;
             _isRecieving = true;
         }
 
