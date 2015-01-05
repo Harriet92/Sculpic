@@ -7,7 +7,7 @@ namespace Assets.Sources.Scripts.Music
     {
         public static void SetMusicVolume(bool musicOn)
         {
-            AudioListener.volume = Preferences.MusicOn ? 1 : 0;
+            AudioListener.volume = musicOn ? 1 : 0;
         }
     }
 }
