@@ -14,7 +14,7 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
         private const bool IsSendTriangles = true;
 
         private bool _isRecieving;
-        private Object counterLock = new Object();
+
         void Awake()
         {
             Debug.Log("Method NetworkSolidManager.Awake");
@@ -27,11 +27,7 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
             if (DrawerGUI.IsSendingScene)
             {
                 Debug.Log("Method NetworkSolidManager.Update: DrawerGUI.IsSendingScene");
-                lock (counterLock)
-                {
-                    if (++DrawerGUI.counter == DrawerGUI.InstantiatedSolidsCount)
-                        DrawerGUI.IsSendingScene = false;
-                }
+                DrawerGUI.SynchronizeNextObject();
                 networkView.RPC("SynchronizeScene", RPCMode.All);
             }
         }

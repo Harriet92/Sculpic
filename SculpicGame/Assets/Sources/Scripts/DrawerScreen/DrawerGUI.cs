@@ -16,14 +16,21 @@ namespace Assets.Sources.Scripts.DrawerScreen
     public class DrawerGUI : MenuBase
     {
         public Text ChatTextField;
-        private static List<Object> instantiatedSolids = new List<Object>();
-
-        public static int InstantiatedSolidsCount
-        {
-            get { return instantiatedSolids.Count; }
-        }
+        private static readonly List<Object> InstantiatedSolids = new List<Object>();
         public static bool IsSendingScene;
-        public static int counter = 0;
+        private static int _synchronizedObjectsCounter;
+        private static readonly Object SynchronizedObjectsCounterLock = new Object();
+
+        public static void SynchronizeNextObject()
+        {
+            lock (SynchronizedObjectsCounterLock)
+            {
+                if (++_synchronizedObjectsCounter == InstantiatedSolids.Count)
+                    IsSendingScene = false;
+
+            }
+        }
+
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape)) { Application.LoadLevel(SceneName.RoomChoiceScreen.ToString()); }
@@ -34,7 +41,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
         public void AddSolidClick(GameObject solidToInstantiate)
         {
             Debug.Log("Method DrawerGUI.AddSolidClick");
-            instantiatedSolids.Add(SolidNetworkManager.SpawnSolid(solidToInstantiate, solidToInstantiate.gameObject.transform.position, solidToInstantiate.gameObject.transform.rotation));
+            InstantiatedSolids.Add(SolidNetworkManager.SpawnSolid(solidToInstantiate, solidToInstantiate.gameObject.transform.position, solidToInstantiate.gameObject.transform.rotation));
         }
 
         public void UpdateClick()
@@ -42,7 +49,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
             Debug.Log("Method DrawerGUI.UpdateClick");
             if (!IsSendingScene)
             {
-                counter = 0;
+                _synchronizedObjectsCounter = 0;
                 IsSendingScene = true;
             }
         }
@@ -70,7 +77,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
         public void ColorClick()
         {
             // TODO: change
-            foreach (var instantiatedSolid in instantiatedSolids)
+            foreach (var instantiatedSolid in InstantiatedSolids)
             {
                 var solid = instantiatedSolid as GameObject;
                 if (solid != null)
@@ -82,9 +89,9 @@ namespace Assets.Sources.Scripts.DrawerScreen
 
         public void ClearClick()
         {
-            foreach(var solid in instantiatedSolids)
+            foreach (var solid in InstantiatedSolids)
                 Network.Destroy(solid as GameObject);
-            instantiatedSolids.Clear();
+            InstantiatedSolids.Clear();
         }
 
         private void DisplayNewMessage(string message)
