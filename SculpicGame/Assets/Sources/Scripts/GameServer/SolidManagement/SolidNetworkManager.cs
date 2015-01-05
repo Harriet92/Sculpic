@@ -14,20 +14,24 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
         private const bool IsSendTriangles = true;
 
         private bool _isRecieving;
-
+        private Object counterLock = new Object();
         void Awake()
         {
             Debug.Log("Method NetworkSolidManager.Awake");
             if (!networkView.isMine)
                 renderer.enabled = false;
         }
-        
+
         void Update()
         {
             if (DrawerGUI.IsSendingScene)
             {
                 Debug.Log("Method NetworkSolidManager.Update: DrawerGUI.IsSendingScene");
-                DrawerGUI.IsSendingScene = false;
+                lock (counterLock)
+                {
+                    if (++DrawerGUI.counter == DrawerGUI.InstantiatedSolidsCount)
+                        DrawerGUI.IsSendingScene = false;
+                }
                 networkView.RPC("SynchronizeScene", RPCMode.All);
             }
         }

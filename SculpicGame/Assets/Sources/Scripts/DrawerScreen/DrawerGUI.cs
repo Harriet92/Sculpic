@@ -16,9 +16,14 @@ namespace Assets.Sources.Scripts.DrawerScreen
     public class DrawerGUI : MenuBase
     {
         public Text ChatTextField;
-        private List<Object> instantiatedSolids = new List<Object>();
-        public static bool IsSendingScene;
+        private static List<Object> instantiatedSolids = new List<Object>();
 
+        public static int InstantiatedSolidsCount
+        {
+            get { return instantiatedSolids.Count; }
+        }
+        public static bool IsSendingScene;
+        public static int counter = 0;
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape)) { Application.LoadLevel(SceneName.RoomChoiceScreen.ToString()); }
@@ -37,6 +42,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
             Debug.Log("Method DrawerGUI.UpdateClick");
             if (!IsSendingScene)
             {
+                counter = 0;
                 IsSendingScene = true;
             }
         }
