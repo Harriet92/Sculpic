@@ -8,6 +8,7 @@ namespace Assets.Sources.Common
         private const string RememberLoginDataKey = "RememberLoginData";
         private const string SavedLoginKey = "SavedLogin";
         private const string SavedPasswordKey = "SavedPassword";
+        private const string MusicOnKey = "MusicOn";
 
         public static bool RememberLogin
         {
@@ -33,6 +34,11 @@ namespace Assets.Sources.Common
                 SavedLogin = login;
                 SavedPassword = SecureString.GetBase64Hash(password);
             }
+        }
+        public static bool MusicOn
+        {
+            get { return PlayerPrefs.GetInt(MusicOnKey) > 0; }
+            set { PlayerPrefs.SetInt(MusicOnKey, value ? 1 : 0); }
         }
     }
 }

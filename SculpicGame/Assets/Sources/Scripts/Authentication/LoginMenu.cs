@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Threading;
 using Assets.Sources.Common;
-using Assets.Sources.DatabaseClient.Security;
-using Assets.Sources.DatabaseClient.Services;
-using System.Collections;
 using Assets.Sources.Enums;
+using Assets.Sources.Scripts.Music;
 using UnityEngine;
 using UnityEngine.UI;
 using Assets.Sources.Scripts.Authentication;
@@ -25,6 +22,7 @@ namespace Assets.Sources.Scripts.LoginScreen
         }
         void Awake()
         {
+            SoundManager.SetMusicVolume(Preferences.MusicOn);
             AuthenticationManager.LoginByPrefsData();
         }
         
