@@ -16,6 +16,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
     public class DrawerGUI : MenuBase
     {
         public Text ChatTextField;
+        public Text PhraseTextField;
         private static readonly List<Object> InstantiatedSolids = new List<Object>();
         public static bool IsSendingScene;
         private static int _synchronizedObjectsCounter;
@@ -27,8 +28,13 @@ namespace Assets.Sources.Scripts.DrawerScreen
             {
                 if (++_synchronizedObjectsCounter == InstantiatedSolids.Count)
                     IsSendingScene = false;
-
             }
+        }
+
+        void Start()
+        {
+            Debug.Log("Method DrawerGUI.Start: Room.CurrentPhrase == " + Room.CurrentPhrase);
+            PhraseTextField.text = Room.CurrentPhrase;
         }
 
         void Update()
