@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.Enums;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace Assets.Sources.Scripts.GameServer
     [RequireComponent(typeof(NetworkView))]
     class Room : MonoBehaviour
     {
+        public Text ChatTextField;
         // Player
         private bool _isDrawer;
 
@@ -47,16 +49,26 @@ namespace Assets.Sources.Scripts.GameServer
         public void OnWantToDrawValueChanged(Toggle callingObject)
         {
             Debug.Log("Method Room.OnWantToDrawValueChanged");
-            bool wantToDraw = callingObject.isOn;
+            var wantToDraw = callingObject.isOn;
             Debug.Log("Method RoomOwner.WantToDrawToggle: wantToDraw == " + wantToDraw);
             networkView.RPC(wantToDraw ? "SignUpForDrawing" : "SignOffFromDrawing", RPCMode.Server, Network.player);
         }
 
         public void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Escape)) { Application.LoadLevel(SceneName.RoomChoiceScreen.ToString()); }
+            if (Chat.HasMessageToDisplay)
+                DisplayNewMessage(Chat.GetMessageToDisplay());
+
             if (Network.isServer)
                 if (IsNewGame())
                     StartNewGame();
+        }
+
+        private void DisplayNewMessage(MessageToDisplay message)
+        {
+            var builder = new StringBuilder(ChatTextField.text);
+            ChatTextField.text = builder.AppendLine(message.FullMessage).ToString();
         }
 
         private bool IsNewGame()
@@ -98,12 +110,10 @@ namespace Assets.Sources.Scripts.GameServer
             Debug.Log("Method Room.SetDrawer");
             _isDrawer = true;
             StartCoroutine(ScreenHelper.LoadLevel(SceneName.DrawerScreen));
-            Room.CurrentPhrase = phrase;
+            CurrentPhrase = phrase;
         }
 
         // TODO: checking if phrase matches
-        // TODO: assigning drawer and phrase
-
 
         // TODO: player dictionary
 

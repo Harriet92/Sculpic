@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Assets.Sources.Enums;
+﻿using System.Collections.Generic;
 using Assets.Sources.Scripts.GameServer;
 using Assets.Sources.Scripts.GameServer.SolidManagement;
 using Assets.Sources.Scripts.Sculptor;
@@ -15,7 +12,6 @@ namespace Assets.Sources.Scripts.DrawerScreen
     // TODO: add leave and music buttons
     public class DrawerGUI : MenuBase
     {
-        public Text ChatTextField;
         public Text PhraseTextField;
         private static readonly List<Object> InstantiatedSolids = new List<Object>();
         public static bool IsSendingScene;
@@ -35,13 +31,6 @@ namespace Assets.Sources.Scripts.DrawerScreen
         {
             Debug.Log("Method DrawerGUI.Start: Room.CurrentPhrase == " + Room.CurrentPhrase);
             PhraseTextField.text = Room.CurrentPhrase;
-        }
-
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape)) { Application.LoadLevel(SceneName.RoomChoiceScreen.ToString()); }
-            if (!ChatterState.DisplayQueueEmpty && !String.IsNullOrEmpty(ChatterState.PendingMessageToDisplay.Peek()))
-                DisplayNewMessage(ChatterState.PendingMessageToDisplay.Dequeue());
         }
 
         public void AddSolidClick(GameObject solidToInstantiate)
@@ -98,12 +87,6 @@ namespace Assets.Sources.Scripts.DrawerScreen
             foreach (var solid in InstantiatedSolids)
                 Network.Destroy(solid as GameObject);
             InstantiatedSolids.Clear();
-        }
-
-        private void DisplayNewMessage(string message)
-        {
-            StringBuilder builder = new StringBuilder(ChatTextField.text);
-            ChatTextField.text = builder.AppendLine(message).ToString();
         }
     }
 }

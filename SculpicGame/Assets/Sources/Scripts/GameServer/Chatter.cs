@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 namespace Assets.Sources.Scripts.GameServer
 {
@@ -12,10 +7,12 @@ namespace Assets.Sources.Scripts.GameServer
     {
         void Update()
         {
-            if (!ChatterState.SendQueueEmpty && !String.IsNullOrEmpty(ChatterState.PendingMessageToSend.Peek()))
-                networkView.RPC("LogMessage", RPCMode.All, ChatterState.PendingMessageToSend.Dequeue(), Network.player);
+            if (Chat.HasMessageToSend)
+            {
+                var message = Chat.GetMessageToSend();
+                networkView.RPC("LogMessage", RPCMode.All, message.Message, message.SenderLogin, Network.player);
+            }
         }
-
 
         void OnDisconnectedFromServer(NetworkDisconnection info)
         {
@@ -27,18 +24,16 @@ namespace Assets.Sources.Scripts.GameServer
                 else
                     SystemMessage("Successfully diconnected from server.", Network.player);
         }
-        
 
-        [RPC]
         void SystemMessage(string message, NetworkPlayer player)
         {
-            ChatterState.PendingMessageToDisplay.Enqueue("System: " + message);
+            Chat.AddMessageToDisplay(message, Chat.System, player);
         }
 
         [RPC]
-        void LogMessage(string message, NetworkPlayer player)
+        void LogMessage(string message, string sender, NetworkPlayer player)
         {
-            ChatterState.PendingMessageToDisplay.Enqueue(message);
+            Chat.AddMessageToDisplay(message, sender, player);
         }
     }
 }
