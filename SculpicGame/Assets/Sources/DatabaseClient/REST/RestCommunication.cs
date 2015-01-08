@@ -4,11 +4,12 @@ using Assets.Sources.DatabaseClient.Services;
 using UnityEngine;
 
 namespace Assets.Sources.DatabaseClient.REST
-{//TODO: Add logging
+{
+    //TODO: Add logging
     public class RestCommunication
     {
-        public const string BaseURL = isLocalhost ? "http://localhost:8733" : "http://deemi.ddns.net:8733";
-        private const bool isLocalhost = true;
+        public const string BaseURL = isLocalhost ? "http://localhost:8733" : "http://sculpicserver.cloudapp.net:8733";
+        private const bool isLocalhost = false;
         private const int retryOnErrorCount = 5;
         private const int timeoutCount = 10;
         private const int sleepTimeout = 100;

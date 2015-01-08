@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Sources.Common;
 using UnityEngine;
 
 namespace Assets.Sources.Scripts.GameServer
 {
     public static class Chat
     {
-        public static string System = "System";
+        public const string System = "System";
 
         private static readonly Queue<MessageToDisplay> PendingMessageToDisplay = new Queue<MessageToDisplay>();
         private static readonly Queue<MessageToSend> PendingMessageToSend = new Queue<MessageToSend>();
@@ -56,17 +55,18 @@ namespace Assets.Sources.Scripts.GameServer
 
     public class MessageToDisplay
     {
+        private const string GameWon = Chat.System + "{0} has guessed! The phrase was {1}";
         public NetworkPlayer SenderNetworkPlayer { get; set; }
         public string SenderLogin { get; set; }
         public string Message { get; set; }
 
         public string FullMessage { get { return (SenderLogin + ": " + Message).Replace(Environment.NewLine, ""); } }
+        public string WinningMessage { get { return (String.Format(GameWon, SenderLogin, Message)).Replace(Environment.NewLine, ""); } }
     }
 
     public class MessageToSend
     {
         public string SenderLogin { get; set; }
         public string Message { get; set; }
-        public string FullMessage { get { return (SenderLogin + ": " + Message).Replace(Environment.NewLine, ""); } }
     }
 }

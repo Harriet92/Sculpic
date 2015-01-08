@@ -7,7 +7,7 @@ namespace Assets.Sources.Common
     {
         //TODO: Config file
         private const string MasterServerIp = "localhost";//"deemi.ddns.net";
-        private const int MasterServerPort = 8734;
+        private const int MasterServerPort = 23466;
 
         public const string GameTypeName = "Sculpic";
         public const int RoomPort = 25001;

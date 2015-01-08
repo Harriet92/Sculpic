@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.Enums;
@@ -8,8 +9,9 @@ using UnityEngine.UI;
 namespace Assets.Sources.Scripts.GameServer
 {
     [RequireComponent(typeof(NetworkView))]
-    class Room : MonoBehaviour
+    class Room : MenuBase
     {
+        private const int WinnerPrize = 5;
         public Text ChatTextField;
         // Player
         private bool _isDrawer;
@@ -58,17 +60,55 @@ namespace Assets.Sources.Scripts.GameServer
         {
             if (Input.GetKeyDown(KeyCode.Escape)) { Application.LoadLevel(SceneName.RoomChoiceScreen.ToString()); }
             if (Chat.HasMessageToDisplay)
-                DisplayNewMessage(Chat.GetMessageToDisplay());
+                DisplayAndCheckMessage(Chat.GetMessageToDisplay());
 
             if (Network.isServer)
                 if (IsNewGame())
                     StartNewGame();
         }
 
-        private void DisplayNewMessage(MessageToDisplay message)
+        private void DisplayAndCheckMessage(MessageToDisplay message)
+        {
+            //DisplayMessage(message.FullMessage);
+            if (Network.isServer)
+                CheckPhrase(message);
+        }
+
+        private void DisplayMessage(string message)
         {
             var builder = new StringBuilder(ChatTextField.text);
-            ChatTextField.text = builder.AppendLine(message.FullMessage).ToString();
+            ChatTextField.text = builder.AppendLine(message).ToString();
+        }
+
+        private void CheckPhrase(MessageToDisplay message)
+        {
+            if (String.Equals(message.Message, CurrentPhrase, StringComparison.CurrentCultureIgnoreCase))
+            {
+                //DisplayMessage(message.WinningMessage);
+                CountAndSendScore(message.SenderNetworkPlayer);
+            }
+        }
+
+        private void CountAndSendScore(NetworkPlayer winner)
+        {
+            Debug.Log("Method Room.CountAndSendScore");
+            var points = WinnerPrize;
+            networkView.RPC("SetWinner", RPCMode.All, winner, points);
+            _drawingStarted = false;
+        }
+
+        [RPC]
+        public void SetWinner(NetworkPlayer winner, int points)
+        {
+            // TODO: add points to the winner in player dictionary
+            Debug.Log("Method Room.SetWinner");
+            if (Network.player == winner)
+            {
+                Debug.Log("WINNER!");
+                DisplayInfoPopup("You've got " + points + " points!");
+            }
+            else if (Application.loadedLevelName != SceneName.GuesserScreen.ToString())
+                StartCoroutine(ScreenHelper.LoadLevel(SceneName.GuesserScreen));
         }
 
         private bool IsNewGame()
@@ -112,8 +152,6 @@ namespace Assets.Sources.Scripts.GameServer
             StartCoroutine(ScreenHelper.LoadLevel(SceneName.DrawerScreen));
             CurrentPhrase = phrase;
         }
-
-        // TODO: checking if phrase matches
 
         // TODO: player dictionary
 
