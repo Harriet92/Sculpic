@@ -11,7 +11,6 @@ namespace Assets.Sources.Scripts.GuesserScreen
         private PlayerData playerData;
         void Update()
         {
-            UsernameText.text = playerData.Login;
             ScoreText.text = playerData.Score.ToString();
         }
 

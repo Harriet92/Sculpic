@@ -29,7 +29,7 @@ namespace Assets.Sources.Scripts.GuesserScreen
             Chat.AddMessageToSend(message, Player.Current == null ? "Stranger" : Player.Current.Username);
         }
 
-        public void UpdatePlayersList()
+        private void UpdatePlayersList()
         {
             Room.Players.Sort((x,y) => -(x.Score - y.Score));
             ClearPlayersScorePanel();
