@@ -9,6 +9,7 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
     {
         void Awake()
         {
+            Debug.Log("Method RoomChoiceManager.Awake");
             DontDestroyOnLoad(this);
         }
 

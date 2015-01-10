@@ -5,6 +5,7 @@ using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.Enums;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Assets.Sources.Scripts.GameServer
 {
@@ -18,34 +19,8 @@ namespace Assets.Sources.Scripts.GameServer
         public static Toggle WantToDrawToggle;
         private static bool _wantToDraw;
         private bool _isDrawer;
-        public readonly static List<PlayerData> Players = new List<PlayerData>
-        {
-            new PlayerData
-            {
-                Login = "Susel",
-                Points = 100
-            },
-            new PlayerData
-            {
-                Login = "Chomik",
-                Points = 5
-            },
-            new PlayerData
-            {
-                Login = "Emi",
-                Points = 500000
-            },
-            new PlayerData
-            {
-                Login = "Dee",
-                Points = -2
-            },
-            new PlayerData
-            {
-                Login = "Tomcio",
-                Points = 50
-            }
-        }; 
+        public readonly static List<PlayerData> Players = new List<PlayerData>();
+        private bool _isRegistered;
 
         // RoomOwner
         private const int WinnerPoints = 5;
@@ -57,6 +32,7 @@ namespace Assets.Sources.Scripts.GameServer
 
         private void Awake()
         {
+            Debug.Log("Method Room.Awake");
             DontDestroyOnLoad(this);
         }
 
@@ -114,6 +90,27 @@ namespace Assets.Sources.Scripts.GameServer
             if (Network.isServer)
                 if (IsNewGame())
                     StartNewGame();
+
+            if (Network.isClient)
+                if (!_isRegistered)
+                    RegisterInGame();
+        }
+
+        private void RegisterInGame()
+        {
+            Debug.Log("Method Room.RegisterInGame");
+            networkView.RPC("RegisterPlayer", RPCMode.All, null, null); // TODO: change random to Player.Current.Username
+            _isRegistered = true;
+        }
+
+        // Player
+        [RPC]
+        public void RegisterPlayer(NetworkPlayer player, string login)
+        {
+            Debug.Log("Method Room.RegisterPlayer: adding " + login);
+            Players.Add(new PlayerData { Login = login, NetworkPlayer = player });
+            Debug.Log("Players.Count == " + Players.Count);
+            // TODO: if client answer register
         }
 
         private void DisplayAndCheckMessage(MessageToDisplay message)
