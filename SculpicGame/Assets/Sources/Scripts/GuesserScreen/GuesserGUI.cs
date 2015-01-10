@@ -10,10 +10,11 @@ namespace Assets.Sources.Scripts.GuesserScreen
     {
         public Text ChatTextField;
         public InputField ChatInputField;
+        public Toggle WantToDrawToggle;
 
         void Start()
         {
-            Room.ChatTextField = ChatTextField;
+            Room.KeepState(ChatTextField, WantToDrawToggle);
         }
         
         public void OnTextFieldEditEnd(string message)

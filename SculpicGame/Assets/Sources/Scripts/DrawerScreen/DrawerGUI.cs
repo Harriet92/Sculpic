@@ -32,7 +32,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
         {
             Debug.Log("Method DrawerGUI.Start: Room.CurrentPhrase == " + Room.CurrentPhrase);
             PhraseTextField.text = Room.CurrentPhrase;
-            Room.ChatTextField = ChatTextField;
+            Room.KeepState(ChatTextField);
         }
 
         public void AddSolidClick(GameObject solidToInstantiate)

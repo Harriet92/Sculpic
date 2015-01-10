@@ -11,22 +11,36 @@ namespace Assets.Sources.Scripts.GameServer
     [RequireComponent(typeof(NetworkView))]
     class Room : MenuBase
     {
-        private const int WinnerPrize = 5;
-        public static Text ChatTextField;
+
         // Player
+        public static Text ChatTextField;
+        public static Toggle WantToDrawToggle;
+        private static bool _wantToDraw;
         private bool _isDrawer;
+
+        // RoomOwner
+        private const int WinnerPrize = 5;
+        private readonly List<NetworkPlayer> _drawers = new List<NetworkPlayer>();
+
+        private bool _drawingStarted;
+        public static string CurrentPhrase;
+        private NetworkPlayer _currentDrawer;
 
         private void Awake()
         {
             DontDestroyOnLoad(this);
         }
 
-        // RoomOwner
-        private readonly List<NetworkPlayer> _drawers = new List<NetworkPlayer>();
-
-        private bool _drawingStarted;
-        public static string CurrentPhrase;
-        private NetworkPlayer _currentDrawer;
+        // Player
+        public static void KeepState(Text chatTextField, Toggle wantToDrawToggle = null)
+        {
+            ChatTextField = chatTextField;
+            if (wantToDrawToggle != null)
+            {
+                WantToDrawToggle = wantToDrawToggle;
+                wantToDrawToggle.isOn = _wantToDraw;
+            }
+        }
 
         // RoomOwner
         [RPC]
@@ -51,9 +65,9 @@ namespace Assets.Sources.Scripts.GameServer
         public void OnWantToDrawValueChanged(Toggle callingObject)
         {
             Debug.Log("Method Room.OnWantToDrawValueChanged");
-            var wantToDraw = callingObject.isOn;
-            Debug.Log("Method RoomOwner.WantToDrawToggle: wantToDraw == " + wantToDraw);
-            networkView.RPC(wantToDraw ? "SignUpForDrawing" : "SignOffFromDrawing", RPCMode.Server, Network.player);
+            _wantToDraw = callingObject.isOn;
+            Debug.Log("Method RoomOwner.WantToDrawToggle: wantToDraw == " + _wantToDraw);
+            networkView.RPC(_wantToDraw ? "SignUpForDrawing" : "SignOffFromDrawing", RPCMode.Server, Network.player);
         }
 
         public void Update()
@@ -113,7 +127,10 @@ namespace Assets.Sources.Scripts.GameServer
                 DisplayInfoPopup("You've got " + points + " points!");
             }
             else if (Application.loadedLevelName != SceneName.GuesserScreen.ToString())
+            {
+                _isDrawer = false;
                 StartCoroutine(ScreenHelper.LoadLevel(SceneName.GuesserScreen));
+            }
         }
 
         private bool IsNewGame()
@@ -161,9 +178,6 @@ namespace Assets.Sources.Scripts.GameServer
         // TODO: player dictionary
 
         // TODO: recieving data (winner, points, next drawer)
-        // TODO: adding points to winner
-        // TODO: load screen (drawer/guesser)
-
-        // TODO: add self to drawing queue
+        // TODO: adding points to winnerl
     }
 }
