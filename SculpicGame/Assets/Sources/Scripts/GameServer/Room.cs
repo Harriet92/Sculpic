@@ -126,14 +126,15 @@ namespace Assets.Sources.Scripts.GameServer
         private void RegisterInGame()
         {
             Debug.Log("Method Room.RegisterInGame");
-            networkView.RPC("RegisterPlayer", RPCMode.All, null, null); // TODO: change random to Player.Current.Username
-            _isRegistered = true;
+            networkView.RPC("RegisterPlayer", RPCMode.All, Network.player, "TEST_LOGIN"); // TODO: change random to Player.Current.Username
         }
 
         // Player
         [RPC]
         public void RegisterPlayer(NetworkPlayer player, string login)
         {
+            if (player == Network.player) 
+                _isRegistered = true;
             Debug.Log("Method Room.RegisterPlayer: adding " + login);
             Players.Add(new PlayerData { Login = login, NetworkPlayer = player });
             Debug.Log("Players.Count == " + Players.Count);
