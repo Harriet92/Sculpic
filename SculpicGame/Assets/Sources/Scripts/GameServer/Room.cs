@@ -14,6 +14,7 @@ namespace Assets.Sources.Scripts.GameServer
 
         // Player
         public static Text ChatTextField;
+        private readonly static StringBuilder ChatHistory = new StringBuilder();
         public static Toggle WantToDrawToggle;
         private static bool _wantToDraw;
         private bool _isDrawer;
@@ -40,6 +41,12 @@ namespace Assets.Sources.Scripts.GameServer
                 WantToDrawToggle = wantToDrawToggle;
                 wantToDrawToggle.isOn = _wantToDraw;
             }
+            RefreshChat();
+        }
+
+        private static void RefreshChat()
+        {
+            ChatTextField.text = ChatHistory.ToString();
         }
 
         // RoomOwner
@@ -95,8 +102,8 @@ namespace Assets.Sources.Scripts.GameServer
                 Debug.Log("Room.ChatTextField is null.");
                 return;
             }
-            var builder = new StringBuilder(ChatTextField.text);
-            ChatTextField.text = builder.AppendLine(message).ToString();
+            ChatHistory.AppendLine(message);
+            RefreshChat();
         }
 
         private void CheckPhrase(MessageToDisplay message)
