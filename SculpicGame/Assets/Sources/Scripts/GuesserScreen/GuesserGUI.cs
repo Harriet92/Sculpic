@@ -31,7 +31,7 @@ namespace Assets.Sources.Scripts.GuesserScreen
 
         public void UpdatePlayersList()
         {
-            Room.Players.Sort((x,y) => x.Points - y.Points);
+            Room.Players.Sort((x,y) => -(x.Score - y.Score));
             ClearPlayersScorePanel();
             foreach (var playerData in Room.Players)
                 AddRoomButton(playerData);

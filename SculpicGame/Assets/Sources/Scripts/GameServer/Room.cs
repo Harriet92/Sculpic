@@ -19,7 +19,34 @@ namespace Assets.Sources.Scripts.GameServer
         public static Toggle WantToDrawToggle;
         private static bool _wantToDraw;
         private bool _isDrawer;
-        public readonly static List<PlayerData> Players = new List<PlayerData>();
+        public readonly static List<PlayerData> Players = new List<PlayerData>
+        {
+            new PlayerData
+            {
+                Login = "Susel",
+                Score = 100
+            },
+            new PlayerData
+            {
+                Login = "Chomik",
+                Score = 5
+            },
+            new PlayerData
+            {
+                Login = "Emi",
+                Score = 500000
+            },
+            new PlayerData
+            {
+                Login = "Dee",
+                Score = -2
+            },
+            new PlayerData
+            {
+                Login = "Tomcio",
+                Score = 50
+            }
+        };
         private bool _isRegistered;
 
         // RoomOwner

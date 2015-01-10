@@ -10,6 +10,6 @@ namespace Assets.Sources.Scripts.GameServer
     {
         public NetworkPlayer NetworkPlayer { get; set; }
         public string Login { get; set; }
-        public int Points { get; set; }
+        public int Score { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace Assets.Sources.Scripts.GuesserScreen
         void Update()
         {
             UsernameText.text = playerData.Login;
-            ScoreText.text = playerData.Points.ToString();
+            ScoreText.text = playerData.Score.ToString();
         }
 
         public void SetPlayerData(PlayerData _playerData, GameObject parentPanel)
