@@ -110,7 +110,7 @@ namespace Assets.Sources.Scripts.GameServer
         {
             if (String.Equals(message.Message, CurrentPhrase, StringComparison.CurrentCultureIgnoreCase))
             {
-                DisplayMessage(message.WinningMessage);
+                Chat.AddMessageToSend(message.WinningMessage, Chat.System);
                 CountAndSendScore(message.SenderNetworkPlayer);
             }
         }
