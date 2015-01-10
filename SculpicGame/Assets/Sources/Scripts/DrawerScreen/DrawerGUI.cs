@@ -12,12 +12,13 @@ namespace Assets.Sources.Scripts.DrawerScreen
     // TODO: add leave and music buttons
     public class DrawerGUI : MenuBase
     {
+        public Text ChatTextField;
         public Text PhraseTextField;
         private static readonly List<Object> InstantiatedSolids = new List<Object>();
         public static bool IsSendingScene;
         private static int _synchronizedObjectsCounter;
         private static readonly Object SynchronizedObjectsCounterLock = new Object();
-
+        
         public static void SynchronizeNextObject()
         {
             lock (SynchronizedObjectsCounterLock)
@@ -31,6 +32,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
         {
             Debug.Log("Method DrawerGUI.Start: Room.CurrentPhrase == " + Room.CurrentPhrase);
             PhraseTextField.text = Room.CurrentPhrase;
+            Room.ChatTextField = ChatTextField;
         }
 
         public void AddSolidClick(GameObject solidToInstantiate)

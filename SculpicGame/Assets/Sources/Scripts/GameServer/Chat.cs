@@ -55,7 +55,7 @@ namespace Assets.Sources.Scripts.GameServer
 
     public class MessageToDisplay
     {
-        private const string GameWon = Chat.System + "{0} has guessed! The phrase was {1}";
+        private const string GameWon = Chat.System + ": {0} has guessed! The phrase was {1}";
         public NetworkPlayer SenderNetworkPlayer { get; set; }
         public string SenderLogin { get; set; }
         public string Message { get; set; }

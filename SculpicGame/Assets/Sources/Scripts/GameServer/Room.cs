@@ -12,7 +12,7 @@ namespace Assets.Sources.Scripts.GameServer
     class Room : MenuBase
     {
         private const int WinnerPrize = 5;
-        public Text ChatTextField;
+        public static Text ChatTextField;
         // Player
         private bool _isDrawer;
 
@@ -69,13 +69,18 @@ namespace Assets.Sources.Scripts.GameServer
 
         private void DisplayAndCheckMessage(MessageToDisplay message)
         {
-            //DisplayMessage(message.FullMessage);
+            DisplayMessage(message.FullMessage);
             if (Network.isServer)
                 CheckPhrase(message);
         }
 
         private void DisplayMessage(string message)
         {
+            if (ChatTextField == null)
+            {
+                Debug.Log("Room.ChatTextField is null.");
+                return;
+            }
             var builder = new StringBuilder(ChatTextField.text);
             ChatTextField.text = builder.AppendLine(message).ToString();
         }
@@ -84,7 +89,7 @@ namespace Assets.Sources.Scripts.GameServer
         {
             if (String.Equals(message.Message, CurrentPhrase, StringComparison.CurrentCultureIgnoreCase))
             {
-                //DisplayMessage(message.WinningMessage);
+                DisplayMessage(message.WinningMessage);
                 CountAndSendScore(message.SenderNetworkPlayer);
             }
         }
