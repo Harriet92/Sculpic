@@ -18,9 +18,10 @@ namespace Assets.Sources.Scripts.GameServer
         public static Toggle WantToDrawToggle;
         private static bool _wantToDraw;
         private bool _isDrawer;
+        public readonly static List<PlayerData> Players = new List<PlayerData>(); 
 
         // RoomOwner
-        private const int WinnerPrize = 5;
+        private const int WinnerPoints = 5;
         private readonly List<NetworkPlayer> _drawers = new List<NetworkPlayer>();
 
         private bool _drawingStarted;
@@ -118,7 +119,7 @@ namespace Assets.Sources.Scripts.GameServer
         private void CountAndSendScore(NetworkPlayer winner)
         {
             Debug.Log("Method Room.CountAndSendScore");
-            var points = WinnerPrize;
+            var points = WinnerPoints;
             networkView.RPC("SetWinner", RPCMode.All, winner, points);
             _drawingStarted = false;
         }
@@ -130,7 +131,6 @@ namespace Assets.Sources.Scripts.GameServer
             Debug.Log("Method Room.SetWinner");
             if (Network.player == winner)
             {
-                Debug.Log("WINNER!");
                 DisplayInfoPopup("You've got " + points + " points!");
             }
             else if (Application.loadedLevelName != SceneName.GuesserScreen.ToString())
