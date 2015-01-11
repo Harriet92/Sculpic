@@ -27,6 +27,11 @@ namespace Assets.Sources.Common
             MasterServer.port = MasterServerPort;
 
         }
+
+        public static HostData GetHostDataByGameName(string gameName)
+        {
+            return MasterServerConnectionManager.HostList.FirstOrDefault(x => x.gameName == gameName);
+        }
         public static void RefreshHostList()
         {
             Debug.Log("Method MasterServerConnectionManager.RefreshHostList set FALSE");
