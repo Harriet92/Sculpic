@@ -5,7 +5,6 @@ using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.Enums;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 namespace Assets.Sources.Scripts.GameServer
 {
@@ -20,7 +19,7 @@ namespace Assets.Sources.Scripts.GameServer
         private static bool _wantToDraw;
         private bool _isDrawer;
         public readonly static ActivePlayers ConnectedPlayers = new ActivePlayers();
-        private bool _isRegistered;
+        private static bool _isRegistered;
 
         // RoomOwner
         private const int WinnerPoints = 5;
@@ -111,7 +110,6 @@ namespace Assets.Sources.Scripts.GameServer
             Debug.Log("Method Room.RegisterPlayer: adding " + login);
             ConnectedPlayers.Add(new PlayerData { Login = login, NetworkPlayer = player });
             Debug.Log("Players.Count == " + ConnectedPlayers.Count);
-            // TODO: if client answer register
         }
 
         private void DisplayAndCheckMessage(MessageToDisplay message)
@@ -152,7 +150,7 @@ namespace Assets.Sources.Scripts.GameServer
         [RPC]
         public void SetWinner(NetworkPlayer winner, int points)
         {
-            // TODO: add points to the winner in player dictionary
+            ConnectedPlayers.AddPoints(winner, points);
             Debug.Log("Method Room.SetWinner");
             if (Network.player == winner)
             {
@@ -206,10 +204,5 @@ namespace Assets.Sources.Scripts.GameServer
             StartCoroutine(ScreenHelper.LoadLevel(SceneName.DrawerScreen));
             CurrentPhrase = phrase;
         }
-
-        // TODO: player dictionary
-
-        // TODO: recieving data (winner, points, next drawer)
-        // TODO: adding points to winnerl
     }
 }

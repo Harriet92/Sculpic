@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets.Sources.Scripts.GameServer
 {
@@ -20,6 +21,16 @@ namespace Assets.Sources.Scripts.GameServer
         {
             _players.Sort((x, y) => -(x.Score - y.Score));
             return _players.ToList();
+        }
+
+        public void AddPoints(NetworkPlayer player, int points)
+        {
+            var data = _players.FirstOrDefault(pd => pd.NetworkPlayer == player);
+            if (data != null)
+            {
+                data.Score += points;
+                HasChanged = true;
+            }
         }
     }
 }
