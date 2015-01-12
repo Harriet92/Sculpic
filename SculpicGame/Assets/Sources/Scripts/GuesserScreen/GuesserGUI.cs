@@ -21,6 +21,15 @@ namespace Assets.Sources.Scripts.GuesserScreen
             Room.KeepState(ChatTextField, WantToDrawToggle);
             UpdatePlayersList();
         }
+
+        void Update()
+        {
+            if (Room.ConnectedPlayers.HasChanged)
+            {
+                Room.ConnectedPlayers.HasChanged = false;
+                UpdatePlayersList();
+            }
+        }
         
         public void OnTextFieldEditEnd(string message)
         {
@@ -31,12 +40,12 @@ namespace Assets.Sources.Scripts.GuesserScreen
 
         private void UpdatePlayersList()
         {
-            Room.Players.Sort((x,y) => -(x.Score - y.Score));
             ClearPlayersScorePanel();
-            foreach (var playerData in Room.Players)
+            foreach (var playerData in Room.ConnectedPlayers.Sorted())
                 AddRoomButton(playerData);
             
         }
+
         private void ClearPlayersScorePanel()
         {
             var children = new List<GameObject>();

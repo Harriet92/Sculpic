@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Sources.Common
@@ -30,7 +31,7 @@ namespace Assets.Sources.Common
 
         public static HostData GetHostDataByGameName(string gameName)
         {
-            return MasterServerConnectionManager.HostList.FirstOrDefault(x => x.gameName == gameName);
+            return HostList.FirstOrDefault(x => x.gameName == gameName);
         }
         public static void RefreshHostList()
         {

@@ -19,34 +19,7 @@ namespace Assets.Sources.Scripts.GameServer
         public static Toggle WantToDrawToggle;
         private static bool _wantToDraw;
         private bool _isDrawer;
-        public readonly static List<PlayerData> Players = new List<PlayerData>
-        {
-            new PlayerData
-            {
-                Login = "Susel",
-                Score = 100
-            },
-            new PlayerData
-            {
-                Login = "Chomik",
-                Score = 5
-            },
-            new PlayerData
-            {
-                Login = "Emi",
-                Score = 500000
-            },
-            new PlayerData
-            {
-                Login = "Dee",
-                Score = -2
-            },
-            new PlayerData
-            {
-                Login = "Tomcio",
-                Score = 50
-            }
-        };
+        public readonly static ActivePlayers ConnectedPlayers = new ActivePlayers();
         private bool _isRegistered;
 
         // RoomOwner
@@ -126,7 +99,7 @@ namespace Assets.Sources.Scripts.GameServer
         private void RegisterInGame()
         {
             Debug.Log("Method Room.RegisterInGame");
-            networkView.RPC("RegisterPlayer", RPCMode.All, Network.player, "TEST_LOGIN"); // TODO: change random to Player.Current.Username
+            networkView.RPC("RegisterPlayer", RPCMode.AllBuffered, Network.player, "TEST_LOGIN"); // TODO: change random to Player.Current.Username
         }
 
         // Player
@@ -136,8 +109,8 @@ namespace Assets.Sources.Scripts.GameServer
             if (player == Network.player) 
                 _isRegistered = true;
             Debug.Log("Method Room.RegisterPlayer: adding " + login);
-            Players.Add(new PlayerData { Login = login, NetworkPlayer = player });
-            Debug.Log("Players.Count == " + Players.Count);
+            ConnectedPlayers.Add(new PlayerData { Login = login, NetworkPlayer = player });
+            Debug.Log("Players.Count == " + ConnectedPlayers.Count);
             // TODO: if client answer register
         }
 
