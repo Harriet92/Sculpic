@@ -18,15 +18,15 @@ namespace Assets.Sources.Scripts.GuesserScreen
 
         void Start()
         {
-            Room.KeepState(ChatTextField, WantToDrawToggle);
+            Room.ClientSide.KeepState(ChatTextField, WantToDrawToggle);
             UpdatePlayersList();
         }
 
         void Update()
         {
-            if (Room.ConnectedPlayers.HasChanged)
+            if (Room.ClientSide.ConnectedPlayers.HasChanged)
             {
-                Room.ConnectedPlayers.HasChanged = false;
+                Room.ClientSide.ConnectedPlayers.HasChanged = false;
                 UpdatePlayersList();
             }
         }
@@ -41,7 +41,7 @@ namespace Assets.Sources.Scripts.GuesserScreen
         private void UpdatePlayersList()
         {
             ClearPlayersScorePanel();
-            foreach (var playerData in Room.ConnectedPlayers.Sorted())
+            foreach (var playerData in Room.ClientSide.ConnectedPlayers.Sorted())
                 AddRoomButton(playerData);
             
         }

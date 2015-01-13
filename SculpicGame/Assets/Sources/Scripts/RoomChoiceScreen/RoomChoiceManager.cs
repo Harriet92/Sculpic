@@ -11,6 +11,7 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         {
             Debug.Log("Method RoomChoiceManager.Awake");
             DontDestroyOnLoad(this);
+            Room.Clear();
         }
 
         private void OnServerInitialized()

@@ -91,6 +91,7 @@
      <Compile Include="Assets\Sources\Scripts\GameServer\ActivePlayers.cs" />
      <Compile Include="Assets\Sources\Scripts\GameServer\Chat.cs" />
      <Compile Include="Assets\Sources\Scripts\GameServer\Chatter.cs" />
+     <Compile Include="Assets\Sources\Scripts\GameServer\ClientSide.cs" />
      <Compile Include="Assets\Sources\Scripts\GameServer\PlayerData.cs" />
      <Compile Include="Assets\Sources\Scripts\GameServer\Room.cs" />
      <Compile Include="Assets\Sources\Scripts\GameServer\ScreenHelper.cs" />

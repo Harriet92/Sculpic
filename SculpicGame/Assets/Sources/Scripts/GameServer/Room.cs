@@ -1,25 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.Enums;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Assets.Sources.Scripts.GameServer
 {
     [RequireComponent(typeof(NetworkView))]
     class Room : MenuBase
     {
-
         // Player
-        public static Text ChatTextField;
-        private readonly static StringBuilder ChatHistory = new StringBuilder();
-        public static Toggle WantToDrawToggle;
-        private static bool _wantToDraw;
-        private bool _isDrawer;
-        public readonly static ActivePlayers ConnectedPlayers = new ActivePlayers();
-        private static bool _isRegistered;
+        public static ClientSide ClientSide = new ClientSide();
 
         // RoomOwner
         private const int WinnerPoints = 5;
@@ -33,23 +26,6 @@ namespace Assets.Sources.Scripts.GameServer
         {
             Debug.Log("Method Room.Awake");
             DontDestroyOnLoad(this);
-        }
-
-        // Player
-        public static void KeepState(Text chatTextField, Toggle wantToDrawToggle = null)
-        {
-            ChatTextField = chatTextField;
-            if (wantToDrawToggle != null)
-            {
-                WantToDrawToggle = wantToDrawToggle;
-                wantToDrawToggle.isOn = _wantToDraw;
-            }
-            RefreshChat();
-        }
-
-        private static void RefreshChat()
-        {
-            ChatTextField.text = ChatHistory.ToString();
         }
 
         // RoomOwner
@@ -75,14 +51,14 @@ namespace Assets.Sources.Scripts.GameServer
         public void OnWantToDrawValueChanged(Toggle callingObject)
         {
             Debug.Log("Method Room.OnWantToDrawValueChanged");
-            _wantToDraw = callingObject.isOn;
-            Debug.Log("Method RoomOwner.WantToDrawToggle: wantToDraw == " + _wantToDraw);
-            networkView.RPC(_wantToDraw ? "SignUpForDrawing" : "SignOffFromDrawing", RPCMode.Server, Network.player);
+            ClientSide.WantToDraw = callingObject.isOn;
+            Debug.Log("Method RoomOwner.WantToDrawToggle: wantToDraw == " + ClientSide.WantToDraw);
+            networkView.RPC(ClientSide.WantToDraw ? "SignUpForDrawing" : "SignOffFromDrawing", RPCMode.Server, Network.player);
         }
 
         public void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape)) { Application.LoadLevel(SceneName.RoomChoiceScreen.ToString()); }
+            if (Input.GetKeyDown(KeyCode.Escape)) { LeaveRoom(); }
             if (Chat.HasMessageToDisplay)
                 DisplayAndCheckMessage(Chat.GetMessageToDisplay());
 
@@ -91,43 +67,64 @@ namespace Assets.Sources.Scripts.GameServer
                     StartNewGame();
 
             if (Network.isClient)
-                if (!_isRegistered)
+                if (!ClientSide.IsRegistered)
                     RegisterInGame();
         }
 
-        private void RegisterInGame()
+        private void LeaveRoom()
         {
-            Debug.Log("Method Room.RegisterInGame");
-            networkView.RPC("RegisterPlayer", RPCMode.AllBuffered, Network.player, "TEST_LOGIN"); // TODO: change random to Player.Current.Username
+            if (Network.isClient)
+                UnregisterInGame();
+            Application.LoadLevel(SceneName.RoomChoiceScreen.ToString());
+        }
+
+        void OnApplicationQuit()
+        {
+            Clear();
+        }
+
+        public static void Clear()
+        {
+            ClientSide = new ClientSide();
         }
 
         // Player
+        private void RegisterInGame()
+        {
+            Debug.Log("Method Room.RegisterInGame");
+            networkView.RPC("RegisterPlayer", RPCMode.AllBuffered, Network.player, Random.Range(0, 10).ToString()); // TODO: change random to Player.Current.Username
+        }
+
         [RPC]
         public void RegisterPlayer(NetworkPlayer player, string login)
         {
-            if (player == Network.player) 
-                _isRegistered = true;
+            if (player == Network.player)
+                ClientSide.IsRegistered = true;
             Debug.Log("Method Room.RegisterPlayer: adding " + login);
-            ConnectedPlayers.Add(new PlayerData { Login = login, NetworkPlayer = player });
-            Debug.Log("Players.Count == " + ConnectedPlayers.Count);
+            ClientSide.ConnectedPlayers.Add(new PlayerData { Login = login, NetworkPlayer = player });
+            Debug.Log("Players.Count == " + ClientSide.ConnectedPlayers.Count);
+        }
+
+        // Player
+        private void UnregisterInGame()
+        {
+            Debug.Log("Method Room.UnregisterInGame");
+            networkView.RPC("UnregisterPlayer", RPCMode.AllBuffered, Network.player);
+        }
+
+        [RPC]
+        public void UnregisterPlayer(NetworkPlayer player)
+        {
+            Debug.Log("Method Room.UnregisterPlayer");
+            ClientSide.ConnectedPlayers.Remove(player);
+            Debug.Log("Players.Count == " + ClientSide.ConnectedPlayers.Count);
         }
 
         private void DisplayAndCheckMessage(MessageToDisplay message)
         {
-            DisplayMessage(message.FullMessage);
+            ClientSide.DisplayMessage(message.FullMessage);
             if (Network.isServer)
                 CheckPhrase(message);
-        }
-
-        private void DisplayMessage(string message)
-        {
-            if (ChatTextField == null)
-            {
-                Debug.Log("Room.ChatTextField is null.");
-                return;
-            }
-            ChatHistory.AppendLine(message);
-            RefreshChat();
         }
 
         private void CheckPhrase(MessageToDisplay message)
@@ -150,7 +147,7 @@ namespace Assets.Sources.Scripts.GameServer
         [RPC]
         public void SetWinner(NetworkPlayer winner, int points)
         {
-            ConnectedPlayers.AddPoints(winner, points);
+            ClientSide.ConnectedPlayers.AddPoints(winner, points);
             Debug.Log("Method Room.SetWinner");
             if (Network.player == winner)
             {
@@ -158,7 +155,7 @@ namespace Assets.Sources.Scripts.GameServer
             }
             else if (Application.loadedLevelName != SceneName.GuesserScreen.ToString())
             {
-                _isDrawer = false;
+                ClientSide.IsDrawer = false;
                 StartCoroutine(ScreenHelper.LoadLevel(SceneName.GuesserScreen));
             }
         }
@@ -200,7 +197,7 @@ namespace Assets.Sources.Scripts.GameServer
         public void SetDrawer(string phrase)
         {
             Debug.Log("Method Room.SetDrawer");
-            _isDrawer = true;
+            ClientSide.IsDrawer = true;
             StartCoroutine(ScreenHelper.LoadLevel(SceneName.DrawerScreen));
             CurrentPhrase = phrase;
         }

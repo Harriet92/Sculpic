@@ -7,7 +7,7 @@ namespace Assets.Sources.Common
     public class MasterServerConnectionManager : MonoBehaviour
     {
         //TODO: Config file
-        private const string MasterServerIp = "localhost";//"sculpicserver.cloudapp.net";
+        private const string MasterServerIp = "sculpicserver.cloudapp.net";
         private const int MasterServerPort = 23466;
 
         public const string GameTypeName = "Sculpic";

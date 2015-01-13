@@ -9,12 +9,27 @@ namespace Assets.Sources.Scripts.GameServer
         private readonly List<PlayerData> _players = new List<PlayerData>();
 
         public bool HasChanged { get; set; }
-        public int Count { get { return _players.Count; }}
+        public int Count { get { return _players.Count; } }
+
+        public ActivePlayers()
+        {
+            HasChanged = true;
+        }
 
         public void Add(PlayerData playerData)
         {
             _players.Add(playerData);
             HasChanged = true;
+        }
+
+        public void Remove(NetworkPlayer player)
+        {
+            var playerData = _players.FirstOrDefault(p => p.NetworkPlayer == player);
+            if (_players.Remove(playerData))
+            {
+                Debug.Log("ActivePlayers.Remove");
+                HasChanged = true;
+            }
         }
 
         public IEnumerable<PlayerData> Sorted()
