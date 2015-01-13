@@ -10,9 +10,9 @@ namespace Assets.Sources.DatabaseClient.REST
     {
         public const string BaseURL = isLocalhost ? "http://localhost:8733" : "http://sculpicserver.cloudapp.net:8733";
         private const bool isLocalhost = false;
-        private const int retryOnErrorCount = 5;
+        private const int retryOnErrorCount = 3;
         private const int timeoutCount = 10;
-        private const int sleepTimeout = 100;
+        private const int sleepTimeout = 500;
         public string SendAndReceive(string url)
         {
             WWW www = null;

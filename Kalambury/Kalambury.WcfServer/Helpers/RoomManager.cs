@@ -12,7 +12,7 @@ namespace Kalambury.WcfServer.Helpers
     public static class RoomManager
     {
         private static Dictionary<int, Process> RoomHosts;
-        private static string sculpicHosterLocation = "D://Projekty//Sculpic//Kalambury//Kalambury.WcfServer.Test//bin//Debug//sculpicHoster.exe";
+        private static string sculpicHosterLocation = "C:\\Users\\deemisoftware\\Desktop\\WcfServer\\sculpicHoster.exe";
         private static string hostersWorkingDirectoriesRootPath = "./";
         static RoomManager()
         {
