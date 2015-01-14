@@ -92,7 +92,7 @@ namespace Assets.Sources.Scripts.GameServer
         private void RegisterInGame()
         {
             Debug.Log("Method Room.RegisterInGame");
-            networkView.RPC("RegisterPlayer", RPCMode.AllBuffered, Network.player, Random.Range(0, 10).ToString()); // TODO: change random to Player.Current.Username
+            networkView.RPC("RegisterPlayer", RPCMode.AllBuffered, Network.player, Random.Range(0, 100).ToString()); // TODO: change random to Player.Current.Username
         }
 
         [RPC]
@@ -180,6 +180,7 @@ namespace Assets.Sources.Scripts.GameServer
             if (_drawers.Remove(_currentDrawer))
                 if (!_drawers.Contains(_currentDrawer))
                     _drawers.Add(_currentDrawer);
+            Chat.AddMessageToSend(String.Format(Chat.NextDrawerMessage, ClientSide.ConnectedPlayers.GetLogin(_currentDrawer)), Chat.System);
             networkView.RPC("SetDrawer", _currentDrawer, CurrentPhrase);
         }
 

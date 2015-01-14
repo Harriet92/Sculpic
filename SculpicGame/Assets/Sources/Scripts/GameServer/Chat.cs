@@ -8,6 +8,7 @@ namespace Assets.Sources.Scripts.GameServer
     public static class Chat
     {
         public const string System = "System";
+        public const string NextDrawerMessage = System + "{0} is drawing...";
 
         private static readonly Queue<MessageToDisplay> PendingMessageToDisplay = new Queue<MessageToDisplay>();
         private static readonly Queue<MessageToSend> PendingMessageToSend = new Queue<MessageToSend>();
@@ -55,7 +56,7 @@ namespace Assets.Sources.Scripts.GameServer
 
     public class MessageToDisplay
     {
-        private const string GameWon = Chat.System + ": {0} has guessed! The phrase was {1}";
+        private const string GameWon = "{0} has guessed! The phrase was {1}";
         public NetworkPlayer SenderNetworkPlayer { get; set; }
         public string SenderLogin { get; set; }
         public string Message { get; set; }
