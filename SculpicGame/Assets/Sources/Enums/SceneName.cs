@@ -13,6 +13,7 @@ namespace Assets.Sources.Enums
         GameScreen,
         DrawerScreen,
         GuesserScreen,
-        RoomSettingsScreen
+        RoomSettingsScreen,
+        CreditsScreen
     }
 }

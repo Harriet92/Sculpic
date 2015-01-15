@@ -86,6 +86,8 @@
      <Compile Include="Assets\Sources\Scripts\Authentication\AuthenticationManager.cs" />
      <Compile Include="Assets\Sources\Scripts\Authentication\LoginMenu.cs" />
      <Compile Include="Assets\Sources\Scripts\Authentication\RegisterMenu.cs" />
+     <Compile Include="Assets\Sources\Scripts\CreditsScreen\CreditsButton.cs" />
+     <Compile Include="Assets\Sources\Scripts\CreditsScreen\CreditsMenu.cs" />
      <Compile Include="Assets\Sources\Scripts\DrawerScreen\DrawerGUI.cs" />
      <Compile Include="Assets\Sources\Scripts\GameScreen\CameraOrbit.cs" />
      <Compile Include="Assets\Sources\Scripts\GameScreen\GameMenu.cs" />

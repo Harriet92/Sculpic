@@ -70,8 +70,11 @@ namespace Assets.Sources.Scripts.RoomSettingsScreen
             } while (room == null && ++counter != refreshHostListCount);
             if(room == null)
                 Application.LoadLevel(SceneName.RoomChoiceScreen.ToString());
-            Network.Connect(room);
-            ScreenHelper.LoadLevel(SceneName.GuesserScreen);
+            else
+            {
+                Network.Connect(room);
+                ScreenHelper.LoadLevel(SceneName.GuesserScreen);
+            }
         }
     }
 }
