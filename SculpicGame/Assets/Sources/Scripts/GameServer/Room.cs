@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.Sources.Common;
 using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.Enums;
 using UnityEngine;
@@ -94,7 +95,7 @@ namespace Assets.Sources.Scripts.GameServer
         private void RegisterInGame()
         {
             Debug.Log("Method Room.RegisterInGame");
-            networkView.RPC("RegisterPlayer", RPCMode.AllBuffered, Network.player, Random.Range(0, 100).ToString()); // TODO: change random to Player.Current.Username
+            networkView.RPC("RegisterPlayer", RPCMode.AllBuffered, Network.player, Player.Current == null ? Random.Range(0, 100).ToString() : Player.Current.Username); // TODO: change random to Player.Current.Username
         }
 
         [RPC]

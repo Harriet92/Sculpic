@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Sources.Common;
+using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.Enums;
 using Assets.Sources.Scripts.Music;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace Assets.Sources.Scripts.LoginScreen
 
         void Start()
         {
+            ConnectionEstablisher.EstablishConnection();
             warnColor = LoginField.GetComponentInChildren<Text>().color;
             ClearValidationMessages();
         }

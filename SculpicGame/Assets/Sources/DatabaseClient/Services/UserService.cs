@@ -42,5 +42,14 @@ namespace Assets.Sources.DatabaseClient.Services
             User result = (User)reader.Deserialize(typeof(User));
             return result;
         }
+
+        public string PingService()
+        {
+            var url = ServiceEndpoint + "/PingService";
+            string response = restCommunication.SendAndReceive(url);
+            Debug.Log("Response: " + response);
+            if (String.IsNullOrEmpty(response)) return null;
+            return response;
+        }
     }
 }

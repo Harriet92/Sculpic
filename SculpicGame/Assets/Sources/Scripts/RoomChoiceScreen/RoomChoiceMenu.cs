@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Sources.Common;
 using Assets.Sources.Enums;
+using Assets.Sources.Scripts.GameServer;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,13 +26,14 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape)) { Application.LoadLevel(SceneName.LoginScreen.ToString()); }
+            if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
         }
 
         public void HostRoom()
         {
-            MasterServerConnectionManager.RefreshHostList();
-            StartCoroutine(InitServerAndHostRoom(MasterServerConnectionManager.RoomPort, MasterServerConnectionManager.ConnectionsNo, GameName));
+            //MasterServerConnectionManager.RefreshHostList();
+            //StartCoroutine(InitServerAndHostRoom(MasterServerConnectionManager.RoomPort, MasterServerConnectionManager.ConnectionsNo, GameName));
+            Application.LoadLevel(SceneName.RoomSettingsScreen.ToString());
         }
 
         private IEnumerator InitServerAndHostRoom(int roomPort, int connectionsNo, string gameName)

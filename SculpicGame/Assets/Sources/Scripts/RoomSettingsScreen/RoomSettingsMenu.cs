@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Threading;
 using Assets.Sources.Common;
 using Assets.Sources.DatabaseClient.Models;
 using Assets.Sources.DatabaseClient.Services;
@@ -19,6 +20,7 @@ namespace Assets.Sources.Scripts.RoomSettingsScreen
         private const string defaultGameName = "SculpicGame";
         private const string defaultUsersLimit = "10";
         private RoomService roomService;
+        private const int refreshHostListCount = 10;
 
         private void Start()
         {
@@ -56,13 +58,18 @@ namespace Assets.Sources.Scripts.RoomSettingsScreen
         {
             yield return null;
             HostData room;
+            int counter = 0;
             do
             {
+
                 MasterServerConnectionManager.RefreshHostList();
                 while (!MasterServerConnectionManager.HostsRefreshed)
                     yield return null;
+
                 room = MasterServerConnectionManager.GetHostDataByGameName(gameName);
-            } while (room == null);
+            } while (room == null && ++counter != refreshHostListCount);
+            if(room == null)
+                Application.LoadLevel(SceneName.RoomChoiceScreen.ToString());
             Network.Connect(room);
             ScreenHelper.LoadLevel(SceneName.GuesserScreen);
         }
