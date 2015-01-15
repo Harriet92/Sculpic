@@ -90,5 +90,11 @@ namespace Assets.Sources.Scripts.DrawerScreen
                 Network.Destroy(solid as GameObject);
             InstantiatedSolids.Clear();
         }
+
+        void OnDestroy()
+        {
+            Debug.Log("Method DrawerGUI.OnDestroy");
+            ClearClick();
+        }
     }
 }
