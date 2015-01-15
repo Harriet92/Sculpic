@@ -40,5 +40,10 @@ namespace Assets.Sources.Scripts.GameServer
            _chatHistory.AppendLine(message);
            RefreshChat();
        }
+
+       public void Clear()
+       {
+           _wantToDrawToggle.isOn = false;
+       }
     }
 }

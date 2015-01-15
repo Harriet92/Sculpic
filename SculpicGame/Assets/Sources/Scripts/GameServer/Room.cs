@@ -85,6 +85,8 @@ namespace Assets.Sources.Scripts.GameServer
 
         public static void Clear()
         {
+            if (ClientSide != null)
+                ClientSide.Clear();
             ClientSide = new ClientSide();
         }
 
