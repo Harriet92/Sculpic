@@ -97,6 +97,7 @@
      <Compile Include="Assets\Sources\Scripts\GameServer\PlayerData.cs" />
      <Compile Include="Assets\Sources\Scripts\GameServer\Room.cs" />
      <Compile Include="Assets\Sources\Scripts\GameServer\ScreenHelper.cs" />
+     <Compile Include="Assets\Sources\Scripts\GameServer\SolidManagement\SolidMovement.cs" />
      <Compile Include="Assets\Sources\Scripts\GameServer\SolidManagement\SolidNetworkManager.cs" />
      <Compile Include="Assets\Sources\Scripts\GuesserScreen\GuesserGUI.cs" />
      <Compile Include="Assets\Sources\Scripts\GuesserScreen\PlayerScoreElement.cs" />

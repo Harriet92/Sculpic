@@ -5,6 +5,8 @@
         public const float DefaultRadius = 1.0f;
         public const float DefaultPull = 6.0f;
         public static bool Carve { get; set; }
+        public static bool Move { get; set; }
+        public static bool Rotate { get; set; }
         public static float Radius { get; set; }
         public static float Pull { get; set; }
 
@@ -18,6 +20,8 @@
             Radius = DefaultRadius;
             Pull = DefaultPull;
             Carve = false;
+            Move = false;
+            Rotate = false;
         }
     }
 }

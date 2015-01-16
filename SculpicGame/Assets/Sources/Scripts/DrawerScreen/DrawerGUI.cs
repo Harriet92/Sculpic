@@ -14,6 +14,8 @@ namespace Assets.Sources.Scripts.DrawerScreen
     {
         public Text ChatTextField;
         public Text PhraseTextField;
+        public Toggle RotateToggle;
+        public Toggle MoveToggle;
         private static readonly List<Object> InstantiatedSolids = new List<Object>();
         public static bool IsSendingScene;
         private static int _synchronizedObjectsCounter;
@@ -69,6 +71,26 @@ namespace Assets.Sources.Scripts.DrawerScreen
         public void OnCarveToggleValueChanged(Toggle callingObject)
         {
             SculptorCurrentSettings.Carve = callingObject.isOn;
+        }
+
+        public void OnMoveToggleValueChanged(Toggle callingObject)
+        {
+            SculptorCurrentSettings.Move = callingObject.isOn;
+            if (SculptorCurrentSettings.Move)
+            {
+                RotateToggle.isOn = false;
+                SculptorCurrentSettings.Rotate = false;
+            }
+        }
+
+        public void OnRotateToggleValueChanged(Toggle callingObject)
+        {
+            SculptorCurrentSettings.Rotate = callingObject.isOn;
+            if (SculptorCurrentSettings.Rotate)
+            {
+                MoveToggle.isOn = false;
+                SculptorCurrentSettings.Move = false;
+            }
         }
 
         public void ColorClick()

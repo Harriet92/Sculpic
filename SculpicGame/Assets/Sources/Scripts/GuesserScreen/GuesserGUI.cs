@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Sources.Common;
 using Assets.Sources.Scripts.GameServer;
+using Assets.Sources.Scripts.Sculptor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,7 @@ namespace Assets.Sources.Scripts.GuesserScreen
 
         void Start()
         {
+            SculptorCurrentSettings.Rotate = true;
             Room.ClientSide.KeepState(ChatTextField, WantToDrawToggle);
             UpdatePlayersList();
         }

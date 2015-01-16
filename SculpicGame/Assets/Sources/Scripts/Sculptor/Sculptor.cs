@@ -25,6 +25,9 @@ namespace Assets.Sources.Scripts.Sculptor
 
         private void Update()
         {
+            if (SculptorCurrentSettings.Move || SculptorCurrentSettings.Rotate)
+                return;
+
             // When no button is pressed we update the mesh collider
             if (!Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetMouseButton(2))
             {

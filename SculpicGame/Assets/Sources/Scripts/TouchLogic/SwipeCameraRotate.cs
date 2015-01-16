@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Sources.Scripts.Sculptor;
+using UnityEngine;
 
 namespace Assets.Sources.Scripts.TouchLogic
 {
@@ -38,6 +39,8 @@ namespace Assets.Sources.Scripts.TouchLogic
         void OnTouchMoved()
         {
             Debug.Log("Method TouchRotate.OnTouchMoved");
+            if (SculptorCurrentSettings.Move || !SculptorCurrentSettings.Rotate)
+                return;
             if (target)
             {
                 _x += Input.GetTouch(0).deltaPosition.x * xSpeed * 0.02f;
