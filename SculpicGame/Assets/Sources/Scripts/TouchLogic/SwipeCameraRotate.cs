@@ -2,7 +2,7 @@
 
 namespace Assets.Sources.Scripts.TouchLogic
 {
-    public class TouchRotate : TouchHandling
+    public class SwipeCameraRotate : TouchHandling
     {
         public Transform target;
         public float distanceMin = 10.0f;
