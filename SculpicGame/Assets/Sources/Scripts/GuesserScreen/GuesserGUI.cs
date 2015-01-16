@@ -44,7 +44,7 @@ namespace Assets.Sources.Scripts.GuesserScreen
         {
             ClearPlayersScorePanel();
             foreach (var playerData in Room.ClientSide.ConnectedPlayers.Sorted())
-                AddRoomButton(playerData);
+                AddPlayerScoreElement(playerData);
             
         }
 
@@ -56,7 +56,7 @@ namespace Assets.Sources.Scripts.GuesserScreen
             children.ForEach(Destroy);
         }
 
-        private void AddRoomButton(PlayerData playerData)
+        private void AddPlayerScoreElement(PlayerData playerData)
         {
             var button = (GameObject)Instantiate(PlayerDataElement);
             var playerScoreScript = button.GetComponentInChildren<PlayerScoreElement>();

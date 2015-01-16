@@ -145,15 +145,15 @@ namespace Assets.Sources.Scripts.GameServer
         {
             Debug.Log("Method Room.CountAndSendScore");
             var points = WinnerPoints;
-            networkView.RPC("SetWinner", RPCMode.All, winner, points);
+            networkView.RPC("SetWinner", RPCMode.Others, winner, points);
             _drawingStarted = false;
         }
 
         [RPC]
         public void SetWinner(NetworkPlayer winner, int points)
         {
-            ClientSide.ConnectedPlayers.AddPoints(winner, points);
             Debug.Log("Method Room.SetWinner");
+            ClientSide.ConnectedPlayers.AddPoints(winner, points);
             if (Network.player == winner)
             {
                 DisplayInfoPopup("You've got " + points + " points!");
