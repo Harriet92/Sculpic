@@ -8,7 +8,7 @@ namespace Assets.Sources.Scripts.GameServer
     public static class Chat
     {
         public const string System = "System";
-        public const string NextDrawerMessage = System + "{0} is drawing...";
+        public const string NextDrawerMessage = "{0} is drawing...";
 
         private static readonly Queue<MessageToDisplay> PendingMessageToDisplay = new Queue<MessageToDisplay>();
         private static readonly Queue<MessageToSend> PendingMessageToSend = new Queue<MessageToSend>();
