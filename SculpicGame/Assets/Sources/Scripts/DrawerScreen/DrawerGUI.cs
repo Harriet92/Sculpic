@@ -34,7 +34,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
         {
             Debug.Log("Method DrawerGUI.Start: Room.CurrentPhrase == " + Room.CurrentPhrase);
             PhraseTextField.text = Room.CurrentPhrase;
-            Room.ClientSide.KeepState(ChatTextField);
+            Room.ClientSide.OnNewScreenLoad(ChatTextField);
         }
 
         public void AddSolidClick(GameObject solidToInstantiate)

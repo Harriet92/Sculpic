@@ -13,8 +13,14 @@ namespace Assets.Sources.Scripts.GameServer
         public bool IsDrawer { get; set; }
         public readonly ActivePlayers ConnectedPlayers = new ActivePlayers();
         public bool IsRegistered { get; set; }
+        private bool _isActive;
 
-        public void KeepState(Text chatTextField, Toggle wantToDrawToggle = null)
+        public bool CanRegister
+        {
+            get { return !IsRegistered && _isActive; }
+        }
+
+        public void OnNewScreenLoad(Text chatTextField, Toggle wantToDrawToggle = null)
         {
             _chatTextField = chatTextField;
             if (wantToDrawToggle != null)
@@ -23,6 +29,7 @@ namespace Assets.Sources.Scripts.GameServer
                 wantToDrawToggle.isOn = WantToDraw;
             }
             RefreshChat();
+            _isActive = true;
         }
 
         private void RefreshChat()

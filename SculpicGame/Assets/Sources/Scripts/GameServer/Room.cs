@@ -68,7 +68,7 @@ namespace Assets.Sources.Scripts.GameServer
                     StartNewGame();
 
             if (Network.isClient)
-                if (!ClientSide.IsRegistered)
+                if (ClientSide.CanRegister)
                     RegisterInGame();
         }
 
@@ -81,6 +81,8 @@ namespace Assets.Sources.Scripts.GameServer
 
         void OnApplicationQuit()
         {
+            if (Network.isClient)
+                UnregisterInGame();
             Clear();
         }
 

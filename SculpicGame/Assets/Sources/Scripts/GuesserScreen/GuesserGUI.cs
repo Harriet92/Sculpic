@@ -20,7 +20,7 @@ namespace Assets.Sources.Scripts.GuesserScreen
         void Start()
         {
             SculptorCurrentSettings.Rotate = true;
-            Room.ClientSide.KeepState(ChatTextField, WantToDrawToggle);
+            Room.ClientSide.OnNewScreenLoad(ChatTextField, WantToDrawToggle);
             UpdatePlayersList();
         }
 
