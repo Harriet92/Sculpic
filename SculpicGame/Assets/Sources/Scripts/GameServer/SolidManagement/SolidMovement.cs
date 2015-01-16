@@ -1,13 +1,17 @@
-﻿using UnityEngine;
+﻿using Assets.Sources.Scripts.Sculptor;
+using UnityEngine;
 
 namespace Assets.Sources.Scripts.GameServer.SolidManagement
 {
     public class SolidMovement : MonoBehaviour
     {
         private bool _isMoving;
+        private const int Speed = 100;
 
         private void Update()
         {
+            if (!SculptorCurrentSettings.Move)
+                return;
             if (Input.touchCount == 1)
             {
                 var touch = Input.GetTouch(0);
@@ -23,11 +27,12 @@ namespace Assets.Sources.Scripts.GameServer.SolidManagement
                             RaycastHit hit;
                             if (Physics.Raycast(ray, out hit))
                             {
-                                if (hit.collider == collider)
+                                if (hit.collider == collider )
                                 {
-                                    var oldPosition = transform.position;
-                                    transform.position = new Vector3(oldPosition.x + touch.deltaPosition.x/100,
-                                        oldPosition.y + touch.deltaPosition.y/100, oldPosition.z);
+                                    var plane = new Plane(Vector3.up, transform.position);
+                                    float dist;
+                                    if (plane.Raycast(ray, out dist))
+                                        transform.position = Vector3.MoveTowards(transform.position, ray.GetPoint(dist), Time.deltaTime * Speed);
                                 }
                             }
                         }
