@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Assets.Sources.Scripts.GameServer
+namespace Assets.Sources.Scripts.GameRoom
 {
     public static class Chat
     {

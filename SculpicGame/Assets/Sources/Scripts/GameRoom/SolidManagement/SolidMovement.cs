@@ -1,7 +1,7 @@
 ﻿using Assets.Sources.Scripts.Sculptor;
 using UnityEngine;
 
-namespace Assets.Sources.Scripts.GameServer.SolidManagement
+namespace Assets.Sources.Scripts.GameRoom.SolidManagement
 {
     public class SolidMovement : MonoBehaviour
     {

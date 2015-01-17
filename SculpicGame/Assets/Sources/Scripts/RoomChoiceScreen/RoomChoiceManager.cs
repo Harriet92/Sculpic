@@ -1,6 +1,6 @@
 ﻿using Assets.Sources.Common;
 using Assets.Sources.Enums;
-using Assets.Sources.Scripts.GameServer;
+using Assets.Sources.Scripts.GameRoom;
 using UnityEngine;
 
 namespace Assets.Sources.Scripts.RoomChoiceScreen

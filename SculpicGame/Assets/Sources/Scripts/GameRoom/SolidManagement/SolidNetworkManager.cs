@@ -1,7 +1,7 @@
 ﻿using Assets.Sources.Scripts.DrawerScreen;
 using UnityEngine;
 
-namespace Assets.Sources.Scripts.GameServer.SolidManagement
+namespace Assets.Sources.Scripts.GameRoom.SolidManagement
 {
     [RequireComponent(typeof(NetworkView))]
     [RequireComponent(typeof(Renderer))]

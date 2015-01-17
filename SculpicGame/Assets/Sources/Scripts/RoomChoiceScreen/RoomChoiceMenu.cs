@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Assets.Sources.Common;
 using Assets.Sources.Enums;
-using Assets.Sources.Scripts.GameServer;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,124 +1,125 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<ProductVersion>10.0.20506</ProductVersion>
-	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{D8B50F5B-036F-5424-E275-9361D8B4DF45}</ProjectGuid>
-	<OutputType>Library</OutputType>
-	<AppDesignerFolder>Properties</AppDesignerFolder>
-	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
-	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	<FileAlignment>512</FileAlignment>
-	<BaseDirectory>Assets</BaseDirectory>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D8B50F5B-036F-5424-E275-9361D8B4DF45}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>
+    </RootNamespace>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	<DebugSymbols>true</DebugSymbols>
-	<DebugType>full</DebugType>
-	<Optimize>false</Optimize>
-	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_4_6_0;UNITY_4_6;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_4_6_0;UNITY_4_6;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-	<DebugType>pdbonly</DebugType>
-	<Optimize>true</Optimize>
-	<OutputPath>Temp\bin\Release\</OutputPath>
-	<DefineConstants>TRACE</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="System" />
+    <Reference Include="System" />
     <Reference Include="System.XML" />
-	<Reference Include="System.Core" />
-	<Reference Include="System.Xml.Linq" />
-	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
-	</Reference>
-	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
-	</Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Sources\Common\MasterServerConnectionManager.cs" />
-     <Compile Include="Assets\Sources\Common\Player.cs" />
-     <Compile Include="Assets\Sources\Common\Preferences.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\DataReaderProvider.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\DataWriterProvider.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\DateTimeConverter.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\EcmaScriptIdentifier.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\EcmaScriptWriter.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\IDataReader.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\IDataWriter.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\IJsonSerializable.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonDataReader.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonDataWriter.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonIgnoreAttribute.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonMemberAttribute.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonNameAttribute.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonOptInAttribute.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonReader.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonReaderSettings.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonSerializationException.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonSpecifiedPropertyAttribute.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonToken.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonWriter.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonWriterSettings.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\TypeCoercionUtility.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\XmlDataReader.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\JsonFx\XmlDataWriter.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\Models\Phrase.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\Models\RoomSettings.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\Models\User.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\REST\RestCommunication.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\Security\SecureString.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\Services\ConnectionEstablisher.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\Services\PhraseService.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\Services\RoomService.cs" />
-     <Compile Include="Assets\Sources\DatabaseClient\Services\UserService.cs" />
-     <Compile Include="Assets\Sources\Enums\SceneName.cs" />
-     <Compile Include="Assets\Sources\Scripts\Authentication\AuthenticationManager.cs" />
-     <Compile Include="Assets\Sources\Scripts\Authentication\LoginMenu.cs" />
-     <Compile Include="Assets\Sources\Scripts\Authentication\RegisterMenu.cs" />
-     <Compile Include="Assets\Sources\Scripts\CreditsScreen\CreditsButton.cs" />
-     <Compile Include="Assets\Sources\Scripts\CreditsScreen\CreditsMenu.cs" />
-     <Compile Include="Assets\Sources\Scripts\DrawerScreen\DrawerGUI.cs" />
-     <Compile Include="Assets\Sources\Scripts\GameScreen\GameMenu.cs" />
-     <Compile Include="Assets\Sources\Scripts\GameServer\ActivePlayers.cs" />
-     <Compile Include="Assets\Sources\Scripts\GameServer\Chat.cs" />
-     <Compile Include="Assets\Sources\Scripts\GameServer\Chatter.cs" />
-     <Compile Include="Assets\Sources\Scripts\GameServer\ClientSide.cs" />
-     <Compile Include="Assets\Sources\Scripts\GameServer\PlayerData.cs" />
-     <Compile Include="Assets\Sources\Scripts\GameServer\Room.cs" />
-     <Compile Include="Assets\Sources\Scripts\GameServer\ScreenHelper.cs" />
-     <Compile Include="Assets\Sources\Scripts\GameServer\SolidManagement\SolidMovement.cs" />
-     <Compile Include="Assets\Sources\Scripts\GameServer\SolidManagement\SolidNetworkManager.cs" />
-     <Compile Include="Assets\Sources\Scripts\GuesserScreen\GuesserGUI.cs" />
-     <Compile Include="Assets\Sources\Scripts\GuesserScreen\PlayerScoreElement.cs" />
-     <Compile Include="Assets\Sources\Scripts\MenuBase.cs" />
-     <Compile Include="Assets\Sources\Scripts\Music\MusicButton.cs" />
-     <Compile Include="Assets\Sources\Scripts\Music\SoundManager.cs" />
-     <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomButton.cs" />
-     <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomChoiceManager.cs" />
-     <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomChoiceMenu.cs" />
-     <Compile Include="Assets\Sources\Scripts\RoomHosterScreen\RoomHosterScreenMenu.cs" />
-     <Compile Include="Assets\Sources\Scripts\RoomSettingsScreen\RoomSettingsMenu.cs" />
-     <Compile Include="Assets\Sources\Scripts\Sculptor\Arithmetic.cs" />
-     <Compile Include="Assets\Sources\Scripts\Sculptor\Sculptor.cs" />
-     <Compile Include="Assets\Sources\Scripts\Sculptor\SculptorCurrentSettings.cs" />
-     <Compile Include="Assets\Sources\Scripts\TouchLogic\SwipeCameraRotate.cs" />
-     <Compile Include="Assets\Sources\Scripts\TouchLogic\TouchHandling.cs" />
-     <None Include="Assets\Sources\DatabaseClient\JsonFx\Readme.txt" />
-     <None Include="Assets\Sources\DatabaseClient\JsonFx\License.txt" />
- <Reference Include="UnityEngine.UI">
- <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
- </Reference>
+    <Compile Include="Assets\Sources\Common\MasterServerConnectionManager.cs" />
+    <Compile Include="Assets\Sources\Common\Player.cs" />
+    <Compile Include="Assets\Sources\Common\Preferences.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\DataReaderProvider.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\DataWriterProvider.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\DateTimeConverter.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\EcmaScriptIdentifier.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\EcmaScriptWriter.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\IDataReader.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\IDataWriter.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\IJsonSerializable.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonDataReader.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonDataWriter.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonIgnoreAttribute.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonMemberAttribute.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonNameAttribute.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonOptInAttribute.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonReader.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonReaderSettings.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonSerializationException.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonSpecifiedPropertyAttribute.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonToken.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonWriter.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\JsonWriterSettings.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\TypeCoercionUtility.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\XmlDataReader.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\JsonFx\XmlDataWriter.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\Models\Phrase.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\Models\RoomSettings.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\Models\User.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\REST\RestCommunication.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\Security\SecureString.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\Services\ConnectionEstablisher.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\Services\PhraseService.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\Services\RoomService.cs" />
+    <Compile Include="Assets\Sources\DatabaseClient\Services\UserService.cs" />
+    <Compile Include="Assets\Sources\Enums\SceneName.cs" />
+    <Compile Include="Assets\Sources\Scripts\Authentication\AuthenticationManager.cs" />
+    <Compile Include="Assets\Sources\Scripts\Authentication\LoginMenu.cs" />
+    <Compile Include="Assets\Sources\Scripts\Authentication\RegisterMenu.cs" />
+    <Compile Include="Assets\Sources\Scripts\CreditsScreen\CreditsButton.cs" />
+    <Compile Include="Assets\Sources\Scripts\CreditsScreen\CreditsMenu.cs" />
+    <Compile Include="Assets\Sources\Scripts\DrawerScreen\DrawerGUI.cs" />
+    <Compile Include="Assets\Sources\Scripts\GameScreen\GameMenu.cs" />
+    <Compile Include="Assets\Sources\Scripts\GameRoom\ActivePlayers.cs" />
+    <Compile Include="Assets\Sources\Scripts\GameRoom\Chat.cs" />
+    <Compile Include="Assets\Sources\Scripts\GameRoom\Chatter.cs" />
+    <Compile Include="Assets\Sources\Scripts\GameRoom\ClientSide.cs" />
+    <Compile Include="Assets\Sources\Scripts\GameRoom\PlayerData.cs" />
+    <Compile Include="Assets\Sources\Scripts\GameRoom\Room.cs" />
+    <Compile Include="Assets\Sources\Scripts\GameRoom\ScreenHelper.cs" />
+    <Compile Include="Assets\Sources\Scripts\GameRoom\SolidManagement\SolidMovement.cs" />
+    <Compile Include="Assets\Sources\Scripts\GameRoom\SolidManagement\SolidNetworkManager.cs" />
+    <Compile Include="Assets\Sources\Scripts\GuesserScreen\GuesserGUI.cs" />
+    <Compile Include="Assets\Sources\Scripts\GuesserScreen\PlayerScoreElement.cs" />
+    <Compile Include="Assets\Sources\Scripts\MenuBase.cs" />
+    <Compile Include="Assets\Sources\Scripts\Music\MusicButton.cs" />
+    <Compile Include="Assets\Sources\Scripts\Music\SoundManager.cs" />
+    <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomButton.cs" />
+    <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomChoiceManager.cs" />
+    <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomChoiceMenu.cs" />
+    <Compile Include="Assets\Sources\Scripts\RoomHosterScreen\RoomHosterScreenMenu.cs" />
+    <Compile Include="Assets\Sources\Scripts\RoomSettingsScreen\RoomSettingsMenu.cs" />
+    <Compile Include="Assets\Sources\Scripts\Sculptor\Arithmetic.cs" />
+    <Compile Include="Assets\Sources\Scripts\Sculptor\Sculptor.cs" />
+    <Compile Include="Assets\Sources\Scripts\Sculptor\SculptorCurrentSettings.cs" />
+    <Compile Include="Assets\Sources\Scripts\TouchLogic\SwipeCameraRotate.cs" />
+    <Compile Include="Assets\Sources\Scripts\TouchLogic\TouchHandling.cs" />
+    <None Include="Assets\Sources\DatabaseClient\JsonFx\Readme.txt" />
+    <None Include="Assets\Sources\DatabaseClient\JsonFx\License.txt" />
+    <Reference Include="UnityEngine.UI">
+      <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -128,5 +129,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
 </Project>

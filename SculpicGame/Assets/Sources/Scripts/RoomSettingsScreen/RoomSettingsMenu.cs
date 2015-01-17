@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
-using System.Threading;
 using Assets.Sources.Common;
-using Assets.Sources.DatabaseClient.Models;
 using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.Enums;
-using Assets.Sources.Scripts.GameServer;
+using Assets.Sources.Scripts.GameRoom;
 using UnityEngine;
 using UnityEngine.UI;
 

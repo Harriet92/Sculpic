@@ -1,4 +1,4 @@
-﻿using Assets.Sources.Scripts.GameServer;
+﻿using Assets.Sources.Scripts.GameRoom;
 using UnityEngine;
 using UnityEngine.UI;
 

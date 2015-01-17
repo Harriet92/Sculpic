@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-namespace Assets.Sources.Scripts.GameServer
+namespace Assets.Sources.Scripts.GameRoom
 {
     [RequireComponent(typeof(NetworkView))]
     class Room : MenuBase

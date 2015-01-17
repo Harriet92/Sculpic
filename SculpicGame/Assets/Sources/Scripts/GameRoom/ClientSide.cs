@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Sources.Scripts.GameServer
+namespace Assets.Sources.Scripts.GameRoom
 {
     public class ClientSide
     {

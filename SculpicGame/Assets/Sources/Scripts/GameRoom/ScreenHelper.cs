@@ -2,7 +2,7 @@
 using Assets.Sources.Enums;
 using UnityEngine;
 
-namespace Assets.Sources.Scripts.GameServer
+namespace Assets.Sources.Scripts.GameRoom
 {
     public static class ScreenHelper
     {

@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Assets.Sources.Scripts.GameServer
+namespace Assets.Sources.Scripts.GameRoom
 {
     public class ActivePlayers
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Assets.Sources.Scripts.GameServer;
-using Assets.Sources.Scripts.GameServer.SolidManagement;
+using Assets.Sources.Scripts.GameRoom;
+using Assets.Sources.Scripts.GameRoom.SolidManagement;
 using Assets.Sources.Scripts.Sculptor;
 using UnityEngine;
 using UnityEngine.UI;

@@ -1,6 +1,5 @@
-﻿using Assets.Sources.Scripts.GameServer.SolidManagement;
+﻿using Assets.Sources.Scripts.GameRoom.SolidManagement;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Assets.Sources.Scripts.GameScreen
 {
