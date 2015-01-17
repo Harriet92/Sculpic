@@ -47,13 +47,5 @@ namespace Assets.Sources.Scripts.GameRoom
                 HasChanged = true;
             }
         }
-
-        public string GetLogin(NetworkPlayer player)
-        {
-            var playerData = _players.FirstOrDefault(p => p.NetworkPlayer == player);
-            if (playerData != null)
-                return playerData.Login;
-            return null;
-        }
     }
 }

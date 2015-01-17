@@ -19,6 +19,7 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             get { return !IsRegistered && _isActive; }
         }
+        public string Phrase { get; set; }
 
         public void OnNewScreenLoad(Text chatTextField, Toggle wantToDrawToggle = null)
         {
@@ -46,6 +47,13 @@ namespace Assets.Sources.Scripts.GameRoom
             }
             _chatHistory.AppendLine(message);
             RefreshChat();
+        }
+
+        public void SetDrawer(string phrase)
+        {
+            Debug.Log("Method ClientSide.SetDrawer");
+            IsDrawer = true;
+            Phrase = phrase;
         }
     }
 }

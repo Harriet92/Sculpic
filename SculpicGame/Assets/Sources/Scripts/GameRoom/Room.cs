@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Assets.Sources.Common;
-using Assets.Sources.DatabaseClient.Services;
+﻿using Assets.Sources.Common;
 using Assets.Sources.Enums;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,12 +13,7 @@ namespace Assets.Sources.Scripts.GameRoom
         public static ClientSide ClientSide = new ClientSide();
 
         // RoomOwner
-        private const int WinnerPoints = 5;
-        private readonly List<NetworkPlayer> _drawers = new List<NetworkPlayer>();
-
-        private bool _drawingStarted;
-        public static string CurrentPhrase;
-        private NetworkPlayer _currentDrawer;
+        private static readonly ServerSide ServerSide = new ServerSide();
 
         private void Awake()
         {
@@ -31,31 +23,16 @@ namespace Assets.Sources.Scripts.GameRoom
 
         // RoomOwner
         [RPC]
-        public void SignUpForDrawing(NetworkPlayer player)
+        public void SignUpForDrawing(NetworkPlayer player, string login)
         {
-            Debug.Log("Method Room.SignUpForDrawing");
-            _drawers.Add(player);
-            Debug.Log("Drawers count: " + _drawers.Count);
+            ServerSide.SignUpForDrawing(new PlayerData {NetworkPlayer = player, Login = login});
         }
 
         // RoomOwner
         [RPC]
         public void SignOffFromDrawing(NetworkPlayer player)
         {
-            Debug.Log("Method Room.SignOffFromDrawing");
-            RemoveFromDrawers(player);
-        }
-
-        private void RemoveFromDrawers(NetworkPlayer player)
-        {
-            if (_drawers.Remove(player))
-                Debug.Log("Removed player from drawing queue.");
-            if (player == _currentDrawer)
-            {
-                _drawingStarted = false;
-                Chat.AddMessageToSend("Drawing player has left...", Chat.System);
-            }
-            Debug.Log("Drawers count: " + _drawers.Count);
+            ServerSide.SignOffFromDrawing(player);
         }
 
         // Player
@@ -64,7 +41,7 @@ namespace Assets.Sources.Scripts.GameRoom
             Debug.Log("Method Room.OnWantToDrawValueChanged to: " + callingObject.isOn);
             ClientSide.WantToDraw = callingObject.isOn;
             Debug.Log("Method RoomOwner.WantToDrawToggle: wantToDraw == " + ClientSide.WantToDraw);
-            networkView.RPC(ClientSide.WantToDraw ? "SignUpForDrawing" : "SignOffFromDrawing", RPCMode.Server, Network.player);
+            networkView.RPC(ClientSide.WantToDraw ? "SignUpForDrawing" : "SignOffFromDrawing", RPCMode.Server, Network.player, Player.Current != null ? Player.Current.Username : "Stranger");
         }
 
         public void Update()
@@ -74,7 +51,7 @@ namespace Assets.Sources.Scripts.GameRoom
                 DisplayAndCheckMessage(Chat.GetMessageToDisplay());
 
             if (Network.isServer)
-                if (IsNewGame())
+                if (ServerSide.CanStartNewGame)
                     StartNewGame();
 
             if (Network.isClient)
@@ -133,7 +110,7 @@ namespace Assets.Sources.Scripts.GameRoom
             ClientSide.ConnectedPlayers.Remove(player);
             Debug.Log("Players.Count == " + ClientSide.ConnectedPlayers.Count);
             if (Network.isServer)
-                RemoveFromDrawers(player);
+                ServerSide.RemoveFromDrawers(player);
         }
 
         private void DisplayAndCheckMessage(MessageToDisplay message)
@@ -145,7 +122,7 @@ namespace Assets.Sources.Scripts.GameRoom
 
         private void CheckPhrase(MessageToDisplay message)
         {
-            if (String.Equals(message.Message, CurrentPhrase, StringComparison.CurrentCultureIgnoreCase))
+            if (ServerSide.MatchesPhrase(message.Message))
             {
                 Chat.AddMessageToSend(message.WinningMessage, Chat.System);
                 CountAndSendScore(message.SenderNetworkPlayer);
@@ -155,9 +132,9 @@ namespace Assets.Sources.Scripts.GameRoom
         private void CountAndSendScore(NetworkPlayer winner)
         {
             Debug.Log("Method Room.CountAndSendScore");
-            var points = WinnerPoints;
+            var points = ServerSide.WinnerPoints;
             networkView.RPC("SetWinner", RPCMode.Others, winner, points);
-            _drawingStarted = false;
+            ServerSide.DrawingStarted = false;
         }
 
         [RPC]
@@ -176,37 +153,11 @@ namespace Assets.Sources.Scripts.GameRoom
             }
         }
 
-        private bool IsNewGame()
-        {
-            return !_drawingStarted && _drawers.Count > 0;
-        }
-
         private void StartNewGame()
         {
             Debug.Log("Method Room.StartNewGame");
-            _drawingStarted = true;
-            SetNewPhrase();
-            SetNextDrawer();
-        }
-
-        private void SetNextDrawer()
-        {
-            Debug.Log("Method Room.SetNextDrawer");
-            _currentDrawer = _drawers[0];
-            if (_drawers.Remove(_currentDrawer))
-                if (!_drawers.Contains(_currentDrawer))
-                    _drawers.Add(_currentDrawer);
-            Chat.AddMessageToSend(String.Format(Chat.NextDrawerMessage, ClientSide.ConnectedPlayers.GetLogin(_currentDrawer)), Chat.System);
-            networkView.RPC("SetDrawer", _currentDrawer, CurrentPhrase);
-        }
-
-        private void SetNewPhrase()
-        {
-            Debug.Log("Method Room.SetNewPhrase");
-            var phraseService = new PhraseService();
-            var newPhrase = phraseService.DrawPhrase();
-            Debug.Log("Method RoomOwner.GetNewPhrase: newPhrase == " + newPhrase);
-            CurrentPhrase = newPhrase;
+            ServerSide.StartNewGame();
+            networkView.RPC("SetDrawer", ServerSide.CurrentDrawer.NetworkPlayer, ServerSide.CurrentPhrase);
         }
 
         // Player
@@ -214,9 +165,8 @@ namespace Assets.Sources.Scripts.GameRoom
         public void SetDrawer(string phrase)
         {
             Debug.Log("Method Room.SetDrawer");
-            ClientSide.IsDrawer = true;
+            ClientSide.SetDrawer(phrase);
             StartCoroutine(ScreenHelper.LoadLevel(SceneName.DrawerScreen));
-            CurrentPhrase = phrase;
         }
     }
 }

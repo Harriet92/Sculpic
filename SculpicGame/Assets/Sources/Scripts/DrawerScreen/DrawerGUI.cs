@@ -32,8 +32,8 @@ namespace Assets.Sources.Scripts.DrawerScreen
 
         void Start()
         {
-            Debug.Log("Method DrawerGUI.Start: Room.CurrentPhrase == " + Room.CurrentPhrase);
-            PhraseTextField.text = Room.CurrentPhrase;
+            Debug.Log("Method DrawerGUI.Start: Room.CurrentPhrase == " + Room.ClientSide.Phrase);
+            PhraseTextField.text = Room.ClientSide.Phrase;
             Room.ClientSide.OnNewScreenLoad(ChatTextField);
         }
 
