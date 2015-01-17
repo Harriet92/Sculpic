@@ -43,15 +43,25 @@ namespace Assets.Sources.Scripts.GameServer
         public void SignOffFromDrawing(NetworkPlayer player)
         {
             Debug.Log("Method Room.SignOffFromDrawing");
+            RemoveFromDrawers(player);
+        }
+
+        private void RemoveFromDrawers(NetworkPlayer player)
+        {
             if (_drawers.Remove(player))
                 Debug.Log("Removed player from drawing queue.");
+            if (player == _currentDrawer)
+            {
+                _drawingStarted = false;
+                Chat.AddMessageToSend("Drawing player has left...", Chat.System);
+            }
             Debug.Log("Drawers count: " + _drawers.Count);
         }
 
         // Player
         public void OnWantToDrawValueChanged(Toggle callingObject)
         {
-            Debug.Log("Method Room.OnWantToDrawValueChanged");
+            Debug.Log("Method Room.OnWantToDrawValueChanged to: " + callingObject.isOn);
             ClientSide.WantToDraw = callingObject.isOn;
             Debug.Log("Method RoomOwner.WantToDrawToggle: wantToDraw == " + ClientSide.WantToDraw);
             networkView.RPC(ClientSide.WantToDraw ? "SignUpForDrawing" : "SignOffFromDrawing", RPCMode.Server, Network.player);
@@ -76,6 +86,7 @@ namespace Assets.Sources.Scripts.GameServer
         {
             if (Network.isClient)
                 UnregisterInGame();
+            Clear();
             Application.LoadLevel(SceneName.RoomChoiceScreen.ToString());
         }
 
@@ -88,8 +99,6 @@ namespace Assets.Sources.Scripts.GameServer
 
         public static void Clear()
         {
-            if (ClientSide != null)
-                ClientSide.Clear();
             ClientSide = new ClientSide();
         }
 
@@ -123,6 +132,8 @@ namespace Assets.Sources.Scripts.GameServer
             Debug.Log("Method Room.UnregisterPlayer");
             ClientSide.ConnectedPlayers.Remove(player);
             Debug.Log("Players.Count == " + ClientSide.ConnectedPlayers.Count);
+            if (Network.isServer)
+                RemoveFromDrawers(player);
         }
 
         private void DisplayAndCheckMessage(MessageToDisplay message)
