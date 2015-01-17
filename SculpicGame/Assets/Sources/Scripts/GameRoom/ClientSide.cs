@@ -55,5 +55,21 @@ namespace Assets.Sources.Scripts.GameRoom
             IsDrawer = true;
             Phrase = phrase;
         }
+
+        public void RegisterPlayer(NetworkPlayer player, string login)
+        {
+            Debug.Log("Method ClientSide.RegisterPlayer: adding " + login);
+            if (player == Network.player)
+                IsRegistered = true;
+            ConnectedPlayers.Add(new PlayerData { Login = login, NetworkPlayer = player });
+            Debug.Log("Players.Count == " + ConnectedPlayers.Count);
+        }
+
+        public void UnregisterPlayer(NetworkPlayer player)
+        {
+            Debug.Log("Method Room.UnregisterPlayer");
+            ConnectedPlayers.Remove(player);
+            Debug.Log("Players.Count == " + ConnectedPlayers.Count);
+        }
     }
 }

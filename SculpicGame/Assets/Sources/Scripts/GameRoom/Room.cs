@@ -89,11 +89,7 @@ namespace Assets.Sources.Scripts.GameRoom
         [RPC]
         public void RegisterPlayer(NetworkPlayer player, string login)
         {
-            if (player == Network.player)
-                ClientSide.IsRegistered = true;
-            Debug.Log("Method Room.RegisterPlayer: adding " + login);
-            ClientSide.ConnectedPlayers.Add(new PlayerData { Login = login, NetworkPlayer = player });
-            Debug.Log("Players.Count == " + ClientSide.ConnectedPlayers.Count);
+            ClientSide.RegisterPlayer(player, login);
         }
 
         // Player
@@ -106,9 +102,7 @@ namespace Assets.Sources.Scripts.GameRoom
         [RPC]
         public void UnregisterPlayer(NetworkPlayer player)
         {
-            Debug.Log("Method Room.UnregisterPlayer");
-            ClientSide.ConnectedPlayers.Remove(player);
-            Debug.Log("Players.Count == " + ClientSide.ConnectedPlayers.Count);
+            ClientSide.UnregisterPlayer(player);
             if (Network.isServer)
                 ServerSide.RemoveFromDrawers(player);
         }
