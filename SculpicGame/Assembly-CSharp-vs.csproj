@@ -93,6 +93,7 @@
      <Compile Include="Assets\Sources\Scripts\GameRoom\Chat.cs" />
      <Compile Include="Assets\Sources\Scripts\GameRoom\Chatter.cs" />
      <Compile Include="Assets\Sources\Scripts\GameRoom\ClientSide.cs" />
+     <Compile Include="Assets\Sources\Scripts\GameRoom\DrawingTimer.cs" />
      <Compile Include="Assets\Sources\Scripts\GameRoom\PlayerData.cs" />
      <Compile Include="Assets\Sources\Scripts\GameRoom\Room.cs" />
      <Compile Include="Assets\Sources\Scripts\GameRoom\ScreenHelper.cs" />

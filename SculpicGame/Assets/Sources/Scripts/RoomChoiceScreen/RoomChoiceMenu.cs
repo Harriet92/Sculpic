@@ -19,7 +19,7 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         {
             Debug.Log("Method RoomChoiceMenu.Awake");
             MasterServerConnectionManager.SetMasterServerLocation();
-            PlayerNameText.text = Player.Current == null ? "Stranger" : Player.Current.Username;
+            PlayerNameText.text = Player.Name;
             RefreshRoomHosts();
         }
 

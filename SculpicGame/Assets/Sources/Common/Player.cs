@@ -19,5 +19,13 @@ namespace Assets.Sources.Common
                 UserId = dbUser.UserId
             };
         }
+
+        public static string Name
+        {
+            get
+            {
+                return Current != null ? Current.Username : "Stranger";
+            }
+        }
     }
 }

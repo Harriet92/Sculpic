@@ -15,7 +15,7 @@ namespace Assets.Sources.Scripts.GameRoom
         public string CurrentPhrase;
         public PlayerData CurrentDrawer;
 
-        public bool CanStartNewGame
+        public bool CanStartNewRound
         {
             get { return !DrawingStarted && _drawers.Count > 0; }
         }
@@ -52,7 +52,7 @@ namespace Assets.Sources.Scripts.GameRoom
             return String.Equals(phrase, CurrentPhrase, StringComparison.CurrentCultureIgnoreCase);
         }
 
-        public void StartNewGame()
+        public void StartNewRound()
         {
             DrawingStarted = true;
             SetNewPhrase();
@@ -76,6 +76,12 @@ namespace Assets.Sources.Scripts.GameRoom
                 if (!_drawers.Contains(CurrentDrawer))
                     _drawers.Add(CurrentDrawer);
             Chat.AddMessageToSend(String.Format(Chat.NextDrawerMessage, CurrentDrawer.Login), Chat.System);
+        }
+
+        public void TimeIsUp(string login)
+        {
+            Chat.AddMessageToSend(String.Format(Chat.TimeIsUp, login), Chat.System);
+            StartNewRound();
         }
     }
 }

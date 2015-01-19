@@ -19,13 +19,33 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             Debug.Log("Method Room.Awake");
             DontDestroyOnLoad(this);
+            InvokeRepeating("UpdateTime", 0, 1);
+        }
+
+        public void UpdateTime()
+        {
+            ClientSide.TimerTick();
+            if (ClientSide.HasFinished)
+            {
+                networkView.RPC("TimeIsUp", RPCMode.Server, Player.Name);
+                DisplayInfoPopup("Time's up!");
+                ClientSide.IsDrawer = false;
+                StartCoroutine(ScreenHelper.LoadLevel(SceneName.GuesserScreen));
+            }
+        }
+
+        // RoomOwner
+        [RPC]
+        public void TimeIsUp(string login)
+        {
+            ServerSide.TimeIsUp(login);
         }
 
         // RoomOwner
         [RPC]
         public void SignUpForDrawing(NetworkPlayer player, string login)
         {
-            ServerSide.SignUpForDrawing(new PlayerData {NetworkPlayer = player, Login = login});
+            ServerSide.SignUpForDrawing(new PlayerData { NetworkPlayer = player, Login = login });
         }
 
         // RoomOwner
@@ -41,7 +61,7 @@ namespace Assets.Sources.Scripts.GameRoom
             Debug.Log("Method Room.OnWantToDrawValueChanged to: " + callingObject.isOn);
             ClientSide.WantToDraw = callingObject.isOn;
             Debug.Log("Method RoomOwner.WantToDrawToggle: wantToDraw == " + ClientSide.WantToDraw);
-            networkView.RPC(ClientSide.WantToDraw ? "SignUpForDrawing" : "SignOffFromDrawing", RPCMode.Server, Network.player, Player.Current != null ? Player.Current.Username : "Stranger");
+            networkView.RPC(ClientSide.WantToDraw ? "SignUpForDrawing" : "SignOffFromDrawing", RPCMode.Server, Network.player, Player.Name);
         }
 
         public void Update()
@@ -51,8 +71,8 @@ namespace Assets.Sources.Scripts.GameRoom
                 DisplayAndCheckMessage(Chat.GetMessageToDisplay());
 
             if (Network.isServer)
-                if (ServerSide.CanStartNewGame)
-                    StartNewGame();
+                if (ServerSide.CanStartNewRound)
+                    StartNewRound();
 
             if (Network.isClient)
                 if (ClientSide.CanRegister)
@@ -147,10 +167,10 @@ namespace Assets.Sources.Scripts.GameRoom
             }
         }
 
-        private void StartNewGame()
+        private void StartNewRound()
         {
-            Debug.Log("Method Room.StartNewGame");
-            ServerSide.StartNewGame();
+            Debug.Log("Method Room.StartNewRound");
+            ServerSide.StartNewRound();
             networkView.RPC("SetDrawer", ServerSide.CurrentDrawer.NetworkPlayer, ServerSide.CurrentPhrase);
         }
 

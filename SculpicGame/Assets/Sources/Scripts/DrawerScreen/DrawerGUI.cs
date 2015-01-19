@@ -14,6 +14,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
     {
         public Text ChatTextField;
         public Text PhraseTextField;
+        public Text TimerTextField;
         public Toggle RotateToggle;
         public Toggle MoveToggle;
         private static readonly List<Object> InstantiatedSolids = new List<Object>();
@@ -35,6 +36,11 @@ namespace Assets.Sources.Scripts.DrawerScreen
             Debug.Log("Method DrawerGUI.Start: Room.CurrentPhrase == " + Room.ClientSide.Phrase);
             PhraseTextField.text = Room.ClientSide.Phrase;
             Room.ClientSide.OnNewScreenLoad(ChatTextField);
+        }
+
+        void Update()
+        {
+            TimerTextField.text = Room.ClientSide.RemainingTime;
         }
 
         public void AddSolidClick(GameObject solidToInstantiate)

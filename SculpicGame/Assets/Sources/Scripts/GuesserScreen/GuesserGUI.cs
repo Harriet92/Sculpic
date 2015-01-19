@@ -37,7 +37,7 @@ namespace Assets.Sources.Scripts.GuesserScreen
         {
             if (String.IsNullOrEmpty(message)) return;
             ChatInputField.text = String.Empty;
-            Chat.AddMessageToSend(message, Player.Current == null ? "Stranger" : Player.Current.Username);
+            Chat.AddMessageToSend(message, Player.Name);
         }
 
         private void UpdatePlayersList()
@@ -45,7 +45,6 @@ namespace Assets.Sources.Scripts.GuesserScreen
             ClearPlayersScorePanel();
             foreach (var playerData in Room.ClientSide.ConnectedPlayers.Sorted())
                 AddPlayerScoreElement(playerData);
-            
         }
 
         private void ClearPlayersScorePanel()

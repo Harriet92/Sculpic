@@ -8,9 +8,36 @@ namespace Assets.Sources.Scripts.GameRoom
     {
         private Text _chatTextField;
         private readonly StringBuilder _chatHistory = new StringBuilder();
+
         private Toggle _wantToDrawToggle;
         public bool WantToDraw { get; set; }
-        public bool IsDrawer { get; set; }
+
+        private DrawingTimer _timer = new DrawingTimer();
+        public string RemainingTime { get { return _timer.ToString(); } }
+
+        public bool HasFinished
+        {
+            get
+            {
+                if (!_timer.HasFinished) return false;
+                _timer = new DrawingTimer();
+                return true;
+            }
+        }
+
+        public bool IsDrawer
+        {
+            get { return _timer.IsOn; }
+            set
+            {
+                if (!value)
+                {
+                    _timer = new DrawingTimer();
+                }
+                else _timer.IsOn = true;
+            }
+        }
+
         public readonly ActivePlayers ConnectedPlayers = new ActivePlayers();
         public bool IsRegistered { get; set; }
         private bool _isActive;
@@ -24,12 +51,13 @@ namespace Assets.Sources.Scripts.GameRoom
         public void OnNewScreenLoad(Text chatTextField, Toggle wantToDrawToggle = null)
         {
             _chatTextField = chatTextField;
+            RefreshChat();
+
             if (wantToDrawToggle != null)
             {
                 _wantToDrawToggle = wantToDrawToggle;
                 wantToDrawToggle.isOn = WantToDraw;
             }
-            RefreshChat();
             _isActive = true;
         }
 
@@ -70,6 +98,11 @@ namespace Assets.Sources.Scripts.GameRoom
             Debug.Log("Method Room.UnregisterPlayer");
             ConnectedPlayers.Remove(player);
             Debug.Log("Players.Count == " + ConnectedPlayers.Count);
+        }
+
+        public void TimerTick()
+        {
+            _timer.Tick();
         }
     }
 }
