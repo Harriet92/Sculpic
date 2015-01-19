@@ -8,7 +8,8 @@ namespace Assets.Sources.Scripts.GameRoom
 {
     internal class ServerSide
     {
-        public const int WinnerPoints = 5;
+        private const int WinnerBasePoints = 30;
+        private const int DrawerBasePoints = 90;
         private readonly List<PlayerData> _drawers = new List<PlayerData>();
 
         public bool DrawingStarted { get; set; }
@@ -82,6 +83,16 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             Chat.AddMessageToSend(String.Format(Chat.TimeIsUp, login), Chat.System);
             StartNewRound();
+        }
+
+        public static int PointsForWinner(double pointsPart)
+        {
+            return (int)(pointsPart * WinnerBasePoints);
+        }
+
+        public static int PointsForDrawer(double pointsPart)
+        {
+            return (int)(pointsPart * DrawerBasePoints);
         }
     }
 }

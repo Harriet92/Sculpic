@@ -14,6 +14,7 @@ namespace Assets.Sources.Scripts.GameRoom
 
         private DrawingTimer _timer = new DrawingTimer();
         public string RemainingTime { get { return _timer.ToString(); } }
+        public float PointsPart { get { return _timer.PointsPart; } }
 
         public bool HasFinished
         {
@@ -46,6 +47,7 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             get { return !IsRegistered && _isActive; }
         }
+
         public string Phrase { get; set; }
 
         public void OnNewScreenLoad(Text chatTextField, Toggle wantToDrawToggle = null)

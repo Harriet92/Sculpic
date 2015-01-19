@@ -138,32 +138,58 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             if (ServerSide.MatchesPhrase(message.Message))
             {
+                var winner = message.SenderNetworkPlayer;
+                networkView.RPC("GetPointsPart", ServerSide.CurrentDrawer.NetworkPlayer, winner);
                 Chat.AddMessageToSend(message.WinningMessage, Chat.System);
-                CountAndSendScore(message.SenderNetworkPlayer);
             }
         }
 
-        private void CountAndSendScore(NetworkPlayer winner)
+        // Player
+        [RPC]
+        public void GetPointsPart(NetworkPlayer winner)
+        {
+            Debug.Log("Method Room.GetPointsPart");
+            var pointsPart = ClientSide.PointsPart;
+            networkView.RPC("SendPointsPart", RPCMode.Server, winner, pointsPart);
+        }
+
+        // RoomOwner
+        [RPC]
+        private void SendPointsPart(NetworkPlayer winner, float pointsPart)
+        {
+            Debug.Log("Method Room.SendPointsPart");
+            CountAndSendScore(winner, pointsPart);
+        }
+
+        // RoomOwner
+        private void CountAndSendScore(NetworkPlayer winner, double pointsPart)
         {
             Debug.Log("Method Room.CountAndSendScore");
-            var points = ServerSide.WinnerPoints;
-            networkView.RPC("SetWinner", RPCMode.Others, winner, points);
+            var winnerPoints = ServerSide.PointsForWinner(pointsPart);
+            var drawerPoints = ServerSide.PointsForDrawer(pointsPart);
+            networkView.RPC("SetPoints", RPCMode.Others, winner, winnerPoints, ServerSide.CurrentDrawer.NetworkPlayer, drawerPoints);
             ServerSide.DrawingStarted = false;
         }
 
+        // Player
         [RPC]
-        public void SetWinner(NetworkPlayer winner, int points)
+        public void SetPoints(NetworkPlayer winner, int winnerPoints, NetworkPlayer drawer, int drawerPoints)
         {
-            Debug.Log("Method Room.SetWinner");
-            ClientSide.ConnectedPlayers.AddPoints(winner, points);
+            Debug.Log("Method Room.SetPoints");
+            ClientSide.ConnectedPlayers.AddPoints(winner, winnerPoints);
+            ClientSide.ConnectedPlayers.AddPoints(drawer, drawerPoints);
             if (Network.player == winner)
             {
-                DisplayInfoPopup("You've got " + points + " points!");
+                DisplayInfoPopup("You've got " + winnerPoints + " points!");
             }
-            else if (Application.loadedLevelName != SceneName.GuesserScreen.ToString())
+            else if (Network.player == drawer)
             {
-                ClientSide.IsDrawer = false;
-                StartCoroutine(ScreenHelper.LoadLevel(SceneName.GuesserScreen));
+                DisplayInfoPopup("You've got " + drawer + " points!");
+                if (Application.loadedLevelName == SceneName.DrawerScreen.ToString())
+                {
+                    ClientSide.IsDrawer = false;
+                    StartCoroutine(ScreenHelper.LoadLevel(SceneName.GuesserScreen));
+                }
             }
         }
 

@@ -14,16 +14,29 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             get
             {
-                var intervalsNumber = 0;
+                var intervalsNumber = 1;
                 var timeLeft = RoundLength;
                 while ((timeLeft = timeLeft.Subtract(TimePointInterval)) > TimeSpan.Zero)
                     intervalsNumber++;
                 return intervalsNumber;
             }
         }
-        public bool HasFinished { get { return IsOn && _timeLeft <= TimeSpan.Zero; } }
 
-        private int _currentInterval;
+        private int IntervalsLeft
+        {
+            get
+            {
+                var intervalsNumber = 1;
+                var timeLeft = _timeLeft;
+                while ((timeLeft = timeLeft.Subtract(TimePointInterval)) > TimeSpan.Zero)
+                    intervalsNumber++;
+                return intervalsNumber;
+            }
+        }
+
+        public float PointsPart { get { return (float)IntervalsLeft / IntervalsNumber; } }
+
+        public bool HasFinished { get { return IsOn && _timeLeft <= TimeSpan.Zero; } }
 
         public void Tick()
         {
