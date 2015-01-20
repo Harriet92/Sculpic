@@ -9,11 +9,9 @@ namespace Assets.Sources.Scripts.GameRoom
     [RequireComponent(typeof(NetworkView))]
     class Room : MenuBase
     {
-        // Player
         public static ClientSide ClientSide = new ClientSide();
-
-        // RoomOwner
         private static readonly ServerSide ServerSide = new ServerSide();
+        private static bool _gameOver;
 
         private void Awake()
         {
@@ -39,6 +37,7 @@ namespace Assets.Sources.Scripts.GameRoom
         public void TimeIsUp(string login)
         {
             ServerSide.TimeIsUp(login);
+            networkView.RPC("SetDrawer", ServerSide.CurrentDrawer.NetworkPlayer, ServerSide.CurrentPhrase);
         }
 
         // RoomOwner
@@ -50,7 +49,7 @@ namespace Assets.Sources.Scripts.GameRoom
 
         // RoomOwner
         [RPC]
-        public void SignOffFromDrawing(NetworkPlayer player)
+        public void SignOffFromDrawing(NetworkPlayer player, string login)
         {
             ServerSide.SignOffFromDrawing(player);
         }
@@ -64,34 +63,59 @@ namespace Assets.Sources.Scripts.GameRoom
             networkView.RPC(ClientSide.WantToDraw ? "SignUpForDrawing" : "SignOffFromDrawing", RPCMode.Server, Network.player, Player.Name);
         }
 
+        void OnApplicationQuit()
+        {
+            if (Network.isClient)
+                UnregisterFromGame();
+            Clear();
+        }
+
         public void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape)) { LeaveRoom(); }
             if (Chat.HasMessageToDisplay)
                 DisplayAndCheckMessage(Chat.GetMessageToDisplay());
 
-            if (Network.isServer)
-                if (ServerSide.CanStartNewRound)
-                    StartNewRound();
+            if (!_gameOver)
+            {
+                if (ClientSide.ConnectedPlayers.GameEnds)
+                {
+                    EndGame();
+                    return;
+                }
 
-            if (Network.isClient)
-                if (ClientSide.CanRegister)
-                    RegisterInGame();
+                if (Network.isServer)
+                    if (ServerSide.CanStartNewRound)
+                        StartNewRound();
+
+                if (Network.isClient)
+                    if (ClientSide.CanRegister)
+                        RegisterInGame();
+            }
+            else
+            {
+                if (Network.isServer)
+                    Application.Quit();
+            }
         }
 
         private void LeaveRoom()
         {
             if (Network.isClient)
-                UnregisterInGame();
+                UnregisterFromGame();
             Clear();
             Application.LoadLevel(SceneName.RoomChoiceScreen.ToString());
         }
 
-        void OnApplicationQuit()
+        // Player
+        private void EndGame()
         {
-            if (Network.isClient)
-                UnregisterInGame();
-            Clear();
+            Debug.Log("Method Room.EndGame");
+            if (Network.isServer)
+                ;// TODO: update ranking
+            _gameOver = true;
+            Application.LoadLevel(SceneName.RoomChoiceScreen.ToString()); // TODO: load ranking
+            Destroy(this);
         }
 
         public static void Clear()
@@ -113,9 +137,9 @@ namespace Assets.Sources.Scripts.GameRoom
         }
 
         // Player
-        private void UnregisterInGame()
+        private void UnregisterFromGame()
         {
-            Debug.Log("Method Room.UnregisterInGame");
+            Debug.Log("Method Room.UnregisterFromGame");
             networkView.RPC("UnregisterPlayer", RPCMode.AllBuffered, Network.player);
         }
 

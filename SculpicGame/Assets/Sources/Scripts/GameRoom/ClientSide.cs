@@ -6,6 +6,7 @@ namespace Assets.Sources.Scripts.GameRoom
 {
     public class ClientSide
     {
+        private const int MaxScore = 150;
         private Text _chatTextField;
         private readonly StringBuilder _chatHistory = new StringBuilder();
 
@@ -39,16 +40,17 @@ namespace Assets.Sources.Scripts.GameRoom
             }
         }
 
-        public readonly ActivePlayers ConnectedPlayers = new ActivePlayers();
-        public bool IsRegistered { get; set; }
+        public readonly ActivePlayers ConnectedPlayers = new ActivePlayers(MaxScore);
+
+        private bool _isRegistered;
         private bool _isActive;
 
         public bool CanRegister
         {
-            get { return !IsRegistered && _isActive; }
+            get { return !_isRegistered && _isActive; }
         }
 
-        public string Phrase { get; set; }
+        public string Phrase { get; private set; }
 
         public void OnNewScreenLoad(Text chatTextField, Toggle wantToDrawToggle = null)
         {
@@ -90,14 +92,14 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             Debug.Log("Method ClientSide.RegisterPlayer: adding " + login);
             if (player == Network.player)
-                IsRegistered = true;
+                _isRegistered = true;
             ConnectedPlayers.Add(new PlayerData { Login = login, NetworkPlayer = player });
             Debug.Log("Players.Count == " + ConnectedPlayers.Count);
         }
 
         public void UnregisterPlayer(NetworkPlayer player)
         {
-            Debug.Log("Method Room.UnregisterPlayer");
+            Debug.Log("Method ClientSide.UnregisterPlayer");
             ConnectedPlayers.Remove(player);
             Debug.Log("Players.Count == " + ConnectedPlayers.Count);
         }

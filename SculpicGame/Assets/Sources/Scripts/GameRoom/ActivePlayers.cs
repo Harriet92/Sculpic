@@ -7,13 +7,17 @@ namespace Assets.Sources.Scripts.GameRoom
     public class ActivePlayers
     {
         private readonly List<PlayerData> _players = new List<PlayerData>();
+        private readonly int _maxScore;
 
         public bool HasChanged { get; set; }
         public int Count { get { return _players.Count; } }
 
-        public ActivePlayers()
+        public bool GameEnds { get; private set; }
+
+        public ActivePlayers(int maxScore)
         {
             HasChanged = true;
+            _maxScore = maxScore;
         }
 
         public void Add(PlayerData playerData)
@@ -44,6 +48,8 @@ namespace Assets.Sources.Scripts.GameRoom
             if (data != null)
             {
                 data.Score += points;
+                if (data.Score > _maxScore)
+                    GameEnds = true;
                 HasChanged = true;
             }
         }
