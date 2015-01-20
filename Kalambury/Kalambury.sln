@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kalambury.WcfServer", "Kala
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kalambury.WcfServer.Test", "Kalambury.WcfServer.Test\Kalambury.WcfServer.Test.csproj", "{49A3EF6B-EB8B-4FCD-B893-B6578D58A560}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseServerHost", "DatabaseServerHost\DatabaseServerHost.csproj", "{21D19D69-1B34-4771-930A-233038FBD88B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kalambury.ServerHost", "DatabaseServerHost\Kalambury.ServerHost.csproj", "{21D19D69-1B34-4771-930A-233038FBD88B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

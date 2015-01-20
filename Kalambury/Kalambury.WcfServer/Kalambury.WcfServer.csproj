@@ -73,7 +73,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\PhraseMongoRepository.cs" />
-    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\UserMongoRepository.cs" />
     <Compile Include="Services\PhraseService.cs" />
     <Compile Include="Services\RoomService.cs" />
     <Compile Include="Services\UserService.cs" />

@@ -30,7 +30,7 @@ namespace Kalambury.WcfServer.Test
         [TestCategory("RoomService SetUpNewRoom")]
         public void SetUpNewRoom_BasicTest_ShouldSucceed()
         {
-            roomService.SetUpNewRoom(1, testRoomSettings.GameName, testRoomSettings.Password, testRoomSettings.UsersLimit).Should().BeTrue();
+            roomService.SetUpNewRoom("1", testRoomSettings.GameName, testRoomSettings.Password, testRoomSettings.UsersLimit.ToString()).Should().BeTrue();
         }
     }
 }
