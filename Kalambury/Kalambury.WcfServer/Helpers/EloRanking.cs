@@ -28,7 +28,7 @@ namespace Kalambury.WcfServer.Helpers
                     _userScores.Where(opponentScore => playerScore != opponentScore)
                         .Sum(
                             opponentScore =>
-                                CountRankingDifference(playerScore.User.Ranking, playerScore.User.Ranking,
+                                CountRankingDifference(playerScore.User.Ranking, opponentScore.User.Ranking,
                                     GetGameResult(playerScore.Score, opponentScore.Score)));
                 playerScore.User.Ranking += rankingDifference;
             }
@@ -40,8 +40,8 @@ namespace Kalambury.WcfServer.Helpers
             var rankingDifference = opponentRanking - playerRanking;
             var expectedResult = 1 / (1 + Math.Pow(10f, rankingDifference / 400f));
             var absoluteRankingDifference = gameResult - expectedResult;
-            var newRanking = (playerRanking + (32 * absoluteRankingDifference));
-            return (int)newRanking;
+            var newRankingDifference = 32 * absoluteRankingDifference;
+            return (int)newRankingDifference;
         }
 
         private static double GetGameResult(int playerRanking, int opponentRanking)
