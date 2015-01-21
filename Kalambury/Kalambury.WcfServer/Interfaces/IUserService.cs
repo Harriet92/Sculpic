@@ -17,7 +17,7 @@ namespace Kalambury.WcfServer.Interfaces
 
         [WebInvoke(UriTemplate = "/UpdateRanking/{usernames}/{points}", Method = "GET", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         [OperationContract]
-        string UpdateRanking(string usernames, string points);
+        bool UpdateRanking(string usernames, string points);
 
         [WebInvoke(UriTemplate = "/PingService", Method = "GET", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         [OperationContract]
