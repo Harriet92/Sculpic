@@ -12,7 +12,7 @@ namespace Kalambury.WcfServer.Test
     {
         [TestMethod]
         [TestCategory("EloRanking")]
-        public void EloRanking_TwoPlayersWorseWins_ShouldChangeRanking()
+        public void CountNewRankings_TwoPlayersWorseRankingWins_ShouldChangeRanking()
         {
             const int playerOneBaseRanking = 1500;
             const int playerTwoBaseRanking = 1700;
@@ -27,15 +27,15 @@ namespace Kalambury.WcfServer.Test
             };
 
             var eloRanking = new EloRanking(userScores);
-            var newRankings = eloRanking.CountNewRankings();
+            eloRanking.CountNewRankings();
 
-            newRankings.Find(user => user == playerOne).Ranking.Should().BeGreaterThan(playerOneBaseRanking);
-            newRankings.Find(user => user == playerTwo).Ranking.Should().BeLessThan(playerTwoBaseRanking);
+            playerOne.Ranking.Should().BeGreaterThan(playerOneBaseRanking);
+            playerTwo.Ranking.Should().BeLessThan(playerTwoBaseRanking);
         }
 
         [TestMethod]
         [TestCategory("EloRanking")]
-        public void EloRanking_TwoPlayersBetterWins_ShouldChangeRanking()
+        public void CountNewRankings_TwoPlayersBetterRankingWins_ShouldChangeRanking()
         {
             const int playerOneBaseRanking = 1500;
             const int playerTwoBaseRanking = 1700;
@@ -50,15 +50,57 @@ namespace Kalambury.WcfServer.Test
             };
 
             var eloRanking = new EloRanking(userScores);
-            var newRankings = eloRanking.CountNewRankings();
+            eloRanking.CountNewRankings();
 
-            newRankings.Find(user => user == playerOne).Ranking.Should().BeLessThan(playerOneBaseRanking);
-            newRankings.Find(user => user == playerTwo).Ranking.Should().BeGreaterThan(playerTwoBaseRanking);
+            playerOne.Ranking.Should().BeLessThan(playerOneBaseRanking);
+            playerTwo.Ranking.Should().BeGreaterThan(playerTwoBaseRanking);
         }
 
         [TestMethod]
         [TestCategory("EloRanking")]
-        public void EloRanking_ThreePlayersSameRanking_ShouldSortByScore()
+        public void CountNewRankings_TwoPlayersSameRankingTie_ShouldChangeRanking()
+        {
+            var playerOne = new User { Ranking = EloRanking.BaseRanking };
+            var playerTwo = new User { Ranking = EloRanking.BaseRanking };
+
+            var userScores = new List<EloRanking.UserScore>
+            {
+                new EloRanking.UserScore {User = playerOne, Score = 300},
+                new EloRanking.UserScore {User = playerTwo, Score = 300}
+            };
+
+            var eloRanking = new EloRanking(userScores);
+            eloRanking.CountNewRankings();
+
+            playerOne.Ranking.Should().Be(playerTwo.Ranking);
+        }
+
+        [TestMethod]
+        [TestCategory("EloRanking")]
+        public void CountNewRankings_TwoPlayersDifferentRankingTie_ShouldChangeRanking()
+        {
+            const int playerOneBaseRanking = 1500;
+            const int playerTwoBaseRanking = 1700;
+
+            var playerOne = new User { Ranking = playerOneBaseRanking };
+            var playerTwo = new User { Ranking = playerTwoBaseRanking };
+
+            var userScores = new List<EloRanking.UserScore>
+            {
+                new EloRanking.UserScore {User = playerOne, Score = 300},
+                new EloRanking.UserScore {User = playerTwo, Score = 300}
+            };
+
+            var eloRanking = new EloRanking(userScores);
+            eloRanking.CountNewRankings();
+
+            playerOne.Ranking.Should().BeGreaterThan(playerOneBaseRanking);
+            playerTwo.Ranking.Should().BeLessThan(playerTwoBaseRanking);
+        }
+
+        [TestMethod]
+        [TestCategory("EloRanking")]
+        public void CountNewRankings_ThreePlayersSameRanking_ShouldSortByScore()
         {
             var playerOne = new User { Ranking = EloRanking.BaseRanking };
             var playerTwo = new User { Ranking = EloRanking.BaseRanking };
