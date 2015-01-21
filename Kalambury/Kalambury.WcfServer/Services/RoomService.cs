@@ -1,5 +1,4 @@
 ﻿using System;
-using JsonFx.Json;
 using Kalambury.WcfServer.Helpers;
 using Kalambury.WcfServer.Interfaces;
 using Kalambury.WcfServer.Models;

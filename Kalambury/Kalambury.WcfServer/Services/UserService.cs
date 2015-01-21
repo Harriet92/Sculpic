@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using Kalambury.Database.Mongo;
 using Kalambury.Mongo.Interfaces;
+using Kalambury.WcfServer.Helpers;
 using Kalambury.WcfServer.Interfaces;
 using Kalambury.WcfServer.Models;
 using Kalambury.WcfServer.Repositories;
@@ -11,6 +11,10 @@ namespace Kalambury.WcfServer.Services
 {
     public class UserService : IUserService
     {
+        private const string StatusOk = "OK!";
+        private const string StatusError = "ERROR!";
+        private const int BaseRanking = 1200;
+
         private readonly IUserRepository userRepository;
         //For testing purposes
         public UserService()
@@ -33,7 +37,7 @@ namespace Kalambury.WcfServer.Services
         public User LoginUser(string username, string password)
         {
             User user = userRepository.GetUserByUsername(username);
-            if (user == null || user.Password != password) 
+            if (user == null || user.Password != password)
                 return null;
             user.LastLoginAt = DateTime.Now;
             return userRepository.Save(user);
@@ -48,8 +52,24 @@ namespace Kalambury.WcfServer.Services
                 Username = username,
                 Password = password,
                 CreatedAt = DateTime.UtcNow,
-                LastLoginAt = DateTime.UtcNow
+                LastLoginAt = DateTime.UtcNow,
+                Ranking = BaseRanking
             });
+        }
+
+        public string UpdateRanking(string usernames, string points)
+        {
+            try
+            {
+                var eloRanking = new EloRanking(usernames, points, userRepository);
+                eloRanking.Compute();
+            }
+            catch (Exception)
+            {
+                return StatusError;
+            }
+
+            return StatusOk;
         }
 
         private bool IsNewUserDataValid(string username, string password)
@@ -60,7 +80,7 @@ namespace Kalambury.WcfServer.Services
 
         public string PingService()
         {
-            return "OK!";
+            return StatusOk;
         }
     }
 }

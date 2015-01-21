@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using System.ServiceModel.Web;
-using System.Text;
 using Kalambury.WcfServer.Models;
 
 namespace Kalambury.WcfServer.Interfaces
@@ -19,6 +14,10 @@ namespace Kalambury.WcfServer.Interfaces
         [WebInvoke(UriTemplate = "/AddNewUser/{username}/{password}", Method = "GET", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         [OperationContract]
         User AddNewUser(string username, string password);
+
+        [WebInvoke(UriTemplate = "/UpdateRanking/{usernames}/{points}", Method = "GET", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        [OperationContract]
+        string UpdateRanking(string usernames, string points);
 
         [WebInvoke(UriTemplate = "/PingService", Method = "GET", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         [OperationContract]

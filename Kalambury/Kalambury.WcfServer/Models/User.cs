@@ -24,5 +24,7 @@ namespace Kalambury.WcfServer.Models
         public DateTime LastLoginAt { get; set; }
         [DataMember]
         public DateTime CreatedAt { get; set; }
+        [DataMember]
+        public int Ranking { get; set; }
     }
 }
