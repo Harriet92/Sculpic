@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Assets.Sources.Common;
+using Assets.Sources.DatabaseClient.Models;
 using Assets.Sources.DatabaseClient.Security;
 using Assets.Sources.DatabaseClient.Services;
 using System.Collections;
-using Assets.Sources.DatabaseServer.Models;
 using Assets.Sources.Enums;
 using UnityEngine;
 using UnityEngine.UI;

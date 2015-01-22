@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Assets.Sources.Enums
+﻿namespace Assets.Sources.Enums
 {
     public enum SceneName
     {
@@ -14,6 +9,7 @@ namespace Assets.Sources.Enums
         DrawerScreen,
         GuesserScreen,
         RoomSettingsScreen,
-        CreditsScreen
+        CreditsScreen,
+        RankingScreen
     }
 }

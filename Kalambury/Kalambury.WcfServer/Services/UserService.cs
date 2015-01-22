@@ -12,8 +12,6 @@ namespace Kalambury.WcfServer.Services
 {
     public class UserService : IUserService
     {
-        private const string StatusOk = "OK!";
-
         private readonly IUserRepository userRepository;
         //For testing purposes
         public UserService()

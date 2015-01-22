@@ -2,12 +2,10 @@
 using System.Threading;
 using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.DatabaseServer.JsonFx;
-using Assets.Sources.DatabaseServer.Models;
 using UnityEngine;
 
 namespace Assets.Sources.DatabaseClient.REST
 {
-    //TODO: Add logging
     public class RestCommunication
     {
         public const string BaseURL = isLocalhost ? "http://localhost:8733" : "http://sculpicserver.cloudapp.net:8733";
@@ -48,7 +46,7 @@ namespace Assets.Sources.DatabaseClient.REST
             Debug.Log("Response: " + response);
             if (String.IsNullOrEmpty(response)) return default(T);
             var reader = new JsonReader(response);
-            var result = (T)reader.Deserialize(typeof(User));
+            var result = (T)reader.Deserialize(typeof(T));
             return result;
         }
     }

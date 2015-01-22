@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Sources.DatabaseServer.Models
+namespace Assets.Sources.DatabaseClient.Models
 {
     public class User
     {
@@ -9,6 +9,9 @@ namespace Assets.Sources.DatabaseServer.Models
 
         public Int64 UserId { get; set; }
         public string Username { get; set; }
+        public DateTime LastLoginAt { get; set; }
+        public DateTime CreatedAt { get; set; }
         public int Ranking { get; set; }
+
     }
 }

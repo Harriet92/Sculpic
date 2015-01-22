@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Assets.Sources.DatabaseClient.Models;
 using Assets.Sources.DatabaseClient.REST;
-using Assets.Sources.DatabaseServer.Models;
 
 namespace Assets.Sources.DatabaseClient.Services
 {
@@ -33,10 +33,10 @@ namespace Assets.Sources.DatabaseClient.Services
             return restCommunication.SendAndReceive<bool>(url);
         }
 
-        public List<User> GetTopRanking(string count)
+        public User[] GetTopRanking(string count)
         {
             var url = ServiceEndpoint + "/GetTopRanking/" + count;
-            return restCommunication.SendAndReceive<List<User>>(url);
+            return restCommunication.SendAndReceive<User[]>(url);
         }
 
         public bool PingService()

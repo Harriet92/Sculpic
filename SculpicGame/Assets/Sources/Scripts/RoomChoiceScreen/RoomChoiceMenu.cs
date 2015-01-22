@@ -14,12 +14,14 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         public GameObject RoomButtonsPanel;
         public Button RoomButton;
         public Text PlayerNameText;
+        public Text PlayerRankingText;
 
         private void Awake()
         {
             Debug.Log("Method RoomChoiceMenu.Awake");
             MasterServerConnectionManager.SetMasterServerLocation();
             PlayerNameText.text = Player.Name;
+            PlayerRankingText.text = Player.GetRanking.ToString();
             RefreshRoomHosts();
         }
 

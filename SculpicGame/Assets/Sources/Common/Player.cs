@@ -1,5 +1,5 @@
 ﻿using System;
-using Assets.Sources.DatabaseServer.Models;
+using Assets.Sources.DatabaseClient.Models;
 
 namespace Assets.Sources.Common
 {
