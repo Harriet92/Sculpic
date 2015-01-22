@@ -106,6 +106,7 @@
      <Compile Include="Assets\Sources\Scripts\MenuBase.cs" />
      <Compile Include="Assets\Sources\Scripts\Music\MusicButton.cs" />
      <Compile Include="Assets\Sources\Scripts\Music\SoundManager.cs" />
+     <Compile Include="Assets\Sources\Scripts\RankingScreen\RankingButton.cs" />
      <Compile Include="Assets\Sources\Scripts\RankingScreen\RankingElement.cs" />
      <Compile Include="Assets\Sources\Scripts\RankingScreen\RankingMenu.cs" />
      <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomButton.cs" />
