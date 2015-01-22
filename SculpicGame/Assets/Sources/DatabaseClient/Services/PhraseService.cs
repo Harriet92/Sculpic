@@ -1,8 +1,4 @@
-﻿using System;
-using Assets.Sources.DatabaseClient.REST;
-using Assets.Sources.DatabaseServer.JsonFx;
-using Assets.Sources.DatabaseServer.Models;
-using UnityEngine;
+﻿using Assets.Sources.DatabaseClient.REST;
 
 namespace Assets.Sources.DatabaseClient.Services
 {
@@ -20,12 +16,7 @@ namespace Assets.Sources.DatabaseClient.Services
         public string DrawPhrase()
         {
             var url = ServiceEndpoint + "/DrawPhrase";
-            var response = restCommunication.SendAndReceive(url);
-            Debug.Log("Response: " + response);
-            if (String.IsNullOrEmpty(response)) return null;
-            JsonReader reader = new JsonReader(response);
-            string result = (string)reader.Deserialize(typeof(string));
-            return result;
+            return restCommunication.SendAndReceive<string>(url);
         }
 
     }

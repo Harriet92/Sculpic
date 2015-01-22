@@ -112,9 +112,9 @@ namespace Kalambury.WcfServer.Services
                    UsernameValidator.IsUsernameValid(username) && _userRepository.IsUsernameUnique(username);
         }
 
-        public string PingService()
+        public bool PingService()
         {
-            return StatusOk;
+            return true;
         }
     }
 }

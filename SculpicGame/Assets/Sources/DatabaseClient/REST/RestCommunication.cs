@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 using Assets.Sources.DatabaseClient.Services;
+using Assets.Sources.DatabaseServer.JsonFx;
+using Assets.Sources.DatabaseServer.Models;
 using UnityEngine;
 
 namespace Assets.Sources.DatabaseClient.REST
@@ -13,7 +15,7 @@ namespace Assets.Sources.DatabaseClient.REST
         private const int retryOnErrorCount = 3;
         private const int timeoutCount = 10;
         private const int sleepTimeout = 500;
-        public string SendAndReceive(string url)
+        private string sendAndReceive(string url)
         {
             WWW www = null;
             int noOfConnections = 0;
@@ -38,6 +40,16 @@ namespace Assets.Sources.DatabaseClient.REST
                 Debug.Log("Server error: " + UserService.LastError);
             }
             return www.isDone ? www.text : null;
+        }
+
+        public T SendAndReceive<T>(string url)
+        {
+            var response = sendAndReceive(url);
+            Debug.Log("Response: " + response);
+            if (String.IsNullOrEmpty(response)) return default(T);
+            var reader = new JsonReader(response);
+            var result = (T)reader.Deserialize(typeof(User));
+            return result;
         }
     }
 }

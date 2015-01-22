@@ -1,10 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using Assets.Sources.DatabaseClient.Models;
-using Assets.Sources.DatabaseClient.REST;
-using Assets.Sources.DatabaseServer.JsonFx;
-using UnityEngine;
+﻿using Assets.Sources.DatabaseClient.REST;
 
 namespace Assets.Sources.DatabaseClient.Services
 {
@@ -22,13 +16,7 @@ namespace Assets.Sources.DatabaseClient.Services
         public bool SetUpNewRoom(string userId, string gameName, string password, string usersLimit)
         {
             var url = ServiceEndpoint + "/SetUpNewRoom/" + userId + "/" + gameName + "/" + "password" + "/" + usersLimit;
-            Debug.Log(ServiceEndpoint + "/SetUpNewRoom/" + userId + "/" + gameName + "/" + password + "/" + usersLimit);
-            var response = restCommunication.SendAndReceive(url);
-            Debug.Log("Response: " + response);
-            if (String.IsNullOrEmpty(response)) return false;
-            JsonReader reader = new JsonReader(response);
-            bool result = (bool)reader.Deserialize(typeof(bool));
-            return result;
+            return restCommunication.SendAndReceive<bool>(url);
         }
     }
 }

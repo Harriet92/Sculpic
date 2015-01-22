@@ -21,6 +21,6 @@ namespace Kalambury.WcfServer.Interfaces
 
         [WebInvoke(UriTemplate = "/PingService", Method = "GET", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         [OperationContract]
-        string PingService();
+        bool PingService();
     }
 }
