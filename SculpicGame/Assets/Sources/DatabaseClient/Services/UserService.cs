@@ -24,22 +24,28 @@ namespace Assets.Sources.DatabaseClient.Services
         public User LoginUser(string username, string password)
         {
             var url = ServiceEndpoint + "/LoginUser/" + username + "/" + password;
-            var response = restCommunication.SendAndReceive(url);
-            Debug.Log("Response: " + response);
-            if (String.IsNullOrEmpty(response)) return null;
-            JsonReader reader = new JsonReader(response);
-            User result = (User)reader.Deserialize(typeof(User));
-            return result;
+            return SendAndRecieve<User>(url);
         }
 
         public User AddNewUser(string username, string password)
         {
             var url = ServiceEndpoint + "/AddNewUser/"+username+"/"+password;
-            string response = restCommunication.SendAndReceive(url);
+            return SendAndRecieve<User>(url);
+        }
+
+        public bool UpdateRanking(string usernames, string scores)
+        {
+            var url = ServiceEndpoint + "/UpdateRanking/" + usernames + "/" + scores;
+            return SendAndRecieve<bool>(url);
+        }
+
+        private T SendAndRecieve<T>(string url)
+        {
+            var response = restCommunication.SendAndReceive(url);
             Debug.Log("Response: " + response);
-            if (String.IsNullOrEmpty(response)) return null;
-            JsonReader reader = new JsonReader(response);
-            User result = (User)reader.Deserialize(typeof(User));
+            if (String.IsNullOrEmpty(response)) return default(T);
+            var reader = new JsonReader(response);
+            var result = (T)reader.Deserialize(typeof(User));
             return result;
         }
 

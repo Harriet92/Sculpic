@@ -243,6 +243,7 @@ namespace Kalambury.WcfServer.Test
         [TestCategory("UserService UpdateRanking")]
         public void UpdateRanking_FiveUsers_ShouldChangeRanking()
         {
+            const string separator = ";";
             const string username = "username";
             const string password = "password";
             const int usersCount = 5;
@@ -253,7 +254,6 @@ namespace Kalambury.WcfServer.Test
             {
                 var currentUsername = username + i;
                 userService.AddNewUser(currentUsername, password);
-                var separator = (i == usersCount - 1 ? "" : ";");
                 usernames += currentUsername + separator;
                 scores += i + separator;
             }

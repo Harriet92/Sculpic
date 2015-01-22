@@ -1,4 +1,5 @@
 ﻿using Assets.Sources.Common;
+using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.Enums;
 using UnityEngine;
 using UnityEngine.UI;
@@ -112,7 +113,13 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             Debug.Log("Method Room.EndGame");
             if (Network.isServer)
-                ;// TODO: update ranking
+            {
+                var userService = new UserService();
+                string usernames;
+                string scores;
+                ClientSide.ConnectedPlayers.GetRankingData(out usernames, out scores);
+                userService.UpdateRanking(usernames, scores);
+            }
             _gameOver = true;
             Application.LoadLevel(SceneName.RoomChoiceScreen.ToString()); // TODO: load ranking
             Destroy(this);

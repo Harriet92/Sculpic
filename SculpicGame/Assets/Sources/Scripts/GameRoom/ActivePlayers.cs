@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -51,6 +52,18 @@ namespace Assets.Sources.Scripts.GameRoom
                 if (data.Score > _maxScore)
                     GameEnds = true;
                 HasChanged = true;
+            }
+        }
+
+        public void GetRankingData(out string usernames, out string scores)
+        {
+            usernames = String.Empty;
+            scores = String.Empty;
+            foreach (var playerData in _players)
+            {
+                const string separator = ";";
+                usernames += playerData.Login + separator;
+                scores += playerData.Score + separator;
             }
         }
     }
