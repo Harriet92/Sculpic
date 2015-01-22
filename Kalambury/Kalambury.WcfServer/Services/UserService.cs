@@ -58,6 +58,12 @@ namespace Kalambury.WcfServer.Services
 
         public bool UpdateRanking(string usernames, string points)
         {
+            if (usernames == null && points == null)
+                return true;
+
+            if (usernames == null || points == null)
+                return false;
+
             List<EloRanking.UserScore> userScores;
             if (!GetUserScores(usernames, points, out userScores)) return false;
 

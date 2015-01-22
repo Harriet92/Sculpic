@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Kalambury.Database.Mongo;
+using Kalambury.WcfServer.Helpers;
 using Kalambury.WcfServer.Models;
 using Kalambury.WcfServer.Repositories;
 using Kalambury.WcfServer.Services;
@@ -192,6 +193,115 @@ namespace Kalambury.WcfServer.Test
             var result = userService.AddNewUser("Username#$", userToBeRegistered.Password);
             result.Should().BeNull();
         }
+        #endregion
+
+        #region UserService UpdateRanking
+
+        [TestMethod]
+        [TestCategory("UserService UpdateRanking")]
+        public void UpdateRanking_EmptyArguments_ShoulReturnTrue()
+        {
+            var result = userService.UpdateRanking(String.Empty, String.Empty);
+            result.Should().BeTrue();
+        }
+
+        [TestMethod]
+        [TestCategory("UserService UpdateRanking")]
+        public void UpdateRanking_NullArguments_ShoulReturnTrue()
+        {
+            var result = userService.UpdateRanking(null, null);
+            result.Should().BeTrue();
+        }
+
+        [TestMethod]
+        [TestCategory("UserService UpdateRanking")]
+        public void UpdateRanking_OneNullArgument_ShoulReturnFalse()
+        {
+            var result = userService.UpdateRanking(null, "test");
+            result.Should().BeFalse();
+        }
+
+        [TestMethod]
+        [TestCategory("UserService UpdateRanking")]
+        public void UpdateRanking_OneUser_ShouldNotChangeRanking()
+        {
+            const string username = "username";
+            const string password = "password";
+
+            userService.AddNewUser(username, password);
+
+            var result = userService.UpdateRanking(username, "300");
+            result.Should().BeTrue();
+
+            var user = userRepository.GetUserByUsername(username);
+            user.Ranking.Should().Be(EloRanking.BaseRanking);
+
+            userRepository.Delete(user);
+        }
+
+        [TestMethod]
+        [TestCategory("UserService UpdateRanking")]
+        public void UpdateRanking_FiveUsers_ShouldChangeRanking()
+        {
+            const string username = "username";
+            const string password = "password";
+            const int usersCount = 5;
+
+            var usernames = String.Empty;
+            var scores = String.Empty;
+            for (var i = 0; i < usersCount; i++)
+            {
+                var currentUsername = username + i;
+                userService.AddNewUser(currentUsername, password);
+                var separator = (i == usersCount - 1 ? "" : ";");
+                usernames += currentUsername + separator;
+                scores += i + separator;
+            }
+
+            var result = userService.UpdateRanking(usernames, scores);
+            result.Should().BeTrue();
+
+            for (var i = 0; i < usersCount; i++)
+            {
+                var currentUsername = username + i;
+                var user = userRepository.GetUserByUsername(currentUsername);
+                user.Ranking.Should().NotBe(EloRanking.BaseRanking);
+                userRepository.Delete(user);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("UserService UpdateRanking")]
+        public void UpdateRanking_FiveUsers_ShouldNotChangeRanking()
+        {
+            const string username = "username";
+            const string password = "password";
+            const int usersCount = 5;
+            const int score = 10;
+
+            var usernames = String.Empty;
+            var scores = String.Empty;
+            for (var i = 0; i < usersCount; i++)
+            {
+                var currentUsername = username + i;
+                userService.AddNewUser(currentUsername, password);
+                var separator = (i == usersCount - 1 ? "" : ";");
+                usernames += currentUsername + separator;
+                scores += score + separator;
+            }
+
+            var result = userService.UpdateRanking(usernames, scores);
+            result.Should().BeTrue();
+
+            for (var i = 0; i < usersCount; i++)
+            {
+                var currentUsername = username + i;
+                var user = userRepository.GetUserByUsername(currentUsername);
+                user.Ranking.Should().Be(EloRanking.BaseRanking);
+                userRepository.Delete(user);
+            }
+        }
+
         #endregion
     }
 }
