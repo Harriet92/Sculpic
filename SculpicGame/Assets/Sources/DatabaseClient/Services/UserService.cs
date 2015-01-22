@@ -1,4 +1,5 @@
-﻿using Assets.Sources.DatabaseClient.REST;
+﻿using System.Collections.Generic;
+using Assets.Sources.DatabaseClient.REST;
 using Assets.Sources.DatabaseServer.Models;
 
 namespace Assets.Sources.DatabaseClient.Services
@@ -30,6 +31,12 @@ namespace Assets.Sources.DatabaseClient.Services
         {
             var url = ServiceEndpoint + "/UpdateRanking/" + usernames + "/" + scores;
             return restCommunication.SendAndReceive<bool>(url);
+        }
+
+        public List<User> GetTopRanking(string count)
+        {
+            var url = ServiceEndpoint + "/GetTopRanking/" + count;
+            return restCommunication.SendAndReceive<List<User>>(url);
         }
 
         public bool PingService()

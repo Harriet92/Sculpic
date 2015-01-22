@@ -9,5 +9,6 @@ namespace Assets.Sources.DatabaseServer.Models
 
         public Int64 UserId { get; set; }
         public string Username { get; set; }
+        public int Ranking { get; set; }
     }
 }
