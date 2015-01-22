@@ -15,7 +15,7 @@ namespace Kalambury.WcfServer.Services
             IDatabaseServer serverConnection = new MongoDatabaseServer(
                 new MongoConnectionSettings()
                 {
-                    DatabaseName = "TestPhraseDB",
+                    DatabaseName = "TestUserDB",
                     Ip = "127.0.0.1",
                     Port = "27017"
                 });
