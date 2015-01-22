@@ -1,4 +1,5 @@
-﻿using Kalambury.Mongo.Interfaces;
+﻿using System.Collections.Generic;
+using Kalambury.Mongo.Interfaces;
 using Kalambury.WcfServer.Models;
 
 namespace Kalambury.WcfServer.Interfaces
@@ -7,5 +8,6 @@ namespace Kalambury.WcfServer.Interfaces
     {
         User GetUserByUsername(string username);
         bool IsUsernameUnique(string username);
+        List<User> GetUsersByRanking(int count);
     }
 }

@@ -14,7 +14,7 @@ namespace Kalambury.WcfServer.Services
     {
         private const string StatusOk = "OK!";
 
-        private readonly IUserRepository _userRepository;
+        private readonly IUserRepository userRepository;
         //For testing purposes
         public UserService()
         {
@@ -25,29 +25,29 @@ namespace Kalambury.WcfServer.Services
                     Ip = "127.0.0.1",
                     Port = "27017"
                 });
-            _userRepository = new UserMongoRepository(serverConnection);
+            userRepository = new UserMongoRepository(serverConnection);
         }
 
         public UserService(IDatabaseServer serverConnection)
         {
-            _userRepository = new UserMongoRepository(serverConnection);
+            userRepository = new UserMongoRepository(serverConnection);
         }
 
         public User LoginUser(string username, string password)
         {
-            User user = _userRepository.GetUserByUsername(username);
+            User user = userRepository.GetUserByUsername(username);
             if (user == null || user.Password != password)
                 return null;
             user.LastLoginAt = DateTime.Now;
-            return _userRepository.Save(user);
+            return userRepository.Save(user);
         }
 
         public User AddNewUser(string username, string password)
         {
             if (!IsNewUserDataValid(username, password)) return null;
-            return _userRepository.Insert(new User
+            return userRepository.Insert(new User
             {
-                UserId = _userRepository.CountAll(),
+                UserId = userRepository.CountAll(),
                 Username = username,
                 Password = password,
                 CreatedAt = DateTime.UtcNow,
@@ -92,7 +92,7 @@ namespace Kalambury.WcfServer.Services
                 if (!int.TryParse(points[i], out score))
                     return false;
 
-                var user = _userRepository.GetUserByUsername(usernames[i]);
+                var user = userRepository.GetUserByUsername(usernames[i]);
                 if (user == null)
                     return false;
 
@@ -103,18 +103,27 @@ namespace Kalambury.WcfServer.Services
 
         private void UpdateUsers(List<User> users)
         {
-            users.ForEach(user => _userRepository.Save(user));
+            users.ForEach(user => userRepository.Save(user));
         }
 
         private bool IsNewUserDataValid(string username, string password)
         {
             return !String.IsNullOrEmpty(password) && !String.IsNullOrEmpty(username) &&
-                   UsernameValidator.IsUsernameValid(username) && _userRepository.IsUsernameUnique(username);
+                   UsernameValidator.IsUsernameValid(username) && userRepository.IsUsernameUnique(username);
         }
 
         public bool PingService()
         {
             return true;
+        }
+
+        public List<User> GetTopRanking(string count)
+        {
+            int _count;
+            if(!Int32.TryParse(count, out _count))
+                return null;
+
+            return userRepository.GetUsersByRanking(_count);
         }
     }
 }
