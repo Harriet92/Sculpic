@@ -46,12 +46,6 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
             MasterServerConnectionManager.RegisterHost(gameName);
         }
 
-        public void JoinFirstRoom()
-        {
-            Debug.Log("Method RoomChoiceMenu.JoinFirstRoom");
-            RoomChoiceManager.JoinFirstRoom();
-        }
-
         public void RefreshRoomHosts()
         {
             Debug.Log("Method RoomChoiceMenu.RefreshRoomHosts");
