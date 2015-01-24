@@ -24,6 +24,11 @@ namespace Assets.Sources.Scripts.GuesserScreen
             UpdatePlayersList();
         }
 
+        void OnDestroy()
+        {
+            SculptorCurrentSettings.ResetValues();
+        }
+
         void Update()
         {
             if (Room.ClientSide.ConnectedPlayers.HasChanged)
