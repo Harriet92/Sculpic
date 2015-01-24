@@ -1,26 +1,26 @@
-﻿using System.Net.Mime;
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class RoomButton : MonoBehaviour
+namespace Assets.Sources.Scripts.RoomChoiceScreen
 {
-
-    public Text RoomName;
-    public Text NumberOfPlayers;
-    private HostData hostData;
-
-    public void JoinRoom()
+    public class RoomButton : MonoBehaviour
     {
-        Debug.Log("Host gameName: " + hostData.gameName);
-        Network.Connect(hostData);
-    }
+        public Text RoomName;
+        public Text NumberOfPlayers;
+        private HostData _hostData;
 
-    public void SetRoomData(HostData _hostData, GameObject parentPanel)
-    {
-        hostData = _hostData;
-        RoomName.text = _hostData.gameName;
-        NumberOfPlayers.text = _hostData.connectedPlayers + "/" + _hostData.playerLimit;
-        transform.parent = parentPanel.transform;
+        public void JoinRoom()
+        {
+            Debug.Log("Host gameName: " + _hostData.gameName);
+            Network.Connect(_hostData);
+        }
+
+        public void SetRoomData(HostData hostData, GameObject parentPanel)
+        {
+            _hostData = hostData;
+            RoomName.text = hostData.gameName;
+            NumberOfPlayers.text = (hostData.connectedPlayers - 1) + "/" + (hostData.playerLimit - 1); // 1 is for server who isn't a player
+            transform.parent = parentPanel.transform;
+        }
     }
 }
