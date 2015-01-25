@@ -1,5 +1,4 @@
-﻿using Assets.Sources.Common;
-using Assets.Sources.Enums;
+﻿using Assets.Sources.Enums;
 using Assets.Sources.Scripts.GameRoom;
 using UnityEngine;
 
@@ -9,15 +8,14 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
     {
         void Awake()
         {
-            Debug.Log("Method RoomChoiceManager.Awake");
+            Debug.Log("Method RoomChoiceManager.OnEnable");
             DontDestroyOnLoad(this);
-            Room.Clear();
         }
 
-        private void OnServerInitialized()
+        void OnEnable()
         {
-            Debug.Log("Method RoomChoiceManager.OnServerInitialized");
-            StartCoroutine(ScreenHelper.LoadLevel(SceneName.GuesserScreen));
+            Debug.Log("Method RoomChoiceManager.OnEnable");
+            Room.Clear();
         }
 
         #region JoinRoom

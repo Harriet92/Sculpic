@@ -8,6 +8,7 @@ namespace Assets.Sources.Scripts.GameRoom
     {
         public static IEnumerator LoadLevel(SceneName sceneName)
         {
+            ClientSide.IsLoading = true;
             Debug.Log("Method ScreenHelper.LoadLevel");
             Network.SetSendingEnabled(0, false);
             Network.isMessageQueueRunning = false;
@@ -22,6 +23,7 @@ namespace Assets.Sources.Scripts.GameRoom
             Network.SetSendingEnabled(0, true);
 
             Debug.Log("End of ScreenHelper.LoadLevel method");
+            ClientSide.IsLoading = false;
         }
     }
 }

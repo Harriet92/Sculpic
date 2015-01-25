@@ -17,6 +17,8 @@ namespace Assets.Sources.Scripts.GameRoom
         public static string RemainingTime { get { return _timer.ToString(); } }
         public static float PointsPart { get { return _timer.PointsPart; } }
 
+        public static bool IsLoading { get; set; }
+
         public static bool HasFinished
         {
             get
@@ -43,11 +45,15 @@ namespace Assets.Sources.Scripts.GameRoom
         public static ActivePlayers ConnectedPlayers = new ActivePlayers(MaxScore);
 
         private static bool _isRegistered;
-        private static bool _isActive;
 
         public static bool CanRegister
         {
-            get { return !_isRegistered && _isActive; }
+            get
+            {
+                if (_isRegistered) return false;
+                _isRegistered = true;
+                return true;
+            }
         }
 
         public static string Phrase { get; private set; }
@@ -61,7 +67,6 @@ namespace Assets.Sources.Scripts.GameRoom
             _timer = new DrawingTimer();
             ConnectedPlayers = new ActivePlayers(MaxScore);
             _isRegistered = false;
-            _isActive = false;
         }
 
         public static void OnNewScreenLoad(Text chatTextField, Toggle wantToDrawToggle = null)
@@ -74,7 +79,6 @@ namespace Assets.Sources.Scripts.GameRoom
                 _wantToDrawToggle = wantToDrawToggle;
                 wantToDrawToggle.isOn = WantToDraw;
             }
-            _isActive = true;
         }
 
         private static void RefreshChat()

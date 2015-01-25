@@ -35,7 +35,7 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             Debug.Log("Method ServerSide.RemoveFromDrawers");
             var drawer = Drawers.FirstOrDefault(pd => pd.NetworkPlayer == player);
-            if (drawer != null &&Drawers.Remove(drawer))
+            if (drawer != null && Drawers.Remove(drawer))
                 Debug.Log("Removed player from drawing queue.");
             if (drawer == CurrentDrawer)
             {

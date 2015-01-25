@@ -4,15 +4,13 @@ using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.Enums;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 namespace Assets.Sources.Scripts.GameRoom
 {
     [RequireComponent(typeof(NetworkView))]
     class Room : MenuBase
     {
-        private static bool _gameOver;
-
+        private const float DestructionTime = 10;
         private void Awake()
         {
             Debug.Log("Method Room.Awake");
@@ -67,11 +65,15 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             if (Network.isClient)
                 UnregisterFromGame();
-            Clear();
+            Network.Disconnect();
         }
 
         public void Update()
         {
+            if (ClientSide.IsLoading) return;
+
+            Debug.Log("Method Room.Update");
+
             if (Input.GetKeyDown(KeyCode.Escape)) { LeaveRoom(); }
             if (Chat.HasMessageToDisplay)
                 DisplayAndCheckMessage(Chat.GetMessageToDisplay());
@@ -94,9 +96,13 @@ namespace Assets.Sources.Scripts.GameRoom
         private void LeaveRoom()
         {
             if (Network.isClient)
+            {
                 UnregisterFromGame();
-            Clear();
-            Application.LoadLevel(SceneName.RoomChoiceScreen.ToString());
+                Clear();
+                Application.LoadLevel(SceneName.RoomChoiceScreen.ToString());
+                Network.Disconnect();
+                Destroy(this, DestructionTime);
+            }
         }
 
         // Player
@@ -138,9 +144,9 @@ namespace Assets.Sources.Scripts.GameRoom
         private void RegisterInGame()
         {
             Debug.Log("Method Room.RegisterInGame");
-            networkView.RPC("RegisterPlayer", RPCMode.AllBuffered, Network.player,
-                Player.Current == null ? Random.Range(0, 100).ToString() : Player.Current.Username);
+            networkView.RPC("RegisterPlayer", RPCMode.AllBuffered, Network.player, Player.Current.Username);
             Chat.AddMessageToDisplay(Chat.YouHaveJoinedMessage, Chat.System, Network.player);
+            Chat.AddMessageToSend(String.Format(Chat.PlayerHasJoinedMessage, Player.Current.Username), Chat.System);
         }
 
         [RPC]
