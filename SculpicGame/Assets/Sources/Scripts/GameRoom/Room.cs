@@ -76,27 +76,19 @@ namespace Assets.Sources.Scripts.GameRoom
             if (Chat.HasMessageToDisplay)
                 DisplayAndCheckMessage(Chat.GetMessageToDisplay());
 
-            if (!_gameOver)
+            if (ClientSide.ConnectedPlayers.GameEnds)
             {
-                if (ClientSide.ConnectedPlayers.GameEnds)
-                {
-                    EndGame();
-                    return;
-                }
-
-                if (Network.isServer)
-                    if (CanStartNewRound)
-                        StartNewRound();
-
-                if (Network.isClient)
-                    if (ClientSide.CanRegister)
-                        RegisterInGame();
+                EndGame();
+                return;
             }
-            else
-            {
-                if (Network.isServer)
-                    Application.Quit();
-            }
+
+            if (Network.isServer)
+                if (CanStartNewRound)
+                    StartNewRound();
+
+            if (Network.isClient)
+                if (ClientSide.CanRegister)
+                    RegisterInGame();
         }
 
         private void LeaveRoom()
@@ -113,18 +105,22 @@ namespace Assets.Sources.Scripts.GameRoom
             Debug.Log("Method Room.EndGame");
             if (Network.isServer)
             {
+                Debug.Log("Method Room.EndGame: Network.isServer");
                 var userService = new UserService();
                 string usernames;
                 string scores;
                 ClientSide.ConnectedPlayers.GetRankingData(out usernames, out scores);
                 userService.UpdateRanking(usernames, scores);
+                Application.Quit();
             }
-            _gameOver = true;
-            Application.LoadLevel(SceneName.RankingScreen.ToString());
-            Destroy(this);
+            if (Network.isClient)
+            {
+                Debug.Log("Method Room.EndGame: Network.isClient");
+                Application.LoadLevel(SceneName.RankingScreen.ToString());
+            }
         }
 
-        public bool CanStartNewRound
+        private bool CanStartNewRound
         {
             get
             {
@@ -211,7 +207,7 @@ namespace Assets.Sources.Scripts.GameRoom
             Debug.Log("Method Room.CountAndSendScore");
             var winnerPoints = ServerSide.PointsForWinner(pointsPart);
             var drawerPoints = ServerSide.PointsForDrawer(pointsPart);
-            networkView.RPC("SetPoints", RPCMode.Others, winner, winnerPoints, ServerSide.CurrentDrawer.NetworkPlayer, drawerPoints);
+            networkView.RPC("SetPoints", RPCMode.All, winner, winnerPoints, ServerSide.CurrentDrawer.NetworkPlayer, drawerPoints);
             ServerSide.DrawingStarted = false;
         }
 

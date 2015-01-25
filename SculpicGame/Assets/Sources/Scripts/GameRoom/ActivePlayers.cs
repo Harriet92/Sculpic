@@ -52,7 +52,10 @@ namespace Assets.Sources.Scripts.GameRoom
             {
                 data.Score += points;
                 if (data.Score > _maxScore)
+                {
+                    Debug.Log("ActivePlayers.GameEnds = true");
                     GameEnds = true;
+                }
                 HasChanged = true;
             }
         }
