@@ -120,7 +120,7 @@ namespace Assets.Sources.Scripts.GameRoom
                 userService.UpdateRanking(usernames, scores);
             }
             _gameOver = true;
-            Application.LoadLevel(SceneName.RoomChoiceScreen.ToString()); // TODO: load ranking
+            Application.LoadLevel(SceneName.RankingScreen.ToString());
             Destroy(this);
         }
 
