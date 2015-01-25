@@ -1,4 +1,5 @@
-﻿using Assets.Sources.Common;
+﻿using System;
+using Assets.Sources.Common;
 using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.Enums;
 using UnityEngine;
@@ -134,7 +135,9 @@ namespace Assets.Sources.Scripts.GameRoom
         private void RegisterInGame()
         {
             Debug.Log("Method Room.RegisterInGame");
-            networkView.RPC("RegisterPlayer", RPCMode.AllBuffered, Network.player, Player.Current == null ? Random.Range(0, 100).ToString() : Player.Current.Username); // TODO: change random to Player.Current.Username
+            networkView.RPC("RegisterPlayer", RPCMode.AllBuffered, Network.player,
+                Player.Current == null ? Random.Range(0, 100).ToString() : Player.Current.Username);
+            Chat.AddMessageToDisplay(Chat.YouHaveJoinedMessage, Chat.System, Network.player);
         }
 
         [RPC]
@@ -147,15 +150,18 @@ namespace Assets.Sources.Scripts.GameRoom
         private void UnregisterFromGame()
         {
             Debug.Log("Method Room.UnregisterFromGame");
-            networkView.RPC("UnregisterPlayer", RPCMode.AllBuffered, Network.player);
+            networkView.RPC("UnregisterPlayer", RPCMode.AllBuffered, Network.player, Player.Current.Username);
         }
 
         [RPC]
-        public void UnregisterPlayer(NetworkPlayer player)
+        public void UnregisterPlayer(NetworkPlayer player, string login)
         {
             ClientSide.UnregisterPlayer(player);
             if (Network.isServer)
+            {
                 ServerSide.RemoveFromDrawers(player);
+                Chat.AddMessageToSend(String.Format(Chat.PlayerHasLeftMessage, login), Chat.System);
+            }
         }
 
         private void DisplayAndCheckMessage(MessageToDisplay message)

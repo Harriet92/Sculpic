@@ -9,6 +9,9 @@ namespace Assets.Sources.Scripts.GameRoom
     {
         public const string System = "System";
         public const string NextDrawerMessage = "{0}'s drawing...";
+        public const string PlayerHasJoinedMessage = "{0}'s joined.";
+        public const string YouHaveJoinedMessage = "You've joined the room.";
+        public const string PlayerHasLeftMessage = "{0}'s left.";
         public const string TimeIsUp =  "{0}'s time for drawing is up...";
 
         private static readonly Queue<MessageToDisplay> PendingMessageToDisplay = new Queue<MessageToDisplay>();

@@ -25,6 +25,7 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             _players.Add(playerData);
             HasChanged = true;
+            Chat.AddMessageToDisplay(String.Format(Chat.PlayerHasJoinedMessage, playerData.Login), Chat.System, playerData.NetworkPlayer);
         }
 
         public void Remove(NetworkPlayer player)
