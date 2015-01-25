@@ -20,7 +20,7 @@ namespace Assets.Sources.Scripts.GuesserScreen
         void Start()
         {
             SculptorCurrentSettings.Rotate = true;
-            Room.ClientSide.OnNewScreenLoad(ChatTextField, WantToDrawToggle);
+            ClientSide.OnNewScreenLoad(ChatTextField, WantToDrawToggle);
             UpdatePlayersList();
         }
 
@@ -31,9 +31,9 @@ namespace Assets.Sources.Scripts.GuesserScreen
 
         void Update()
         {
-            if (Room.ClientSide.ConnectedPlayers.HasChanged)
+            if (ClientSide.ConnectedPlayers.HasChanged)
             {
-                Room.ClientSide.ConnectedPlayers.HasChanged = false;
+                ClientSide.ConnectedPlayers.HasChanged = false;
                 UpdatePlayersList();
             }
         }
@@ -48,7 +48,7 @@ namespace Assets.Sources.Scripts.GuesserScreen
         private void UpdatePlayersList()
         {
             ClearPlayersScorePanel();
-            foreach (var playerData in Room.ClientSide.ConnectedPlayers.Sorted())
+            foreach (var playerData in ClientSide.ConnectedPlayers.Sorted())
                 AddPlayerScoreElement(playerData);
         }
 

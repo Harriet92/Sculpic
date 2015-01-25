@@ -33,14 +33,14 @@ namespace Assets.Sources.Scripts.DrawerScreen
 
         void Start()
         {
-            Debug.Log("Method DrawerGUI.Start: Room.CurrentPhrase == " + Room.ClientSide.Phrase);
-            PhraseTextField.text = Room.ClientSide.Phrase;
-            Room.ClientSide.OnNewScreenLoad(ChatTextField);
+            Debug.Log("Method DrawerGUI.Start: Room.CurrentPhrase == " + ClientSide.Phrase);
+            PhraseTextField.text = ClientSide.Phrase;
+            ClientSide.OnNewScreenLoad(ChatTextField);
         }
 
         void Update()
         {
-            TimerTextField.text = Room.ClientSide.RemainingTime;
+            TimerTextField.text = ClientSide.RemainingTime;
         }
 
         public void AddSolidClick(GameObject solidToInstantiate)

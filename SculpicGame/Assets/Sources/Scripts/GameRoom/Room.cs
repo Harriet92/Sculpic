@@ -11,8 +11,6 @@ namespace Assets.Sources.Scripts.GameRoom
     [RequireComponent(typeof(NetworkView))]
     class Room : MenuBase
     {
-        public static ClientSide ClientSide = new ClientSide();
-        private static readonly ServerSide ServerSide = new ServerSide();
         private static bool _gameOver;
 
         private void Awake()
@@ -137,7 +135,7 @@ namespace Assets.Sources.Scripts.GameRoom
 
         public static void Clear()
         {
-            ClientSide = new ClientSide();
+            ClientSide.Reset();
         }
 
         // Player

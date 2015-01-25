@@ -4,20 +4,20 @@ using UnityEngine.UI;
 
 namespace Assets.Sources.Scripts.GameRoom
 {
-    public class ClientSide
+    public static class ClientSide
     {
         private const int MaxScore = 150;
-        private Text _chatTextField;
-        private readonly StringBuilder _chatHistory = new StringBuilder();
+        private static Text _chatTextField;
+        private static StringBuilder _chatHistory = new StringBuilder();
 
-        private Toggle _wantToDrawToggle;
-        public bool WantToDraw { get; set; }
+        private static Toggle _wantToDrawToggle;
+        public static bool WantToDraw { get; set; }
 
-        private DrawingTimer _timer = new DrawingTimer();
-        public string RemainingTime { get { return _timer.ToString(); } }
-        public float PointsPart { get { return _timer.PointsPart; } }
+        private static DrawingTimer _timer = new DrawingTimer();
+        public static string RemainingTime { get { return _timer.ToString(); } }
+        public static float PointsPart { get { return _timer.PointsPart; } }
 
-        public bool HasFinished
+        public static bool HasFinished
         {
             get
             {
@@ -27,7 +27,7 @@ namespace Assets.Sources.Scripts.GameRoom
             }
         }
 
-        public bool IsDrawer
+        public static bool IsDrawer
         {
             get { return _timer.IsOn; }
             set
@@ -40,19 +40,31 @@ namespace Assets.Sources.Scripts.GameRoom
             }
         }
 
-        public readonly ActivePlayers ConnectedPlayers = new ActivePlayers(MaxScore);
+        public static ActivePlayers ConnectedPlayers = new ActivePlayers(MaxScore);
 
-        private bool _isRegistered;
-        private bool _isActive;
+        private static bool _isRegistered;
+        private static bool _isActive;
 
-        public bool CanRegister
+        public static bool CanRegister
         {
             get { return !_isRegistered && _isActive; }
         }
 
-        public string Phrase { get; private set; }
+        public static string Phrase { get; private set; }
 
-        public void OnNewScreenLoad(Text chatTextField, Toggle wantToDrawToggle = null)
+        public static void Reset()
+        {
+            _chatTextField = null;
+            _chatHistory = new StringBuilder();
+            _wantToDrawToggle = null;
+            WantToDraw = false;
+            _timer = new DrawingTimer();
+            ConnectedPlayers = new ActivePlayers(MaxScore);
+            _isRegistered = false;
+            _isActive = false;
+        }
+
+        public static void OnNewScreenLoad(Text chatTextField, Toggle wantToDrawToggle = null)
         {
             _chatTextField = chatTextField;
             RefreshChat();
@@ -65,12 +77,12 @@ namespace Assets.Sources.Scripts.GameRoom
             _isActive = true;
         }
 
-        private void RefreshChat()
+        private static void RefreshChat()
         {
             _chatTextField.text = _chatHistory.ToString();
         }
 
-        public void DisplayMessage(string message)
+        public static void DisplayMessage(string message)
         {
             if (_chatTextField == null)
             {
@@ -81,14 +93,14 @@ namespace Assets.Sources.Scripts.GameRoom
             RefreshChat();
         }
 
-        public void SetDrawer(string phrase)
+        public static void SetDrawer(string phrase)
         {
             Debug.Log("Method ClientSide.SetDrawer");
             IsDrawer = true;
             Phrase = phrase;
         }
 
-        public void RegisterPlayer(NetworkPlayer player, string login)
+        public static void RegisterPlayer(NetworkPlayer player, string login)
         {
             Debug.Log("Method ClientSide.RegisterPlayer: adding " + login);
             if (player == Network.player)
@@ -97,14 +109,14 @@ namespace Assets.Sources.Scripts.GameRoom
             Debug.Log("Players.Count == " + ConnectedPlayers.Count);
         }
 
-        public void UnregisterPlayer(NetworkPlayer player)
+        public static void UnregisterPlayer(NetworkPlayer player)
         {
             Debug.Log("Method ClientSide.UnregisterPlayer");
             ConnectedPlayers.Remove(player);
             Debug.Log("Players.Count == " + ConnectedPlayers.Count);
         }
 
-        public void TimerTick()
+        public static void TimerTick()
         {
             _timer.Tick();
         }

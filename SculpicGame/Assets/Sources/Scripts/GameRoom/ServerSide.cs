@@ -6,58 +6,58 @@ using UnityEngine;
 
 namespace Assets.Sources.Scripts.GameRoom
 {
-    internal class ServerSide
+    public static class ServerSide
     {
         private const int WinnerBasePoints = 30;
         private const int DrawerBasePoints = 90;
-        private readonly List<PlayerData> _drawers = new List<PlayerData>();
+        private static readonly List<PlayerData> Drawers = new List<PlayerData>();
 
-        public bool DrawingStarted { get; set; }
-        public string CurrentPhrase;
-        public PlayerData CurrentDrawer;
+        public static bool DrawingStarted { get; set; }
+        public static string CurrentPhrase;
+        public static PlayerData CurrentDrawer;
 
-        public bool IsDrawerAvailable { get { return _drawers.Count > 0; } }
+        public static bool IsDrawerAvailable { get { return Drawers.Count > 0; } }
 
-        public void SignUpForDrawing(PlayerData player)
+        public static void SignUpForDrawing(PlayerData player)
         {
             Debug.Log("Method ServerSide.SignUpForDrawing");
-            _drawers.Add(player);
-            Debug.Log("Drawers count: " + _drawers.Count);
+            Drawers.Add(player);
+            Debug.Log("Drawers count: " + Drawers.Count);
         }
 
-        public void SignOffFromDrawing(NetworkPlayer player)
+        public static void SignOffFromDrawing(NetworkPlayer player)
         {
-            Debug.Log("Method Room.SignOffFromDrawing");
+            Debug.Log("Method ServerSide.SignOffFromDrawing");
             RemoveFromDrawers(player);
         }
 
-        public void RemoveFromDrawers(NetworkPlayer player)
+        public static void RemoveFromDrawers(NetworkPlayer player)
         {
             Debug.Log("Method ServerSide.RemoveFromDrawers");
-            var drawer = _drawers.FirstOrDefault(pd => pd.NetworkPlayer == player);
-            if (drawer != null &&_drawers.Remove(drawer))
+            var drawer = Drawers.FirstOrDefault(pd => pd.NetworkPlayer == player);
+            if (drawer != null &&Drawers.Remove(drawer))
                 Debug.Log("Removed player from drawing queue.");
             if (drawer == CurrentDrawer)
             {
                 DrawingStarted = false;
                 Chat.AddMessageToSend("Drawing player has left...", Chat.System);
             }
-            Debug.Log("Drawers count: " + _drawers.Count);
+            Debug.Log("Drawers count: " + Drawers.Count);
         }
 
-        public bool MatchesPhrase(string phrase)
+        public static bool MatchesPhrase(string phrase)
         {
             return String.Equals(phrase, CurrentPhrase, StringComparison.CurrentCultureIgnoreCase);
         }
 
-        public void StartNewRound()
+        public static void StartNewRound()
         {
             DrawingStarted = true;
             SetNewPhrase();
             SetNextDrawer();
         }
 
-        private void SetNewPhrase()
+        private static void SetNewPhrase()
         {
             Debug.Log("Method ServerSide.SetNewPhrase");
             var phraseService = new PhraseService();
@@ -66,17 +66,17 @@ namespace Assets.Sources.Scripts.GameRoom
             CurrentPhrase = newPhrase;
         }
 
-        private void SetNextDrawer()
+        private static void SetNextDrawer()
         {
             Debug.Log("Method ServerSide.SetNextDrawer");
-            CurrentDrawer = _drawers[0];
-            if (_drawers.Remove(CurrentDrawer))
-                if (!_drawers.Contains(CurrentDrawer))
-                    _drawers.Add(CurrentDrawer);
+            CurrentDrawer = Drawers[0];
+            if (Drawers.Remove(CurrentDrawer))
+                if (!Drawers.Contains(CurrentDrawer))
+                    Drawers.Add(CurrentDrawer);
             Chat.AddMessageToSend(String.Format(Chat.NextDrawerMessage, CurrentDrawer.Login), Chat.System);
         }
 
-        public void TimeIsUp(string login)
+        public static void TimeIsUp(string login)
         {
             Chat.AddMessageToSend(String.Format(Chat.TimeIsUp, login), Chat.System);
             StartNewRound();
