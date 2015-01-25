@@ -198,16 +198,9 @@ namespace Assets.Sources.Scripts.GameRoom
         private void SendPointsPart(NetworkPlayer winner, float pointsPart)
         {
             Debug.Log("Method Room.SendPointsPart");
-            CountAndSendScore(winner, pointsPart);
-        }
-
-        // RoomOwner
-        private void CountAndSendScore(NetworkPlayer winner, double pointsPart)
-        {
-            Debug.Log("Method Room.CountAndSendScore");
             var winnerPoints = ServerSide.PointsForWinner(pointsPart);
             var drawerPoints = ServerSide.PointsForDrawer(pointsPart);
-            networkView.RPC("SetPoints", RPCMode.All, winner, winnerPoints, ServerSide.CurrentDrawer.NetworkPlayer, drawerPoints);
+            networkView.RPC("SetPoints", RPCMode.AllBuffered, winner, winnerPoints, ServerSide.CurrentDrawer.NetworkPlayer, drawerPoints);
             ServerSide.DrawingStarted = false;
         }
 
