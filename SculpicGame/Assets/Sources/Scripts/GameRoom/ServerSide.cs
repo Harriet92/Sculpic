@@ -16,10 +16,7 @@ namespace Assets.Sources.Scripts.GameRoom
         public string CurrentPhrase;
         public PlayerData CurrentDrawer;
 
-        public bool CanStartNewRound
-        {
-            get { return !DrawingStarted && _drawers.Count > 0; }
-        }
+        public bool IsDrawerAvailable { get { return _drawers.Count > 0; } }
 
         public void SignUpForDrawing(PlayerData player)
         {

@@ -87,7 +87,7 @@ namespace Assets.Sources.Scripts.GameRoom
                 }
 
                 if (Network.isServer)
-                    if (ServerSide.CanStartNewRound)
+                    if (CanStartNewRound)
                         StartNewRound();
 
                 if (Network.isClient)
@@ -124,6 +124,15 @@ namespace Assets.Sources.Scripts.GameRoom
             _gameOver = true;
             Application.LoadLevel(SceneName.RoomChoiceScreen.ToString()); // TODO: load ranking
             Destroy(this);
+        }
+
+        public bool CanStartNewRound
+        {
+            get
+            {
+                return !ServerSide.DrawingStarted && ServerSide.IsDrawerAvailable &&
+                       ClientSide.ConnectedPlayers.IsGuesserAvailable;
+            }
         }
 
         public static void Clear()

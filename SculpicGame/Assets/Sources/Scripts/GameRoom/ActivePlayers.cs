@@ -12,6 +12,7 @@ namespace Assets.Sources.Scripts.GameRoom
 
         public bool HasChanged { get; set; }
         public int Count { get { return _players.Count; } }
+        public bool IsGuesserAvailable { get { return _players.Count > 1; } }
 
         public bool GameEnds { get; private set; }
 
