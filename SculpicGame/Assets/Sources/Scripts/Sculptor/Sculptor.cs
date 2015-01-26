@@ -1,88 +1,47 @@
-﻿using Assets.Sources.Common;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Sources.Scripts.Sculptor
 {
-    // TODO: redo
     public class Sculptor : MonoBehaviour
     {
-        public enum FallOff
+        private enum FallOff
         {
             Gauss = 1,
             Linear = 2,
             Needle = 3
         }
 
-        private readonly string[] _fallOffScrings = { "Gauss", "Linear", "Needle" };
-
-        private bool grid;
-        private bool carve { get { return SculptorCurrentSettings.Carve; } }
-        private float radius {get { return SculptorCurrentSettings.Radius; }}
-        private float pull {get { return SculptorCurrentSettings.Pull; }}
         private FallOff fallOff = FallOff.Gauss;
-        private MeshFilter unappliedMesh;
-        private Rect windowRect = new Rect(20, 20, 120, 50);
 
         private void Update()
         {
             if (SculptorCurrentSettings.Move || SculptorCurrentSettings.Rotate)
                 return;
-
-            // When no button is pressed we update the mesh collider
-            if (!Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetMouseButton(2))
-            {
-                // Apply collision mesh when we let go of button
-                ApplyMeshCollider();
-                return;
-            }
+            // TODO: change input to Input.Touch
 
             // Did we hit the surface?
             RaycastHit hit;
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                Debug.Log(radius);
-                MeshFilter filter = (MeshFilter)hit.collider.GetComponent("MeshFilter");
+                var filter = (MeshFilter)hit.collider.GetComponent("MeshFilter");
                 if (filter)
                 {
-                    if (grid)
+                    if (Input.GetMouseButton(0))
                     {
-                        // Debug.Log("DRAW");
-                        DrawGrid(filter.mesh);
-                        return;
-                    }
-                    // Debug.Log("UNDRAW");
-                    UnDrawGrid(filter.mesh);
-                    // Don't update mesh collider every frame since physX
-                    // does some heavy processing to optimize the collision mesh.
-                    // So this is not fast enough for real time updating every frame
-                    if (filter != unappliedMesh)
-                    {
-                        ApplyMeshCollider();
-                        unappliedMesh = filter;
-                    }
-
-                    if (Input.GetMouseButton(0) && !grid)
-                    {
-                        // Debug.Log("MESH");
-                        // Deform mesh
                         var relativePoint = filter.transform.InverseTransformPoint(hit.point);
-                        DeformMesh(filter.mesh, relativePoint, pull * Time.deltaTime, radius);
-
+                        DeformMesh(filter.mesh, relativePoint);
+                        UpdateMeshCollider(hit, filter.mesh);
                     }
                 }
-                //drawClickedTriangle(hit);
             }
         }
 
-        private static void DrawGrid(Mesh mesh)
+        private static void UpdateMeshCollider(RaycastHit hit, Mesh mesh)
         {
-            mesh.SetIndices(mesh.GetIndices(0), MeshTopology.LineStrip, 0);
-        }
-
-        private static void UnDrawGrid(Mesh mesh)
-        {
-            mesh.SetIndices(mesh.GetIndices(0), MeshTopology.Triangles, 0);
+            var meshCollider = (MeshCollider) hit.collider.GetComponent("MeshCollider");
+            meshCollider.sharedMesh = null;
+            meshCollider.sharedMesh = mesh;
         }
 
         private static float LinearFalloff(float distance, float inRadius)
@@ -100,8 +59,11 @@ namespace Assets.Sources.Scripts.Sculptor
             return -(dist * dist) / (inRadius * inRadius) + 1.0f;
         }
 
-        private void DeformMesh(Mesh mesh, Vector3 position, float power, float inRadius)
+        private void DeformMesh(Mesh mesh, Vector3 position)
         {
+            var power = SculptorCurrentSettings.Pull * Time.deltaTime;
+            var inRadius = SculptorCurrentSettings.Radius;
+
             var vertices = mesh.vertices;
             var normals = mesh.normals;
             var sqrRadius = inRadius * inRadius;
@@ -116,13 +78,11 @@ namespace Assets.Sources.Scripts.Sculptor
                     continue;
 
                 var distance = Mathf.Sqrt(sqrMagnitude);
-                var falloff_ = LinearFalloff(distance, inRadius);
-                averageNormal += falloff_ * normals[i];
+                averageNormal += LinearFalloff(distance, inRadius) * normals[i];
             }
             averageNormal = averageNormal.normalized;
 
             // Deform vertices along averaged normal
-            float falloff;
             for (int i = 0; i < vertices.Length; i++)
             {
                 var sqrMagnitude = (vertices[i] - position).sqrMagnitude;
@@ -131,6 +91,7 @@ namespace Assets.Sources.Scripts.Sculptor
                     continue;
 
                 var distance = Mathf.Sqrt(sqrMagnitude);
+                float falloff;
                 switch (fallOff)
                 {
                     case FallOff.Gauss:
@@ -144,24 +105,12 @@ namespace Assets.Sources.Scripts.Sculptor
                         break;
                 }
 
-                vertices[i] += averageNormal * falloff * power * (carve ? -1 : 1);
+                vertices[i] += averageNormal * falloff * power * (SculptorCurrentSettings.Carve ? -1 : 1);
             }
 
             mesh.vertices = vertices;
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
-        }
-
-
-        private void ApplyMeshCollider()
-        {
-            if (unappliedMesh && unappliedMesh.GetComponent("MeshCollider"))
-            {
-                unappliedMesh.mesh = unappliedMesh.mesh;
-                unappliedMesh.sharedMesh = unappliedMesh.mesh;
-                (unappliedMesh.GetComponent("MeshCollider") as MeshCollider).sharedMesh = unappliedMesh.mesh;
-            }
-            unappliedMesh = null;
         }
     }
 }

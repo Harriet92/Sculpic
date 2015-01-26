@@ -72,8 +72,6 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             if (ClientSide.IsLoading) return;
 
-            Debug.Log("Method Room.Update");
-
             if (Input.GetKeyDown(KeyCode.Escape)) { LeaveRoom(); }
             if (Chat.HasMessageToDisplay)
                 DisplayAndCheckMessage(Chat.GetMessageToDisplay());
