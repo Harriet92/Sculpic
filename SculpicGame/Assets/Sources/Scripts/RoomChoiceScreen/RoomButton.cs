@@ -8,7 +8,6 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         public Text RoomName;
         public Text NumberOfPlayers;
         public Image LockImage;
-        public InsertPasswordPopup PasswordCanvas;
         private HostData hostData;
         private RoomChoiceMenu roomChoiceMenu;
 
@@ -19,14 +18,7 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
 
         public void JoinRoom()
         {
-            Debug.Log("Host gameName: " + hostData.gameName);
-            if (!hostData.passwordProtected)
-                Network.Connect(hostData);
-            else
-            {
-                var passPopup = Instantiate(PasswordCanvas) as InsertPasswordPopup;
-                passPopup.hostData = hostData;
-            }
+           roomChoiceMenu.JoinRoom(hostData);
         }
 
         public void SetRoomData(HostData hostData, GameObject parentPanel)

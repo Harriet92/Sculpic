@@ -1,24 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Sources.Common;
 using Assets.Sources.Enums;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = System.Random;
 
 namespace Assets.Sources.Scripts.RoomChoiceScreen
 {
 
-    public class RoomChoiceMenu : MonoBehaviour
+    public class RoomChoiceMenu : MenuBase
     {
         public string GameName = "First game";
         public GameObject RoomButtonsPanel;
         public Button RoomButton;
         public Text PlayerNameText;
         public Text PlayerRankingText;
+        public InsertPasswordPopup PasswordCanvas;
+        private Random random;
 
         private void Awake()
         {
             Debug.Log("Method RoomChoiceMenu.Awake");
+            random = new Random();
             MasterServerConnectionManager.SetMasterServerLocation();
             PlayerNameText.text = Player.Name;
             PlayerRankingText.text = Player.GetRanking.ToString();
@@ -65,16 +70,37 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
         private void ClearRoomPanel()
         {
             var children = new List<GameObject>();
-            foreach (Transform child in RoomButtonsPanel.transform) 
+            foreach (Transform child in RoomButtonsPanel.transform)
                 children.Add(child.gameObject);
             children.ForEach(Destroy);
         }
 
         private void AddRoomButton(HostData hostData)
         {
-            var button = (Button) Instantiate(RoomButton);
+            var button = (Button)Instantiate(RoomButton);
             var roomButtonScript = button.GetComponentInChildren<RoomButton>();
             roomButtonScript.SetRoomData(hostData, RoomButtonsPanel);
+        }
+
+        public void JoinRoom(HostData hostData)
+        {
+            Debug.Log("Host gameName: " + hostData.gameName);
+            if (!hostData.passwordProtected)
+                Network.Connect(hostData);
+            else
+            {
+                var passPopup = Instantiate(PasswordCanvas) as InsertPasswordPopup;
+                passPopup.hostData = hostData;
+            }
+        }
+
+        public void JoinRandomRoom()
+        {
+            int passFreeCount = MasterServerConnectionManager.HostList.Count(x => !x.passwordProtected);
+            if (passFreeCount == 0)
+                DisplayInfoPopup("There are no open rooms.");
+            else
+                JoinRoom(MasterServerConnectionManager.HostList[random.Next(0, MasterServerConnectionManager.HostList.Count(x => !x.passwordProtected))]);
         }
 
         public void LogOffClick()
