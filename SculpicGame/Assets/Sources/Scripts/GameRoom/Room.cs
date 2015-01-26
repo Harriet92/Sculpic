@@ -15,12 +15,11 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             Debug.Log("Method Room.Awake");
             DontDestroyOnLoad(this);
-            InvokeRepeating("UpdateTime", 0, 1);
         }
 
-        public void UpdateTime()
+        private void UpdateTime(float deltaTime)
         {
-            ClientSide.TimerTick();
+            ClientSide.UpdateTime(deltaTime);
             if (ClientSide.HasFinished)
             {
                 networkView.RPC("TimeIsUp", RPCMode.Server, Player.Name);
@@ -87,8 +86,12 @@ namespace Assets.Sources.Scripts.GameRoom
                     StartNewRound();
 
             if (Network.isClient)
+            {
                 if (ClientSide.CanRegister)
                     RegisterInGame();
+                if (ClientSide.IsDrawer)
+                    UpdateTime(Time.deltaTime);
+            }
         }
 
         private void LeaveRoom()
