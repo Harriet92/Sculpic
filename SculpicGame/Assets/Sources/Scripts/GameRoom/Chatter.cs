@@ -10,7 +10,8 @@ namespace Assets.Sources.Scripts.GameRoom
             if (Chat.HasMessageToSend)
             {
                 var message = Chat.GetMessageToSend();
-                networkView.RPC("LogMessage", RPCMode.All, message.Message, message.SenderLogin, Network.player);
+                var rpcMode = message.ToSelf ? RPCMode.All : RPCMode.Others;
+                networkView.RPC("LogMessage", rpcMode, message.Message, message.SenderLogin, Network.player);
             }
         }
 

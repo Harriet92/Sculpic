@@ -6,7 +6,17 @@ namespace Assets.Sources.Scripts.GameRoom
     {
         private static readonly TimeSpan RoundLength = new TimeSpan(0, 0, 3, 0);
         private static readonly TimeSpan TimePointInterval = new TimeSpan(0, 0, 1, 0);
-        private TimeSpan _timeLeft = RoundLength;
+        private float _secondsLeft = (float)RoundLength.TotalSeconds;
+
+        private TimeSpan TimeLeft
+        {
+            get
+            {
+                var minutes = (int)(_secondsLeft / 60);
+                var seconds = (int)(_secondsLeft % 60);
+                return new TimeSpan(0, 0, minutes, seconds);
+            }
+        }
 
         public bool IsOn { get; set; }
 
@@ -27,7 +37,7 @@ namespace Assets.Sources.Scripts.GameRoom
             get
             {
                 var intervalsNumber = 1;
-                var timeLeft = _timeLeft;
+                var timeLeft = TimeLeft;
                 while ((timeLeft = timeLeft.Subtract(TimePointInterval)) > TimeSpan.Zero)
                     intervalsNumber++;
                 return intervalsNumber;
@@ -36,21 +46,21 @@ namespace Assets.Sources.Scripts.GameRoom
 
         public float PointsPart { get { return (float)IntervalsLeft / IntervalsNumber; } }
 
-        public bool HasFinished { get { return IsOn && _timeLeft <= TimeSpan.Zero; } }
+        public bool HasFinished { get { return IsOn && _secondsLeft <= 0; } }
 
-        public void Tick()
+        public void UpdateTime(float deltaTime)
         {
             if (IsOn)
             {
-                _timeLeft = _timeLeft.Subtract(new TimeSpan(0, 0, 0, 1));
-                if (_timeLeft < TimeSpan.Zero)
-                    _timeLeft = TimeSpan.Zero;
+                _secondsLeft -= deltaTime;
+                if (_secondsLeft < 0)
+                    _secondsLeft = 0;
             }
         }
 
         public override string ToString()
         {
-            return String.Format("{0}:{1}", _timeLeft.Minutes, _timeLeft.Seconds);
+            return String.Format("{0}:{1}", TimeLeft.Minutes.ToString("00"), TimeLeft.Seconds.ToString("00"));
         }
     }
 }

@@ -120,9 +120,9 @@ namespace Assets.Sources.Scripts.GameRoom
             Debug.Log("Players.Count == " + ConnectedPlayers.Count);
         }
 
-        public static void TimerTick()
+        public static void UpdateTime(float deltaTime)
         {
-            _timer.Tick();
+            _timer.UpdateTime(deltaTime);
         }
     }
 }

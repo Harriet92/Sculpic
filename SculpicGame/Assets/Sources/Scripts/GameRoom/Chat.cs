@@ -9,9 +9,9 @@ namespace Assets.Sources.Scripts.GameRoom
     {
         public const string System = "System";
         public const string NextDrawerMessage = "{0}'s drawing...";
-        public const string PlayerHasJoinedMessage = "{0}'s joined.";
+        public const string PlayerHasJoinedMessage = "{0}'s joined the room.";
         public const string YouHaveJoinedMessage = "You've joined the room.";
-        public const string PlayerHasLeftMessage = "{0}'s left.";
+        public const string PlayerHasLeftMessage = "{0}'s left the room.";
         public const string TimeIsUp =  "{0}'s time for drawing is up...";
 
         private static readonly Queue<MessageToDisplay> PendingMessageToDisplay = new Queue<MessageToDisplay>();
@@ -27,7 +27,7 @@ namespace Assets.Sources.Scripts.GameRoom
             return PendingMessageToDisplay.Dequeue();
         }
 
-        public static void AddMessageToSend(string message, string login)
+        public static void AddMessageToSend(string message, string login, bool toSelf = true)
         {
             PendingMessageToSend.Enqueue(new MessageToSend { Message = message, SenderLogin = login });
         }
@@ -73,5 +73,6 @@ namespace Assets.Sources.Scripts.GameRoom
     {
         public string SenderLogin { get; set; }
         public string Message { get; set; }
+        public bool ToSelf { get; set; }
     }
 }
