@@ -19,5 +19,10 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
             else
                 Debug.Log("Game server error, try again later.");
         }
+
+        public void BackButtonClick()
+        {
+            Destroy(this);
+        }
     }
 }

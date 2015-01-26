@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Assets.Sources.Common;
+using Assets.Sources.Enums;
 using Assets.Sources.Scripts.GameRoom;
 using Assets.Sources.Scripts.Sculptor;
 using UnityEngine;
@@ -65,6 +66,11 @@ namespace Assets.Sources.Scripts.GuesserScreen
             var button = (GameObject)Instantiate(PlayerDataElement);
             var playerScoreScript = button.GetComponentInChildren<PlayerScoreElement>();
             playerScoreScript.SetPlayerData(playerData, PlayersScorePanel);
+        }
+
+        public void LeaveButtonClick()
+        {
+            Application.LoadLevel(SceneName.RoomChoiceScreen.ToString());
         }
     }
 }
