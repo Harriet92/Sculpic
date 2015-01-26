@@ -144,7 +144,7 @@ namespace Assets.Sources.Scripts.GameRoom
             Debug.Log("Method Room.RegisterInGame");
             networkView.RPC("RegisterPlayer", RPCMode.AllBuffered, Network.player, Player.Current.Username);
             Chat.AddMessageToDisplay(Chat.YouHaveJoinedMessage, Chat.System, Network.player);
-            Chat.AddMessageToSend(String.Format(Chat.PlayerHasJoinedMessage, Player.Current.Username), Chat.System);
+            Chat.AddMessageToSend(String.Format(Chat.PlayerHasJoinedMessage, Player.Current.Username), Chat.System, false);
         }
 
         [RPC]
