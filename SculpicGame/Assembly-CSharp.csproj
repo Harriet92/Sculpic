@@ -109,6 +109,7 @@
      <Compile Include="Assets\Sources\Scripts\RankingScreen\RankingButton.cs" />
      <Compile Include="Assets\Sources\Scripts\RankingScreen\RankingElement.cs" />
      <Compile Include="Assets\Sources\Scripts\RankingScreen\RankingMenu.cs" />
+     <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\InsertPasswordPopup.cs" />
      <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomButton.cs" />
      <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomChoiceManager.cs" />
      <Compile Include="Assets\Sources\Scripts\RoomChoiceScreen\RoomChoiceMenu.cs" />

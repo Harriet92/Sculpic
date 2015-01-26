@@ -5,6 +5,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Assets.Sources.Common;
 using Assets.Sources.DatabaseClient.Models;
+using Assets.Sources.DatabaseClient.Services;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +24,7 @@ namespace Assets.Sources.Scripts.RoomHosterScreen
             MasterServerConnectionManager.RefreshHostList();
             var settings = DeserializeRoomSettings();
             if (settings != null)
-                StartCoroutine(InitServerAndHostRoom(MasterServerConnectionManager.RoomPort, settings.UsersLimit, settings.GameName));
+                StartCoroutine(InitServerAndHostRoom(MasterServerConnectionManager.RoomPort, settings.UsersLimit, settings.GameName, settings.Password));
             else
                 StartCoroutine(InitServerAndHostRoom(MasterServerConnectionManager.RoomPort, MasterServerConnectionManager.ConnectionsNo, gameName));
         }
@@ -35,12 +36,13 @@ namespace Assets.Sources.Scripts.RoomHosterScreen
             return (RoomSettings)reader.Deserialize(file);
         }
 
-        private IEnumerator InitServerAndHostRoom(int roomPort, int connectionsNo, string gameName)
+        private IEnumerator InitServerAndHostRoom(int roomPort, int connectionsNo, string gameName, string password = RoomService.noPasswordMessage)
         {
             while (!MasterServerConnectionManager.HostsRefreshed)
                 yield return null;
 
-            Network.InitializeServer(connectionsNo, roomPort + MasterServerConnectionManager.HostList.Length, true);
+            Network.incomingPassword = password == RoomService.noPasswordMessage ? "" : password;
+            Network.InitializeServer(connectionsNo, roomPort + MasterServerConnectionManager.HostList.Length);
             MasterServerConnectionManager.RegisterHost(gameName);
             GameNameTextField.text = gameName;
         }

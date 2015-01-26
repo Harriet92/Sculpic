@@ -69,7 +69,7 @@ namespace Assets.Sources.Scripts.RoomSettingsScreen
                 Application.LoadLevel(SceneName.RoomChoiceScreen.ToString());
             else
             {
-                Network.Connect(room);
+                Network.Connect(room, room.passwordProtected? PasswordField.text:null);
                 ScreenHelper.LoadLevel(SceneName.GuesserScreen);
             }
         }
