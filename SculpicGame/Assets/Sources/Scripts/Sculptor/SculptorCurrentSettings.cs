@@ -1,4 +1,6 @@
-﻿namespace Assets.Sources.Scripts.Sculptor
+﻿using UnityEngine;
+
+namespace Assets.Sources.Scripts.Sculptor
 {
     public static class SculptorCurrentSettings
     {
@@ -9,6 +11,7 @@
         public static bool Rotate { get; set; }
         public static float Radius { get; set; }
         public static float Pull { get; set; }
+        public static Color MaterialColor;
 
         static SculptorCurrentSettings()
         {

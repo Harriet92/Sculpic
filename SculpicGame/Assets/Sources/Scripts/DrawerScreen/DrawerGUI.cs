@@ -17,6 +17,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
         public Text TimerTextField;
         public Toggle RotateToggle;
         public Toggle MoveToggle;
+        public Button ColotButton;
         private static readonly List<Object> InstantiatedSolids = new List<Object>();
         public static bool IsSendingScene;
         private static int _synchronizedObjectsCounter;
@@ -96,19 +97,6 @@ namespace Assets.Sources.Scripts.DrawerScreen
             {
                 MoveToggle.isOn = false;
                 SculptorCurrentSettings.Move = false;
-            }
-        }
-
-        public void ColorClick()
-        {
-            // TODO: change
-            foreach (var instantiatedSolid in InstantiatedSolids)
-            {
-                var solid = instantiatedSolid as GameObject;
-                if (solid != null)
-                {
-                    solid.renderer.material.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                }
             }
         }
 
