@@ -82,8 +82,15 @@ namespace Assets.Sources.Scripts.GameRoom
             }
 
             if (Network.isServer)
+            {
                 if (CanStartNewRound)
                     StartNewRound();
+                if (ClientSide.ConnectedPlayers.Count == 1 && ServerSide.CurrentDrawer != null)
+                {
+                    networkView.RPC("StopDrawing", ServerSide.CurrentDrawer.NetworkPlayer);
+                    ServerSide.ClearDrawer();
+                }
+            }
 
             if (Network.isClient)
             {
@@ -93,6 +100,8 @@ namespace Assets.Sources.Scripts.GameRoom
                     UpdateTime(Time.deltaTime);
             }
         }
+
+
 
         private void LeaveRoom()
         {
@@ -208,7 +217,7 @@ namespace Assets.Sources.Scripts.GameRoom
             var winnerPoints = ServerSide.PointsForWinner(pointsPart);
             var drawerPoints = ServerSide.PointsForDrawer(pointsPart);
             networkView.RPC("SetPoints", RPCMode.AllBuffered, winner, winnerPoints, ServerSide.CurrentDrawer.NetworkPlayer, drawerPoints);
-            ServerSide.DrawingStarted = false;
+            ServerSide.ClearDrawer();
         }
 
         // Player
@@ -225,11 +234,16 @@ namespace Assets.Sources.Scripts.GameRoom
             else if (Network.player == drawer)
             {
                 DisplayInfoPopup("You've got " + drawer + " points!");
-                if (Application.loadedLevelName == SceneName.DrawerScreen.ToString())
-                {
-                    ClientSide.IsDrawer = false;
-                    StartCoroutine(ScreenHelper.LoadLevel(SceneName.GuesserScreen));
-                }
+                UnloadDrawerScreen();
+            }
+        }
+
+        private void UnloadDrawerScreen()
+        {
+            if (Application.loadedLevelName == SceneName.DrawerScreen.ToString())
+            {
+                ClientSide.IsDrawer = false;
+                StartCoroutine(ScreenHelper.LoadLevel(SceneName.GuesserScreen));
             }
         }
 
@@ -238,6 +252,13 @@ namespace Assets.Sources.Scripts.GameRoom
             Debug.Log("Method Room.StartNewRound");
             ServerSide.StartNewRound();
             networkView.RPC("SetDrawer", ServerSide.CurrentDrawer.NetworkPlayer, ServerSide.CurrentPhrase);
+        }
+
+        [RPC]
+        public void StopDrawing()
+        {
+            Chat.AddMessageToDisplay(Chat.AllPlayersLeft, Chat.System, Network.player);
+            UnloadDrawerScreen();
         }
 
         // Player

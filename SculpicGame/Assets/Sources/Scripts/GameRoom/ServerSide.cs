@@ -91,5 +91,10 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             return (int)(pointsPart * DrawerBasePoints);
         }
+        public static void ClearDrawer()
+        {
+            CurrentDrawer = null;
+            DrawingStarted = false;
+        }
     }
 }
