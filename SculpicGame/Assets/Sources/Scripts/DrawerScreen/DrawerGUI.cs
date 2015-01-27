@@ -76,6 +76,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
 
         public void OnMoveToggleValueChanged(Toggle callingObject)
         {
+            Debug.Log("Method DrawerGUI.OnMoveToggleValueChanged: callingObject.isOn == " + callingObject.isOn);
             SculptorCurrentSettings.Move = callingObject.isOn;
             if (SculptorCurrentSettings.Move)
             {
@@ -86,6 +87,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
 
         public void OnRotateToggleValueChanged(Toggle callingObject)
         {
+            Debug.Log("Method DrawerGUI.OnRotateToggleValueChanged: callingObject.isOn == " + callingObject.isOn);
             SculptorCurrentSettings.Rotate = callingObject.isOn;
             if (SculptorCurrentSettings.Rotate)
             {
