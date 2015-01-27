@@ -4,7 +4,7 @@ namespace Assets.Sources.Scripts.GameRoom
 {
     public class DrawingTimer
     {
-        private static readonly TimeSpan RoundLength = new TimeSpan(0, 0, 3, 0);
+        private static readonly TimeSpan RoundLength = new TimeSpan(0, 0, 10, 0);
         private static readonly TimeSpan TimePointInterval = new TimeSpan(0, 0, 1, 0);
         private float _secondsLeft = (float)RoundLength.TotalSeconds;
 

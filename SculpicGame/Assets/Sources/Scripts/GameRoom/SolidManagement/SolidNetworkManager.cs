@@ -261,9 +261,18 @@ namespace Assets.Sources.Scripts.GameRoom.SolidManagement
             color = new Color(colorRgb.x, colorRgb.y, colorRgb.z);
         }
 
-        public static Object SpawnSolid(GameObject solidprefab, Vector3 position, Quaternion rotation)
+        public static Object SpawnSolid(GameObject solidprefab, Vector3 position, Quaternion rotation, Color? color = null)
         {
             Debug.Log("Method GameManager.SpawnSolid");
+            if (color.HasValue)
+            {
+                Debug.Log("Color: [" + color.Value.r + ", " + color.Value.g + ", " + color.Value.b + "].");
+                solidprefab.renderer.material.color = color.Value;
+            }
+            else
+            {
+                solidprefab.renderer.material.color = Color.black;
+            }
             return Network.Instantiate(solidprefab, position, rotation, 0);
         }
     }

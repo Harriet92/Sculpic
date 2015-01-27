@@ -17,7 +17,6 @@ namespace Assets.Sources.Scripts.DrawerScreen
         public Text TimerTextField;
         public Toggle RotateToggle;
         public Toggle MoveToggle;
-        public Button ColotButton;
         private static readonly List<Object> InstantiatedSolids = new List<Object>();
         public static bool IsSendingScene;
         private static int _synchronizedObjectsCounter;
@@ -47,7 +46,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
         public void AddSolidClick(GameObject solidToInstantiate)
         {
             Debug.Log("Method DrawerGUI.AddSolidClick");
-            InstantiatedSolids.Add(SolidNetworkManager.SpawnSolid(solidToInstantiate, solidToInstantiate.gameObject.transform.position, solidToInstantiate.gameObject.transform.rotation));
+            InstantiatedSolids.Add(SolidNetworkManager.SpawnSolid(solidToInstantiate, solidToInstantiate.gameObject.transform.position, solidToInstantiate.gameObject.transform.rotation, SculptorCurrentSettings.MaterialColor));
         }
 
         public void UpdateClick()
@@ -58,11 +57,6 @@ namespace Assets.Sources.Scripts.DrawerScreen
                 _synchronizedObjectsCounter = 0;
                 IsSendingScene = true;
             }
-        }
-
-        public void MenuClick()
-        {
-            base.DisplayInfoPopup("Menu will be shown here");
         }
 
         public void OnRadiusSliderValueChanged(Slider callingObject)
