@@ -71,6 +71,7 @@ namespace Assets.Sources.Scripts.GuesserScreen
 
         public void LeaveButtonClick()
         {
+            FindObjectOfType<Room>().LeaveRoom();
             Application.LoadLevel(SceneName.RoomChoiceScreen.ToString());
         }
     }

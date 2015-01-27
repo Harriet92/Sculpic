@@ -103,7 +103,7 @@ namespace Assets.Sources.Scripts.GameRoom
 
 
 
-        private void LeaveRoom()
+        public void LeaveRoom()
         {
             if (Network.isClient)
             {
