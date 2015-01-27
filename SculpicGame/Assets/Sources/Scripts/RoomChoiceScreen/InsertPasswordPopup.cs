@@ -22,7 +22,7 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
 
         public void BackButtonClick()
         {
-            Destroy(this);
+            gameObject.SetActive(false);
         }
     }
 }
