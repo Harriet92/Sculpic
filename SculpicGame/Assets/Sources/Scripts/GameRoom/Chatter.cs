@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using Assets.Sources.Scripts.Music;
+using UnityEngine;
 
 namespace Assets.Sources.Scripts.GameRoom
 {
     [RequireComponent(typeof(NetworkView))]
     public class Chatter : MonoBehaviour
     {
+        public SoundManager SoundManager;
         void Update()
         {
             if (Chat.HasMessageToSend)
@@ -35,6 +37,7 @@ namespace Assets.Sources.Scripts.GameRoom
         void LogMessage(string message, string sender, NetworkPlayer player)
         {
             Chat.AddMessageToDisplay(message, sender, player);
+            SoundManager.PlayChatMessageSound();
         }
     }
 }
