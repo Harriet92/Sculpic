@@ -8,8 +8,9 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
     {
         void Awake()
         {
-            Debug.Log("Method RoomChoiceManager.OnEnable");
+            Debug.Log("Method RoomChoiceManager.Awake");
             DontDestroyOnLoad(this);
+            Room.Clear();
         }
 
         void OnEnable()
