@@ -2,6 +2,7 @@
 using Assets.Sources.Common;
 using Assets.Sources.DatabaseClient.Services;
 using Assets.Sources.Enums;
+using Assets.Sources.Scripts.Music;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ namespace Assets.Sources.Scripts.GameRoom
     [RequireComponent(typeof(NetworkView))]
     class Room : MenuBase
     {
+        public SoundManager SoundManager;
         private const float DestructionTime = 10;
         private void Awake()
         {
@@ -229,6 +231,7 @@ namespace Assets.Sources.Scripts.GameRoom
             ClientSide.ConnectedPlayers.AddPoints(drawer, drawerPoints);
             if (Network.player == winner)
             {
+                SoundManager.PlayYouGuessedSound();
                 DisplayInfoPopup("You've got " + winnerPoints + " points!");
             }
             else if (Network.player == drawer)

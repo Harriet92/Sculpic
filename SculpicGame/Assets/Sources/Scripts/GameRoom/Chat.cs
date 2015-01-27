@@ -30,7 +30,7 @@ namespace Assets.Sources.Scripts.GameRoom
 
         public static void AddMessageToSend(string message, string login, bool toSelf = true)
         {
-            PendingMessageToSend.Enqueue(new MessageToSend { Message = message, SenderLogin = login });
+            PendingMessageToSend.Enqueue(new MessageToSend { Message = message, SenderLogin = login, ToSelf = toSelf});
         }
 
         public static MessageToSend GetMessageToSend()

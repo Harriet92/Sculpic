@@ -1,4 +1,5 @@
-﻿using Assets.Sources.Scripts.Sculptor;
+﻿using System;
+using Assets.Sources.Scripts.Sculptor;
 using UnityEngine;
 
 namespace Assets.Sources.Scripts.TouchLogic
@@ -55,6 +56,7 @@ namespace Assets.Sources.Scripts.TouchLogic
 
                 transform.rotation = rotation;
                 transform.position = position;
+                Debug.Log(String.Format("New camera position: ({0}, {1}, {2})", position.x, position.y, position.z));
             }
         }
 
