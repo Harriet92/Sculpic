@@ -37,9 +37,8 @@ namespace Assets.Sources.Scripts.TouchLogic
                 rigidbody.freezeRotation = true;
         }
 
-        void OnTouchMoved()
+        void OnTouch()
         {
-            Debug.Log("Method TouchRotate.OnTouchMoved");
             if (SculptorCurrentSettings.Move || !SculptorCurrentSettings.Rotate)
                 return;
             if (target)
