@@ -177,7 +177,7 @@ namespace Assets.Sources.Scripts.GameRoom
         private void UnregisterFromGame()
         {
             Debug.Log("Method Room.UnregisterFromGame");
-            networkView.RPC("UnregisterPlayer", RPCMode.AllBuffered, Network.player, Player.Current.Username);
+            networkView.RPC("UnregisterPlayer", RPCMode.AllBuffered, Network.player, Player.Name);
         }
 
         [RPC]
