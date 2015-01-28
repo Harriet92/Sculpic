@@ -170,7 +170,7 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             if (_destroyed) return;
             Debug.Log("Method Room.RegisterInGame");
-            networkView.RPC("RegisterPlayer", RPCMode.AllBuffered, Network.player, Player.Current.Username);
+            networkView.RPC("RegisterPlayer", RPCMode.AllBuffered, Network.player, Player.Name);
             Chat.AddMessageToDisplay(Chat.YouHaveJoinedMessage, Chat.System, Network.player);
             Chat.AddMessageToSend(String.Format(Chat.PlayerHasJoinedMessage, Player.Current.Username), Chat.System, false);
         }

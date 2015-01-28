@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Kalambury.WcfServer.Models;
 
 namespace Kalambury.WcfServer.Helpers
@@ -12,7 +9,7 @@ namespace Kalambury.WcfServer.Helpers
     public static class RoomManager
     {
         private static Dictionary<int, Process> RoomHosts;
-        private static string sculpicHosterLocation = "C:\\Users\\deemisoftware\\Desktop\\WcfServer\\sculpicHoster.exe";
+        private static string sculpicHosterLocation = Path.Combine(Environment.CurrentDirectory, "sculpicHoster.exe");
         private static string hostersWorkingDirectoriesRootPath = "./";
         static RoomManager()
         {
