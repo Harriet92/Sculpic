@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+﻿using Assets.Sources.Scripts.GameRoom;
+using Assets.Sources.Scripts.TouchLogic;
+using UnityEngine;
 
 namespace Assets.Sources.Scripts.Sculptor
 {
-    public class Sculptor : MonoBehaviour
+    [RequireComponent(typeof(NetworkView))]
+    [RequireComponent(typeof(Collider))]
+    public class Sculptor : TouchHandling
     {
         private enum FallOff
         {
@@ -13,33 +17,50 @@ namespace Assets.Sources.Scripts.Sculptor
 
         private FallOff fallOff = FallOff.Gauss;
 
-        private void Update()
+        private void OnTouch()
         {
+            Debug.Log("Method Sculptor.OnTouch");
+            if (!ClientSide.IsDrawer) return;
             if (SculptorCurrentSettings.Move || SculptorCurrentSettings.Rotate)
                 return;
-            // TODO: change input to Input.Touch
 
-            // Did we hit the surface?
             RaycastHit hit;
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
             if (Physics.Raycast(ray, out hit))
             {
-                var filter = (MeshFilter)hit.collider.GetComponent("MeshFilter");
+                Debug.Log("Method Sculptor.OnTouch: hit");
+                if (hit.collider != collider) return;
+                var filter = (MeshFilter)collider.GetComponent("MeshFilter");
                 if (filter)
                 {
-                    if (Input.GetMouseButton(0))
-                    {
-                        var relativePoint = filter.transform.InverseTransformPoint(hit.point);
-                        DeformMesh(filter.mesh, relativePoint);
-                        UpdateMeshCollider(hit, filter.mesh);
-                    }
+                    Debug.Log("Method Sculptor.OnTouch: filter");
+                    var relativePoint = filter.transform.InverseTransformPoint(hit.point);
+                    var power = SculptorCurrentSettings.Pull * Time.deltaTime;
+                    var radius = SculptorCurrentSettings.Radius;
+                    DeformMesh(filter.mesh, relativePoint, power, radius);
+                    UpdateMeshCollider(filter.mesh);
+                    Debug.Log("Calling RPC Sculpt");
+                    networkView.RPC("Sculpt", RPCMode.Others, relativePoint, power, radius);
                 }
             }
         }
 
-        private static void UpdateMeshCollider(RaycastHit hit, Mesh mesh)
+        [RPC]
+        public void Sculpt(Vector3 relativePoint, float power, float radius)
         {
-            var meshCollider = (MeshCollider) hit.collider.GetComponent("MeshCollider");
+            Debug.Log("Method Sculptor.Sculpt");
+            var filter = (MeshFilter)collider.GetComponent("MeshFilter");
+            if (filter)
+            {
+                DeformMesh(filter.mesh, relativePoint, power, radius);
+                UpdateMeshCollider(filter.mesh);
+            }
+        }
+
+        private void UpdateMeshCollider(Mesh mesh)
+        {
+            Debug.Log("Method Sculptor.UpdateMeshCollider");
+            var meshCollider = (MeshCollider)collider.GetComponent("MeshCollider");
             meshCollider.sharedMesh = null;
             meshCollider.sharedMesh = mesh;
         }
@@ -59,14 +80,12 @@ namespace Assets.Sources.Scripts.Sculptor
             return -(dist * dist) / (inRadius * inRadius) + 1.0f;
         }
 
-        private void DeformMesh(Mesh mesh, Vector3 position)
+        private void DeformMesh(Mesh mesh, Vector3 position, float power, float radius)
         {
-            var power = SculptorCurrentSettings.Pull * Time.deltaTime;
-            var inRadius = SculptorCurrentSettings.Radius;
-
+            Debug.Log("Method Sculptor.DeformMesh");
             var vertices = mesh.vertices;
             var normals = mesh.normals;
-            var sqrRadius = inRadius * inRadius;
+            var sqrRadius = radius * radius;
 
             // Calculate averaged normal of all surrounding vertices	
             var averageNormal = Vector3.zero;
@@ -78,7 +97,7 @@ namespace Assets.Sources.Scripts.Sculptor
                     continue;
 
                 var distance = Mathf.Sqrt(sqrMagnitude);
-                averageNormal += LinearFalloff(distance, inRadius) * normals[i];
+                averageNormal += LinearFalloff(distance, radius) * normals[i];
             }
             averageNormal = averageNormal.normalized;
 
@@ -95,13 +114,13 @@ namespace Assets.Sources.Scripts.Sculptor
                 switch (fallOff)
                 {
                     case FallOff.Gauss:
-                        falloff = GaussFalloff(distance, inRadius);
+                        falloff = GaussFalloff(distance, radius);
                         break;
                     case FallOff.Needle:
-                        falloff = NeedleFalloff(distance, inRadius);
+                        falloff = NeedleFalloff(distance, radius);
                         break;
                     default:
-                        falloff = LinearFalloff(distance, inRadius);
+                        falloff = LinearFalloff(distance, radius);
                         break;
                 }
 

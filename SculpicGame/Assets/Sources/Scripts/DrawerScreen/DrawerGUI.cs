@@ -18,18 +18,18 @@ namespace Assets.Sources.Scripts.DrawerScreen
         public Toggle RotateToggle;
         public Toggle MoveToggle;
         private static readonly List<Object> InstantiatedSolids = new List<Object>();
-        public static bool IsSendingScene;
-        private static int _synchronizedObjectsCounter;
-        private static readonly Object SynchronizedObjectsCounterLock = new Object();
+        //public static bool IsSendingScene;
+        //private static int _synchronizedObjectsCounter;
+        //private static readonly Object SynchronizedObjectsCounterLock = new Object();
         
-        public static void SynchronizeNextObject()
-        {
-            lock (SynchronizedObjectsCounterLock)
-            {
-                if (++_synchronizedObjectsCounter == InstantiatedSolids.Count)
-                    IsSendingScene = false;
-            }
-        }
+        //public static void SynchronizeNextObject()
+        //{
+        //    lock (SynchronizedObjectsCounterLock)
+        //    {
+        //        if (++_synchronizedObjectsCounter == InstantiatedSolids.Count)
+        //            IsSendingScene = false;
+        //    }
+        //}
 
         void Start()
         {
@@ -49,15 +49,15 @@ namespace Assets.Sources.Scripts.DrawerScreen
             InstantiatedSolids.Add(SolidNetworkManager.SpawnSolid(solidToInstantiate, solidToInstantiate.gameObject.transform.position, solidToInstantiate.gameObject.transform.rotation, SculptorCurrentSettings.MaterialColor));
         }
 
-        public void UpdateClick()
-        {
-            Debug.Log("Method DrawerGUI.UpdateClick");
-            if (!IsSendingScene)
-            {
-                _synchronizedObjectsCounter = 0;
-                IsSendingScene = true;
-            }
-        }
+        //public void UpdateClick()
+        //{
+        //    Debug.Log("Method DrawerGUI.UpdateClick");
+        //    if (!IsSendingScene)
+        //    {
+        //        _synchronizedObjectsCounter = 0;
+        //        IsSendingScene = true;
+        //    }
+        //}
 
         public void OnRadiusSliderValueChanged(Slider callingObject)
         {

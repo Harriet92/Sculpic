@@ -13,69 +13,69 @@ namespace Assets.Sources.Scripts.GameRoom.SolidManagement
         private const bool IsSendUv = false;
         private const bool IsSendTriangles = true;
 
-        private bool _isRecieving;
+        //private bool _isRecieving;
 
-        void Awake()
-        {
-            Debug.Log("Method NetworkSolidManager.Awake");
-            if (!networkView.isMine)
-                renderer.enabled = false;
-        }
+        //void Awake()
+        //{
+        //    Debug.Log("Method NetworkSolidManager.Awake");
+        //    if (!networkView.isMine)
+        //        renderer.enabled = false;
+        //}
 
-        void Update()
-        {
-            if (DrawerGUI.IsSendingScene)
-            {
-                Debug.Log("Method NetworkSolidManager.Update: DrawerGUI.IsSendingScene");
-                DrawerGUI.SynchronizeNextObject();
-                networkView.RPC("SynchronizeScene", RPCMode.All);
-            }
-        }
+        //void Update()
+        //{
+        //    if (DrawerGUI.IsSendingScene)
+        //    {
+        //        Debug.Log("Method NetworkSolidManager.Update: DrawerGUI.IsSendingScene");
+        //        DrawerGUI.SynchronizeNextObject();
+        //        networkView.RPC("SynchronizeScene", RPCMode.All);
+        //    }
+        //}
 
-        [RPC]
-        void SynchronizeScene()
-        {
-            Debug.Log("Method NetworkSolidManager.SynchronizeScene");
-            if (!renderer.enabled)
-                renderer.enabled = true;
-            _isRecieving = true;
-        }
+        //[RPC]
+        //void SynchronizeScene()
+        //{
+        //    Debug.Log("Method NetworkSolidManager.SynchronizeScene");
+        //    if (!renderer.enabled)
+        //        renderer.enabled = true;
+        //    _isRecieving = true;
+        //}
 
         void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
         {
-            if (_isRecieving)
-            {
+            //if (_isRecieving)
+            //{
                 Debug.Log("Method NetworkSolidManager.OnSerializeNetworkView: _isRecieving");
                 if (stream.isWriting)
                     WriteData(stream);
                 else
                     ReadData(stream);
-                _isRecieving = false;
-            }
+            //    _isRecieving = false;
+            //}
         }
 
         private void WriteData(BitStream stream)
         {
             Debug.Log("Method NetworkSolidManager.WriteData");
             var color = renderer.material.color;
-            var meshFilter = collider.GetComponent("MeshFilter") as MeshFilter;
-            if (meshFilter != null && meshFilter.mesh != null)
-            {
-                WriteMesh(ref stream, meshFilter.mesh);
-            }
+            //var meshFilter = collider.GetComponent("MeshFilter") as MeshFilter;
+            //if (meshFilter != null && meshFilter.mesh != null)
+            //{
+            //    WriteMesh(ref stream, meshFilter.mesh);
+            //}
             WriteColor(ref stream, color);
         }
 
         private void ReadData(BitStream stream)
         {
             Debug.Log("Method NetworkSolidManager.ReadData");
-            var meshFilter = collider.GetComponent("MeshFilter") as MeshFilter;
-            if (meshFilter != null && meshFilter.mesh != null)
-            {
-                var mesh = new Mesh();
-                ReadMesh(ref stream, ref mesh);
-                meshFilter.mesh = mesh;
-            }
+            //var meshFilter = collider.GetComponent("MeshFilter") as MeshFilter;
+            //if (meshFilter != null && meshFilter.mesh != null)
+            //{
+            //    var mesh = new Mesh();
+            //    ReadMesh(ref stream, ref mesh);
+            //    meshFilter.mesh = mesh;
+            //}
             Color color;
             ReadColor(ref stream, out color);
             renderer.material.color = color;

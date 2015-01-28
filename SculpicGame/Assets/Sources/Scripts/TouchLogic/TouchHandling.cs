@@ -10,23 +10,18 @@ namespace Assets.Sources.Scripts.TouchLogic
             {
                 switch (Input.GetTouch(i).phase)
                 {
-                    //case TouchPhase.Began:
-                    //    SendMessage("OnTouchBagan");
-                    //    break;
-                    case TouchPhase.Moved:
-                        SendMessage("OnTouchMoved");
+                    case TouchPhase.Began:
+                        SendMessage("OnTouch");
                         break;
-                    //case TouchPhase.Stationary:
-                    //    SendMessage("OnTouchStationary");
-                    //    break;
-                    //case TouchPhase.Ended:
-                    //    SendMessage("OnTouchEnded");
-                    //    break;
-                    //case TouchPhase.Canceled:
-                    //    SendMessage("OnTouchMoved");
-                    //    break;
-                    //default:
-                    //    throw new ArgumentOutOfRangeException();
+                    case TouchPhase.Moved:
+                        SendMessage("OnTouch");
+                        break;
+                    case TouchPhase.Stationary:
+                        SendMessage("OnTouch");
+                        break;
+                    case TouchPhase.Ended:
+                        SendMessage("OnTouch");
+                        break;
                 }
             }
         }
