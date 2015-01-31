@@ -9,11 +9,16 @@ namespace Kalambury.WcfServer.Services
     {
         public bool SetUpNewRoom(string userId, string gameName, string password, string usersLimit)
         {
-            RoomManager.CreateNewRoom(Int32.Parse(userId), new RoomSettings
+            int userIdparsed;
+            int usersLimitparsed;
+            if (String.IsNullOrEmpty(userId) || String.IsNullOrEmpty(gameName) ||
+                !Int32.TryParse(userId, out userIdparsed) || !Int32.TryParse(usersLimit, out usersLimitparsed))
+                return false;
+            RoomManager.CreateNewRoom(userIdparsed, new RoomSettings
             {
                 GameName = gameName,
                 Password = password,
-                UsersLimit = Int32.Parse(usersLimit)
+                UsersLimit = usersLimitparsed
             });
             return true;
         }

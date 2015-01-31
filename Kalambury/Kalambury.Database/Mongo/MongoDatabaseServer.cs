@@ -24,7 +24,7 @@ namespace Kalambury.Database.Mongo
             {
                 server.Connect();
             }
-            catch (MongoConnectionException e)
+            catch (MongoConnectionException)
             {
                 //TODO: Logging a connection error
             }
