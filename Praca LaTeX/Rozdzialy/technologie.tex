@@ -1,0 +1,44 @@
+\chapter{Technologie}
+\section{WCF}
+Windows Communication Foundation jest to framework służący do tworzenia aplikacji zorientowanych na usługi. Przy jego pomocy możliwe jest asynchroniczne przesyłanie danych w postaci wiadomości z jednego punktu dostępowego do drugiego. Adresatem wiadomości może być aplikacja kliencka bądź inny serwis. Możliwe są różne sposoby przesyłu wiadomości – najprostszym jest model zapytanie → odpowiedź, który jest wykorzystywany w naszym serwerze. WCF pozwala też na łatwe stworzenie architektury RESTowej poprzez umożliwienie tworzenia szablonów zapytań oraz definiowania routingu.
+
+Na WCFie oparty jest serwer bazodanowy i w tym zastosowaniu sprawdza się bardzo dobrze, działa stablilnie. Koniecznie było jednak użycie innego rozwiązania do obsługi wiadomości przesyłanych między graczami podczas gry (takich jak na przykład zmiana kształtu bryły), gdyż narzut na komunikację obniżyłby wydajność aplikacji.
+
+Serwer ma postać prostej aplikacji konsolowej, która hostuje odpowiednie usługi (tzw. self–hosted service).
+
+\section{Unity}
+Unity jest rozbudowanym środowiskiem do tworzenia gier w 2D i 3D stworzonym przez Unity Technologies. Łączy ono w sobie intuicyjny zestaw narzędzi oraz silnik gry. Umożliwia produkowanie aplikacji na strony internetowe, komputery stacjonarne, konsole i urządzenia mobilne.
+
+Gry stworzone w Unity z łatwością można portować na różne platformy jednocześnie. To był dla nas ważny argument, gdy wybierałyśmy silnik gry, ponieważ Sculpic został stworzony z myślą o platformach mobilnych. Z powodów sprzętowych i kosztowych zdedydowałyśmy się ostatecznie testować naszą grę na platformie Android.
+
+Głównym elementem gier stworzonych w Unity są skrypty, które zawierają całą logikę gry. Unity umożliwia ich pisanie w kilku językach (UnityScript, JavaScript, C{\#} i Boo). My zdecydowałyśmy się na język C{\#}, ponieważ bardzo dobrze go znamy. Dało to nam również możliwość wykorzystania Visual Studio jako środowiska programistycznego.
+
+W pracy nad naszą aplikacją wykorzystałyśmy Unity w wersji 4.6.
+
+\subsection{Master Server}
+Master Server jest aplikacją stworzoną przez Unity Technologies, by ułatwić pracę programistom tworzącym w Unity gry sieciowe. Jest to serwer, który zajmuje się ruchem sieciowym pomiędzy aplikacjami klienckimi. Server ten pozwala użytkownikowi założyć pokój gry, a następnie zajmuje się graczami, którzy chcą do niego dołączyć. Zestawia on połączenia pomiędzy poszczególnymi aplikacjami, by mogły się one ze sobą wymieniać informacjami.
+
+Zdecydowałyśmy się wykorzystać Master Server w naszym projekcie, ponieważ został on napisany specjalnie na potrzeby silnika Unity.
+
+\section{MongoDB}
+MongoDB jest to dokumentowa baza danych z rodziny NoSQL, charakteryzująca się obiektowym charakterem danych, wysoką skalowalnością i wieloplatformowością.
+
+Decyzja o wykorzystaniu właśnie tej bazy do przechowywania danych użytkowników była podyktowana głównie tym, że nasze modele bazodanowe pasują do dokumentowego schematu – wszystkie dane potrzebne w danym momencie można uzyskać poprzez pobranie rekordu z jednej kolekcji. Dodatkowo, cenna jest również możliwość zmiany modelu bez potrzeby czyszczenia całej bazy, a także prostota jej uruchomienia i utrzymania. Jako, iż projekt nie zakładał funkcjonalności, które wymagałyby obsłużenia transakcji bazodanowych, atomowość dostarczona przez MongoDB jest w zupełności wystarczająca. Ponadto jest to dobra okazja do rozwinięcia umiejętności i nauki obsługi bazy danych innego rodzaju niż tradycyjny SQL (Structured Query Language.
+
+Do obsługi zapytań do bazy danych z poziomu serwera wykorzystany jest oficjalny sterownik w języku C{\#} – „Mongo C{\#} Driver” dostępny jako paczka na platformie NuGet.
+
+Do przeglądania zawartości bazy danych używany jest program Robomongo, który jest projektem open-source (http://robomongo.org/).
+
+\section{JSON}
+JavaScript Object Notation jest to lekki format wymiany danych, charakteryzujący się łatwością w czytaniu i pisaniu przez ludzi oraz parsowaniu i generowaniu przez systemy informatyczne. Jest to format tekstowy, uniwersalny względem języka programowania, wykorzystujący konwencje języka JavaScript. Ma strukturę słownikową, dane ułożone są w parach klucz–wartość. W ogólności można do niego zapisać obiekty o dowolnej strukturze (m.in. złożone obiekty, tablice). Jest to format danych coraz bardziej wypierający popularnegy format XML (Extensible Markup Language) głównie z powodu mniejszego rozmiaru pliku wyjściowego. W naszym projekcie JSON jest obecny w dwóch miejscach. W serwerze bazodanowym jako format argumentów przesyłanych do usługi oraz postać odpowiedzi zwracanej przez serwer. Ponadto baza danych MongoDB składuje dane na dysku w formacie BSON (Binary JSON) - binarnym odpowiedniku formatu JSON, przez co zapytania do bazy również mają identyczną strukturę.
+
+W skryptach Unity do serializacji i deserializacji plików o formacie JSON wykorzystywana jest biblioteka JsonFx (http://www.jsonfx.net/) udostępniana na licencji open-source.
+
+\section{Azure}
+Microsoft Azure jest platformą chmurową stworzoną przez firmę Microsoft, która służy do budowania, wdrażania oraz zarządzania aplikacjami i serwisami poprzez globalną sieć centrów danych. Charakteryzuje się łatwością obsługi oraz dużym stopniem zintegrowania z innymi produktami tej firmy (na przykład możliwość publikowania aplikacji webowej za pomocą funkcji wbudowanych w program Visual Studio). 
+
+Funkcjonalnością platformy Azure, która została wykorzystana w naszym projekcie jest możliwość prostego tworzenia maszyn wirtualnych z systemem operacyjnym Windows Server. Posłużyła ona za miejsce działania serwera bazodanowego, aplikacji Master Server oraz procesu bazy danych. Dzięki temu usługi są dostępne globalnie i przez całą dobę. Obsługa maszyny wirtualnej odbywa się poprzez połączenie przez Pulpit zdalny. Aby maszyna mogła pełnić rolę serwera, do jej zapory sieciowej musiały zostać dodane wyjątki na kilka portów, między innymi port dostępu do serwera bazodanowego oraz aplikacji MasterServer.
+
+Wirtualna maszyna służy również za miejsce uruchomienia pokojów gry, z których każdy jest oddzielną instancją projektu Unity, której punktem startowym jest specjalna scena o nazwie RoomHoster. Każdy z nich musi działać na innym porcie, ponieważ w przeciwnym przypadku proces nasłuchujący dostawałby komunikaty przeznaczone dla różnych pokojów. Powoduje to konieczność odblokowania dużego zakresu portów w zaporze sieciowej systemu.
+
+Aby serwisy były w pełni dostępne z punktu widzenia świata zewnętrznego, należy również ustawić obsługę przekierowania portów w portalu do zarządzania platformy Azure. Z poziomu portalu do zarządzania maszynami wirtualnymi możliwe jest jedynie ręczne, pojedyncze dodawanie portów, zatem dodanie dużej ich ilości zajmowałoby sporo czasu. W związku z tym napisany został skrypt, który po uruchomieniu przez Azure PowerShell pozwolił na automatyczne otwarcie 100 kolejnych portów. Ze względów finansowych konfiguracja maszyny jest dość średnio wydajna (1 rdzeń procesora, niecałe 2 GB pamięci RAM), co ogranicza ilość działających procesów hostujących pokoje.

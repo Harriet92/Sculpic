@@ -1,0 +1,19 @@
+\chapter*{Streszczenie}
+
+Niniejsza praca dyplomowa miała na celu stworzenie mobilnej gry trójwymiarowej opartej na architekturze klient-serwer. W rezultacie powstała gra Sculpic, która jest wersją popularnej gry kalambury opartą na grafice trójwymiarowej oraz powiązany z nią serwer. Gracze, zamiast rysować na płaszczyźnie 2D mają do dyspozycji trójwymiarowe bryły, w których mogą dowolnie rzeźbić. Osoby próbujące odgadnąć hasło mogą oglądać aktualny stan sceny ze wszystkich stron.
+
+
+Sculpic jest aplikacją na urządzenia z systemem operacyjnym Android. Została ona wykonana przy użyciu silnika do tworzenia gier Unity3D, wykorzystującego napisane przez nas skrypty w języku C\#.
+
+
+Serwer obsługujący grę został umiejscowiony na maszynie wirtualnej stworzonej na platformie Azure. Jako baza danych zostało użyte MongoDB. Baza danych przechowuje informacje o użytkownikach (m.in. login, hash hasła, aktualny ranking) oraz listę dostępnych fraz do zgadywania podczas rozgrywki. Komunikacja z nią jest możliwa poprzez serwis WCF oparty na architekturze SOA (Service Oriented Architecture) przy pomocy zapytań RESTowych. Dodatkowo, na maszynie wirtualnej działa usługa, która na żądanie gracza uruchamia aplikację służącą jako pokój, który jest miejscem rozgrywki.
+
+
+Podczas tworzenia aplikacji największych problemów przysporzyło nam:
+\begin{itemize}
+\item tworzenie pokoi, które byłby dostępne dla wszystkich użytkowników niezależnie od sieci, w której się znajdują,
+\item przesyłanie aktualnego stanu brył na scenie od gracza rysującego do graczy zgadujących,
+\item wywoływanie zapytań RESTowych z aplikacji stworzonej w Unity3D.
+\end{itemize}
+
+Sculpic będzie dostępny w sklepie Google Play na platformie Android.

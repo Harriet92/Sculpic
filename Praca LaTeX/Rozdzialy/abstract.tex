@@ -1,0 +1,19 @@
+\chapter*{Abstract}
+
+This engineering thesis was aimed to create a 3-dimensional mobile game based on server-client architecture. As a result Sculpic and game server was created. The game is based on widely-known Pictionary but with 3-dimensional graphics. Players instead of drawing on a 2-dimenstional plane can use a variety of solids by placing them in 3-dimensional space and sculpting. Players trying to guess a phrase being shown can inspect the scene from any possible angle.
+
+
+Sculpic is an application for devices with Android operating system. It’s been built with game engine Unity 3D using our C\# scripts.
+
+
+The game server has been placed in virtual machine created in Azure platform. As a database we have used MongoDB. The database keeps user information (e.g. username, password hash, current ranking) and a list of available phrases. The communication with database is possible thanks to WCF service based on SOA (Service Oriented Architecture) by RESTful requests. What is more, the virtual machine contains a service which launches a room hosting application on player demand.
+
+
+While creating the application we have come by some major problems:
+\begin{itemize}
+\item hosting rooms available for all players no matter what network they are in,
+\item sending current solid state from drawing player scene to the guessing players scenes,
+\item sending RESTful requests from Unity3D application.
+\end{itemize}
+
+Sculpic will soon be available from Google Play store on Android.
