@@ -185,10 +185,7 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             ClientSide.UnregisterPlayer(player);
             if (Network.isServer)
-            {
-                ServerSide.RemoveFromDrawers(player);
-                Chat.AddMessageToSend(String.Format(Chat.PlayerHasLeftMessage, login), Chat.System);
-            }
+                ServerSide.PlayerLeavingRoom(player, login);
         }
 
         private void DisplayAndCheckMessage(MessageToDisplay message)

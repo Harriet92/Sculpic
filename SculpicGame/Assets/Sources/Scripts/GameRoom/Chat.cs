@@ -12,6 +12,7 @@ namespace Assets.Sources.Scripts.GameRoom
         public const string PlayerHasJoinedMessage = "{0}'s joined the room.";
         public const string YouHaveJoinedMessage = "You've joined the room.";
         public const string PlayerHasLeftMessage = "{0}'s left the room.";
+        public const string DrawingPlayerLeft = "Drawing player has left the room...";
         public const string AllPlayersLeft = "All players have left the room.";
         public const string TimeIsUp =  "{0}'s time for drawing is up...";
 
