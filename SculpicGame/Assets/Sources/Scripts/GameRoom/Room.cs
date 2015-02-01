@@ -38,8 +38,8 @@ namespace Assets.Sources.Scripts.GameRoom
         [RPC]
         public void TimeIsUp(string login)
         {
-            ServerSide.TimeIsUp(login);
-            networkView.RPC("SetDrawer", ServerSide.CurrentDrawer.NetworkPlayer, ServerSide.CurrentPhrase);
+            if (CanStartNewRound)
+                StartNewRound();
         }
 
         // RoomOwner
