@@ -115,10 +115,10 @@
 \def\@faculty{Wydzia{\l} Matematyki i Nauk Informacyjnych}
 \def\@descriptionfirst{Praca dyplomowa \@type ka}
 \def\@descriptionsecond{na kierunku \@discipline}
-\def\@authorcap{Autorki}
+\def\@authorcap{Autorzy}
 \def\@supervisorcap{Promotor}
 \def\@location{Warszawa}
-\def\@authorsig{podpisy autorek}
+\def\@authorsig{podpisy autor{\'o}w}
 \def\@supervisorsig{podpis promotora}
 \def\@titlepagecap{Strona tytu{\l}owa}
 \def\@statementcap{O{\'s}wiadczenie}
@@ -239,7 +239,7 @@
 \thispagestyle{empty}
 \pdfbookmark[0]{\@statementcap}{statement}
 Dominika Bodzon Nr albumu 245518\hfill Warszawa, \@date\\
-Emilia Szyma{\'n}ska Nr albumu 
+Emilia Szyma{\'n}ska Nr albumu 245558
 \par\vspace{25mm}
 \begin{center}
   {\Large O{\'s}wiadczenie}
