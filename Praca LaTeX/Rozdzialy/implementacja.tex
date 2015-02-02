@@ -74,7 +74,7 @@ Komunikacja z serwerem bazodanowym zostanie opisana w kolejnym podrozdziale, ter
 \subsubsection{Remote Procedure Calls}
 Unity daje możliwość oznaczenia wybranych metod atrubutem [RPC]. Dzięki temu możemy wywoływać taką metodę na odpowiadającym obiekcie w innej aplikacji klienckiej. Istnieje kilka warunków, które należy spełnić, by uzyskać oczekiwany efekt.
 \begin{enumerate}
-    \item Obiekt deklarujący metody RPC musi mieć podłączony do siebie komponent NetworkView (z przestrzeni nazw UnityEngine).
+    \item Obiekt deklarujący metody RPC musi mieć nałożony na siebie komponent do komunikacji sieciowej o nazwie NetworkView (z przestrzeni nazw UnityEngine).
     \item Metoda może mieć argumenty jedynie określonych typów (szczegóły znajdują się w dokumentacji Unity).
     \item Wszystkie obiekty (ten, który wywołuje oraz te, na których metoda jest wywoływana) muszą mieć wywoływaną metodę zadeklarowaną. Nawet jeżeli miałaby ona nie mieć wnętrza.
 \end{enumerate}

@@ -25,3 +25,8 @@ Kalambury/packages/
 Facilitator/
 SculpicGame/lo22_Data/
 SculpicGame/Assets/Sources/DatabaseClient/JsonFx/
+*.aux
+*.bbl
+*.blg
+*.out
+*.toc
