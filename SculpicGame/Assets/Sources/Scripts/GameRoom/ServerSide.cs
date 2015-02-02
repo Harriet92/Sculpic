@@ -36,11 +36,10 @@ namespace Assets.Sources.Scripts.GameRoom
             Debug.Log("Method ServerSide.RemoveFromDrawers");
             var drawer = Drawers.FirstOrDefault(pd => pd.NetworkPlayer == player);
             if (drawer != null && Drawers.Remove(drawer))
-                Debug.Log("Removed player from drawing queue.");
-            if (drawer == CurrentDrawer)
             {
-                DrawingStarted = false;
-                Chat.AddMessageToSend("Drawing player has left...", Chat.System);
+                Debug.Log("Removed player from drawing queue.");
+                if (CurrentDrawer != null && drawer == CurrentDrawer)
+                    ClearDrawer();
             }
             Debug.Log("Drawers count: " + Drawers.Count);
         }
@@ -91,10 +90,20 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             return (int)(pointsPart * DrawerBasePoints);
         }
+
         public static void ClearDrawer()
         {
-            CurrentDrawer = null;
             DrawingStarted = false;
+            CurrentDrawer = null;
+        }
+
+        public static void PlayerLeavingRoom(NetworkPlayer player, string login)
+        {
+            if (DrawingStarted && CurrentDrawer != null && CurrentDrawer.NetworkPlayer == player)
+                Chat.AddMessageToSend(Chat.DrawingPlayerLeft, Chat.System);
+            else
+                Chat.AddMessageToSend(String.Format(Chat.PlayerHasLeftMessage, login), Chat.System);
+            RemoveFromDrawers(player);
         }
     }
 }

@@ -57,7 +57,7 @@ namespace Assets.Sources.Scripts.GameRoom
         }
 
         public static string Phrase { get; private set; }
-
+        
         public static void Reset()
         {
             _chatTextField = null;
@@ -123,6 +123,12 @@ namespace Assets.Sources.Scripts.GameRoom
         public static void UpdateTime(float deltaTime)
         {
             _timer.UpdateTime(deltaTime);
+        }
+
+        public static void ClearScene()
+        {
+            Debug.Log("Method ClientSide.ClearScene");
+            Network.DestroyPlayerObjects(Network.player);
         }
     }
 }

@@ -4,12 +4,9 @@ using Assets.Sources.Scripts.GameRoom.SolidManagement;
 using Assets.Sources.Scripts.Sculptor;
 using UnityEngine;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 namespace Assets.Sources.Scripts.DrawerScreen
 {
-    // TODO: add leave and music buttons
     public class DrawerGUI : MenuBase
     {
         public Text ChatTextField;
@@ -18,18 +15,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
         public Toggle RotateToggle;
         public Toggle MoveToggle;
         private static readonly List<Object> InstantiatedSolids = new List<Object>();
-        //public static bool IsSendingScene;
-        //private static int _synchronizedObjectsCounter;
-        //private static readonly Object SynchronizedObjectsCounterLock = new Object();
-        
-        //public static void SynchronizeNextObject()
-        //{
-        //    lock (SynchronizedObjectsCounterLock)
-        //    {
-        //        if (++_synchronizedObjectsCounter == InstantiatedSolids.Count)
-        //            IsSendingScene = false;
-        //    }
-        //}
+
 
         void Start()
         {
@@ -43,21 +29,17 @@ namespace Assets.Sources.Scripts.DrawerScreen
             TimerTextField.text = ClientSide.RemainingTime;
         }
 
+        void OnApplicationQuit()
+        {
+            Debug.Log("Method DrawerGUI.OnApplicationQuit");
+            ClientSide.ClearScene();
+        }
+
         public void AddSolidClick(GameObject solidToInstantiate)
         {
             Debug.Log("Method DrawerGUI.AddSolidClick");
             InstantiatedSolids.Add(SolidNetworkManager.SpawnSolid(solidToInstantiate, solidToInstantiate.gameObject.transform.position, solidToInstantiate.gameObject.transform.rotation, SculptorCurrentSettings.MaterialColor));
         }
-
-        //public void UpdateClick()
-        //{
-        //    Debug.Log("Method DrawerGUI.UpdateClick");
-        //    if (!IsSendingScene)
-        //    {
-        //        _synchronizedObjectsCounter = 0;
-        //        IsSendingScene = true;
-        //    }
-        //}
 
         public void OnRadiusSliderValueChanged(Slider callingObject)
         {

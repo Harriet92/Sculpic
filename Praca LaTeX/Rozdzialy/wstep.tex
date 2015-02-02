@@ -1,0 +1,47 @@
+\chapter{Wstęp}
+
+\section{Cel projektu}
+Niniejsza praca dyplomowa miała na celu stworzenie trójwymiarowej mobilnej gry wieloosobowej z towarzyszącą jej architekturą klient-serwer. W ramach projektu zaimplementowana została gra na system operacyjny Android oraz serwer, który ją obsługuje.
+
+Gra została nazwana Sculpic. Jest ona bardzo podobna do popularnej gry Kalambury – z tą różnicą, że rozgrywka odbywa się w przestrzeni trójwymiarowej. Aplikacja jest w angielskiej wersji językowej.
+
+Serwer został umieszczony na maszynie wirtualnej znajdującej się na platformie Azure. Głównymi jego elementami jest baza danych MongoDB, serwis WCF do komunikacji z bazą danych oraz usługa tworząca pokoje.
+
+Praca ta zawiera szczegółowy opis wszystkich komponentów projektu, ich wzajemnych zależności, procesu ich powstawania oraz uzasadnienia podjętych przez nas decyzji dotyczących problemów podczas implementacji.
+
+\section{Motywacja}
+Pomysł na grę został zainspirowany projektem, który stworzyłyśmy podczas zajęć na uczelni w ramach przedmiotu Laboratorium CAD/CAM. Był to Rzeźbiarz figur w 3D wykorzystujący Unity3D. Użytkownik mógł dowolnie modyfikować figury (robiąc wklęsłości i wypukłości o wybranym rozmiarze i ostrości) przy pomocy kliknięć myszki w jej obrębie.
+
+Po zapoznaniu się z aplikacjami dostępnymi na platformy mobilne dostrzegłyśmy niszę – nigdzie nie było dostępnych kalambur w 3D.
+
+W związku z powyższym, postanowiłyśmy wykorzystać doświadczenie zdobyte przy wcześniej napisanym projekcie i połączyć Kalambury z Rzeźbiarzem dając graczom nowe doświadczenie w postaci gry, której zasady są bardzo proste i wszystkim znane. Nazwa gry Sculpic wynika z połączenia słów „sculptor” (z ang. rzeźbiarz) oraz „Pictionary” (z ang. Kalambury).
+
+\section{Zakres projektu}
+\subsection{Gra}
+\subsubsection{Opis rozgrywki}
+Gra polega na zgadywaniu haseł przedstawionych przez gracza rysującego przy użyciu dostępnych figur i wykonanego na nich rzeźbienia (modyfikacji). Graczom, po dołączeniu do jednego z pokojów, pojawia się ekran gracza zgadującego. Gdy w grze znajdują się co najmniej dwaj gracze i co najmniej jeden z nich zaznaczy pole \textit{I want to draw} (czyli dołączył do kolejki graczy rysujących), pierwszy gracz z kolejki rysujących uzyskuje możliwość rysowania. Po narysowaniu wylosowanej frazy, gracz rysujący przesyła do reszty graczy swoje dzieło. Gracze zgadujący mają stały dostęp do czatu, przy użyciu którego mogą przez cały czas trwania rozgrywki się ze sobą komunikować oraz wpisywać swoje propozycje zgadywanego hasła.
+
+Jeżeli podczas ograniczonego czasu trwania jednej rundy (3 minuty), któryś z graczy odgadnie hasło – on oraz gracz rysujący dostają odpowiednie ilości punktów (zależne od ilości czasu, który upłynął od początku rysowania). W przeciwnym wypadku, po upłynięciu czasu, gracz rysujący dostaje punkty karne. Następnie, niezależnie od tego, czy hasło zostało odgadnięte, czy też nie, losowana jest kolejna fraza oraz prawo do rysowania dostaje kolejny gracz z kolejki do rysowania.
+
+Gra toczy się aż któryś z graczy nie osiągnie maksymalnej liczby punktów. W tym momencie gracza z największą ilością punktów uznaje się za zwycięzcę gry. Odpowiednio do miejsc, które gracze zajęli w punktacji podczas gry, zmieniany jest ich ogólny ranking.
+
+\subsection{Serwer}
+Integrację aplikacji klienckich Sculpica zapewnia Master Server, który zajmuje się zestawianiem połączeń pomiędzy graczami oraz serwer bazodanowy w technologii WCF. Opis tych komponentów i ich architekury znajduję się w dalszych rozdziałach.
+
+\section{Podział pracy}
+Praca nad pracą inżynierską została podzielona w następujący sposób:
+\begin{enumerate}
+    \item Dominika Bodzon
+    \begin{itemize}
+        \item implementacja sieciowej rozgrywki oraz modelowania w czasie rzeczywistym
+				\item obsługa dotyku podczas rozgrywki
+        \item implementacja logiki rankingu
+    \end{itemize}
+    \item Emilia Szymańska
+    \begin{itemize}
+        \item konfiguracja maszyny wirtualnej i komponentów na niej umieszczonych
+        \item implementacja serwera bazodanowego oraz modułu klienta do komunikowania się z nim
+        \item stworzenie graficznego interfejsu użytkownika
+    \end{itemize}
+\end{enumerate}
+Oprócz tego każda z nas napisała testy jednostkowe do funkcjonalności, które implementowałyśmy w Web Service i opisała pracę, którą wykonała nad projektem w niniejszej pracy inżynierskiej.

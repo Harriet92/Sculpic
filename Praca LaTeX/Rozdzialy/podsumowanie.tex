@@ -1,0 +1,36 @@
+\chapter{Podsumowanie i wnioski}
+\section{Napotkane problemy}
+\subsection{Przesyłanie brył}
+Funkcjonalność, na której opiera się cała gra była najtrudniejszą do wykonania. Należało przesłać aktualny stan brył ze sceny gracza rysującego na sceny graczy oglądających.
+
+Pierwszym pomysłem było przesyłanie wszystkich informacji o każdej bryle. W każdej klatce przesyłałyśmy rozmieszczenie wierzchołków, informacje o trójkątach oraz wektorach normalnych. Przy używanych przez nas siatkach brył, które miały ponad 500 wierzchołków oraz prawie 800 trójkątów oznaczało to przesyłanie ogromnych porcji danych. Przesłanie takiej siatki w sieci lokalnej trwało około 7 sekund. Był to czas niedopuszczalny przy grze, która miała przesyłać obraz w czasie zbliżonym do realnego nie wspominając o zacinającym się interfejsie graficznym.
+
+Najprostszym rozwiązaniem wydawałoby się umieścić przesyłanie w oddzielnym wątku, jednak Unity3D w większości przypadków nie zezwala na użycie wątków. Jednak one nie sprawdziłyby się w naszym przypadku.
+
+W związku z tym, postanowiłyśmy zmniejszyć ilość przesyłanych danych poprzez zmniejszenie ilości wierzchołków w siatkach. Dało to spodziewany efekt – przyspieszyło przesyłanie (do czasu około 1 sekundy na bryłę), jednak interfejs nadal się zacinał i nie dało się w swobodny sposób korzystać w aplikacji.
+
+Postanowiłyśmy więc zmniejszyć częstotliwość przesyłania danych. Udostępniłyśmy graczowi rysującemu przycisk aktywujący przesyłanie aktualnej sceny. Znacząco zniwelowało to problem zacinającego się interfejsu graficznego. Jednak pozostał problem, który towarzyszył nam praktycznie od samego początku – dane czasami się gubiły i niektóre figury nie aktualizowały swoich kształtów. Jako przyczynę podejrzewamy za duży rozmiar pakietów, które były przesyłane podczas synchronizacji scen.
+
+Ostatecznie wdrożyłyśmy pomysł, co do którego miałyśmy bardzo duże wątpliwości od samego początku. Polega on na tym, że gracz rysujący rozsyła graczom oglądającym lokalizację każdego swojego kliknięcia i aktualizacja wyglądu brył następuje po stronie każdego klienta. Istniało prawdopodobieństwo, że po pewnym czasie wyglądy scen gracza rysującego i gracza oglądającego będą od siebie znacząco odbiegać, jedna nie zaobserwowałyśmy niczego takiego. To rozwiązanie również w żaden sposób nie spowalnia obsługi interfejsu użytkownika ani nie przesyła nadmiaru danych przez sieć. Jest ono optymalne do naszych potrzeb i sprawdza się bardzo dobrze.
+
+\subsection{Pokoje}
+Mechanizm sieciowy dostarczany razem z silnikiem Unity3D działa na zasadzie peer to peer, umożliwiając jednoczesne hostowanie pokoju oraz dołączenie do niego. Niestety o ile rozwiązanie to działało w przypadku, gdy wszystkie urządzenia były w zasięgu jednej podsieci, nie sprawdziło się ono w momencie gdy urządzenie hostujące pokój znajdowało się w innej podsieci niż gracz próbujący dołączyć do pokoju. Pokój był widoczny dla użytkownika, gdyż lista hostów znajduje się na MasterServerze, uruchomionym na maszynie z publicznym IP. Gracz nie mógł jednak połączyć się z takim pokojem, gdyż urządzenie hostujące nie posiadało publicznego adresu IP. W takiej sytuacji zwracany był wyjątek „Receiving NAT punchthrough attempt from target [...] failed”.
+
+Pierwszą próbą rozwiązania tego problemu było użycie dodatkowego programu dostarczanego przez Unity3D – tzw. Facilitatora, który w teorii powinien był pomagać w zestawianiu połączeń peer to peer. Niestety, po wielokrotnych próbach i przy różnych konfiguracjach nie udało nam się doprowadzić takiego zestawu do stanu działającego. Dodatkowo w Internecie znalazłyśmy wiele opisów pisanych przez innych programistów, którzy natknęli się na podobny problem. Wskazywały one na to, iż program ten jest zwyczajnie pełen błędów i jego działanie (bądź nie) jest często losowe.
+
+W związku z tym konieczne stało się uruchamianie pokojów na serwerze posiadającym publiczne IP oraz przekierowane porty pokojów. Aby można było dać użytkownikom możliwość stworzenia własnego pokoju, niezbędne stało się udostępnienie odpowiedniego serwisu, który powoduje uruchomienie procesu aplikacji hostującej pokój na maszynie serwera. Przy okazji tworzenia tej usługi natknęłyśmy się na kolejny problem – nie ma możliwości zdefiniowania własnych argumentów, które można podać aplikacji wywołując ją na przykład z wiersza poleceń. W związku z tym przekazanie parametrów pokoju musi odbywać się poprzez stworzenie nowego folderu dla każdego pokoju, zapisanie do niego konfiguracji w postaci pliku XML oraz uruchomienie procesu hostera z ustawionym danym katalogiem jako roboczy. Program na starcie szuka pliku konfiguracji i wczytuje go ( w przypadku braku danego pliku stosowana jest konfiguracja domyślna), po czym uruchamiane jest hostowanie pokoju.
+
+\subsection{Wywoływanie zapytań RESTowych}
+W początkowej fazie projektu komunikacja z bazą danych została zaimplementowana za pomocą specjalnej biblioteki wspomagającej obsługę zapytań typu REST. Przy kompilacji projektu na system Android okazało się jednak, że do budowania aplikacji korzystających z przestrzeni nazw System.Net potrzebna jest płatna wersja wtyczki do Unity3D – AndroidPro. Jako iż wyżej wspomniała biblioteka oparta jest na socketach platformy .Net, konieczna była zmiana implementacji. 
+
+Jedynym wyjściem stało się użycie specjalnej klasy Unity3D – WWW. Służy ona głównie do wyświetlania zawartości stron internetowych w kontrolkach, jednak okazało się, że dobrze obsługuje też zapytania typu GET. Jej użycie jest jednak dość toporne, dodatkowo nie ma możliwości jej użycia w wątku innym niż główny wątek aplikacji, co skutkuje krótkochwilowym zawieszeniem interfejsu użytkownika podczas łączenia się z serwerem. 
+
+\section{Wnioski}
+Mimo licznych problemów udało nam się ostatecznie doprowadzić aplikację do stanu, który można uznać za kompletny. Wszystkie wymagania początkowe zostały spełnione, łącznie z działaniem modelowania bryły w czasie (prawie) rzeczywistym. Gra wygląda schludnie, działa na zdecydowanej większości urządzeń z systemem Android, oraz dobrze skaluje się na ekranach o różnych wymiarach. Teoretycznie Unity3D umożliwia skompilowanie projektu na urządzenia mobilne z innymi systemami operacyjnymi, takimi jak iOS czy Windows Phone, jednak niestety nie dysponujemy odpowiednim sprzętem pozwalającym to przetestować.
+
+Trzeba przyznać, iż jest to projekt eksperymentalny – taka forma obsługi modelowania na scenie nie pozwala na swobodne i łatwe stworzenie kształtów przypominających wiele fraz, które można by było odgadywać. Aby było to bardziej przystępne należałoby dodać kilka różnych sposobów „wybrzuszania” modelu – na przykład umożliwić tworzenie ostrych końców.
+
+Dalsze rozwijanie aplikacji mogłoby również polegać na stworzeniu nowych serwisów, przykładowo obsługujących system przyjaciół, co pozwoliłoby na zapraszanie znajomych do wspólnej gry. W przypadku bardzo dużej ilości graczy konieczne byłoby także stworzenie bardziej rozbudowanej i rozproszonej architektury serwerowej.
+
+Praca nad projektem Sculpic była dla nas świetną okazją na pogłebienie wiedzy o tworzeniu gier sieciowych oraz poszerzyła naszą świadomość o szereg problemów, które można napotkać, gdy rozgrywka wymaga ciągłego przesyłania danych.
+\end{document}
