@@ -39,10 +39,7 @@ namespace Assets.Sources.Scripts.GameRoom
             {
                 Debug.Log("Removed player from drawing queue.");
                 if (CurrentDrawer != null && drawer == CurrentDrawer)
-                {
-                    DrawingStarted = false;
-                    CurrentDrawer = null;
-                }
+                    ClearDrawer();
             }
             Debug.Log("Drawers count: " + Drawers.Count);
         }

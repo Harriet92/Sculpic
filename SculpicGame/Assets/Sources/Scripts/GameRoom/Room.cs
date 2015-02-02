@@ -38,8 +38,8 @@ namespace Assets.Sources.Scripts.GameRoom
         [RPC]
         public void TimeIsUp(string login)
         {
-            if (CanStartNewRound)
-                StartNewRound();
+            ServerSide.TimeIsUp(login);
+            networkView.RPC("SetDrawer", ServerSide.CurrentDrawer.NetworkPlayer, ServerSide.CurrentPhrase);
         }
 
         // RoomOwner
@@ -89,8 +89,7 @@ namespace Assets.Sources.Scripts.GameRoom
 
             if (Network.isServer)
             {
-                if (CanStartNewRound)
-                    StartNewRound();
+                StartNewRound();
                 if (ClientSide.ConnectedPlayers.Count == 1 && ServerSide.CurrentDrawer != null)
                 {
                     networkView.RPC("StopDrawing", ServerSide.CurrentDrawer.NetworkPlayer);
@@ -106,8 +105,6 @@ namespace Assets.Sources.Scripts.GameRoom
                     UpdateTime(Time.deltaTime);
             }
         }
-
-
 
         public void LeaveRoom()
         {
@@ -178,6 +175,7 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             Debug.Log("Method Room.UnregisterFromGame");
             networkView.RPC("UnregisterPlayer", RPCMode.AllBuffered, Network.player, Player.Name);
+            ClientSide.ClearScene();
         }
 
         [RPC]
@@ -248,6 +246,7 @@ namespace Assets.Sources.Scripts.GameRoom
         {
             if (Application.loadedLevelName == SceneName.DrawerScreen.ToString())
             {
+                ClientSide.ClearScene();
                 ClientSide.IsDrawer = false;
                 StartCoroutine(ScreenHelper.LoadLevel(SceneName.GuesserScreen));
                 _isDestroyed = true;
@@ -256,6 +255,7 @@ namespace Assets.Sources.Scripts.GameRoom
 
         private void StartNewRound()
         {
+            if (!CanStartNewRound) return;
             Debug.Log("Method Room.StartNewRound");
             ServerSide.StartNewRound();
             networkView.RPC("SetDrawer", ServerSide.CurrentDrawer.NetworkPlayer, ServerSide.CurrentPhrase);
@@ -276,6 +276,13 @@ namespace Assets.Sources.Scripts.GameRoom
             ClientSide.SetDrawer(phrase);
             StartCoroutine(ScreenHelper.LoadLevel(SceneName.DrawerScreen));
             _isDestroyed = true;
+        }
+
+        void OnPlayerDisconnected(NetworkPlayer player)
+        {
+            Debug.Log("Method Room.OnPlayerDisconnected");
+            Network.RemoveRPCs(player);
+            Network.DestroyPlayerObjects(player);
         }
     }
 }
