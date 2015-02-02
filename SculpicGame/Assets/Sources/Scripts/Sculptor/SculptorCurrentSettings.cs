@@ -12,6 +12,7 @@ namespace Assets.Sources.Scripts.Sculptor
         public static float Radius { get; set; }
         public static float Pull { get; set; }
         public static Color MaterialColor { get; set; }
+        public static string MaterialColorName { get; set; }
 
         static SculptorCurrentSettings()
         {

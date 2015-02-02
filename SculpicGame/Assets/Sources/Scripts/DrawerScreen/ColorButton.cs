@@ -19,6 +19,16 @@ namespace Assets.Sources.Scripts.DrawerScreen
             Color.magenta,
             Color.black
         };
+        private static string[] ColorNames = new string[7]
+        {
+            "Blue",
+            "Green",
+            "Yellow",
+            "White",
+            "Red",
+            "Magenta",
+            "Black"
+        }; 
 
         void Start()
         {
@@ -35,6 +45,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
         private void SetColor()
         {
             SculptorCurrentSettings.MaterialColor = Colors[selectedColor];
+            SculptorCurrentSettings.MaterialColorName = ColorNames[selectedColor];
             ButtonImage.color = Colors[selectedColor];
         }
     }
