@@ -45,19 +45,27 @@ Podczas rundy gracz ma ogrniczony czas, w którym może rysować. Gdy ten czas s
 \subsubsection{Koniec gry}
 Podczas całej rozgrywki Room Hoster po zakończeniu każdej rundy rozsyła graczom punkty, o jakie powinni zaktualizować swoją lokalną punktację. Po stronie Room Hostera ta punktacja jest aktualizowana w taki sam sposób. Dzięki temu możliwe jest śledzenie, czy któryś z graczy nie osiągnął odpowiedniej ilości punktów, by zakończyć grę. Tym samym zapewniamy, że niemożliwe jest oszukanie gry w kwestii punktów, ponieważ są one niezależnie liczone przez aplikację znajdującą się na serwerze. Gdy pułap zostanie osiągnięty, Room Hoster informuje o końcu gry wszystkich graczy, a sam wysyła do Web Service'u informację o aktualizacji rankingów graczy, którzy brali udział w danej rozgrywce.
 
+\subsection{Dotyk}
+W grze zaimplementowana została obsługa dotyku na urządzeniach mobilnych. Jest ona wykorzystywana do:
+\begin{enumerate}
+	\item obracania kamery wokół środka sceny (dostępne dla rysującego i zgadującego),
+	\item przesuwania obiektów po scenie (dostępne dla rysującego).
+\end{enumerate}
+
 \subsection{Punktacja}
 Po wygraniu każdej rundy graczom przydzielane są punkty w zależności od ilości czasu, który upłynął od rozpoczęcia rysowania, odpowiednio:
 \begin{itemize}
     \item do 1 minuty – maksymalna ilość punktów,
-    \item od 1 minuty do 2 minut – 2/3 maksymalnej ilości punktów,
-    \item od 2 minut do 3 minut – 1/3 maksymalnej ilości punktów.
+    \item od 1 minut do 2 minut – 4/5 maksymalnej ilości punktów,
+    \item od 2 minut do 3 minut – 3/5 maksymalnej ilości punktów,
+    \item od 3 minut do 4 minut – 2/5 maksymalnej ilości punktów,
+    \item od 4 minut do 5 minut – 1/5 maksymalnej ilości punktów,
 \end{itemize}
 Maksymalna ilość punktów wynosi:
 \begin{itemize}
-    \item 30 dla gracza zgadującego,
-    \item 90 dla gracza rysującego.
+    \item 20 dla gracza zgadującego,
+    \item 30 dla gracza rysującego.
 \end{itemize}
-Kara dla gracza rysującego, jeżeli nikt nie odgadnie hasła w określonym czasie wynosi -10 punktów.
 
 \subsection{Komunikacja}
 Najpowszechniejszymi sposobami komunikacji w naszym projekcie są zapytania REST oraz zdalne wywołania procedur (RPC - Remote Procedure Call) zapewnione przez Unity i Master Server. 
