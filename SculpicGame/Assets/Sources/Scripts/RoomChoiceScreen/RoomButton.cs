@@ -28,6 +28,7 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
             NumberOfPlayers.text = (hostData.connectedPlayers - 1) + "/" + (hostData.playerLimit - 1); // 1 is for server who isn't a player
             transform.parent = parentPanel.transform;
             LockImage.gameObject.SetActive(hostData.passwordProtected);
+            GetComponent<Button>().interactable = hostData.connectedPlayers < hostData.playerLimit;
         }
     }
 }

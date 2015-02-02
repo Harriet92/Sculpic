@@ -37,9 +37,18 @@ namespace Assets.Sources.Scripts.RoomChoiceScreen
 
         public void HostRoom()
         {
+            //For local room tests
             //MasterServerConnectionManager.RefreshHostList();
             //StartCoroutine(InitServerAndHostRoom(MasterServerConnectionManager.RoomPort, MasterServerConnectionManager.ConnectionsNo, GameName));
             Application.LoadLevel(SceneName.RoomSettingsScreen.ToString());
+        }
+
+        void OnFailedToConnect(NetworkConnectionError error)
+        {
+            if (error == NetworkConnectionError.TooManyConnectedPlayers)
+                DisplayInfoPopup("Maximum player limit reached, try with a different room");
+            else
+                Debug.Log("Game server error, try again later.");
         }
 
         private IEnumerator InitServerAndHostRoom(int roomPort, int connectionsNo, string gameName)
