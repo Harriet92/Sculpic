@@ -38,7 +38,7 @@ namespace Assets.Sources.Scripts.DrawerScreen
         public void AddSolidClick(GameObject solidToInstantiate)
         {
             Debug.Log("Method DrawerGUI.AddSolidClick");
-            InstantiatedSolids.Add(SolidNetworkManager.SpawnSolid(solidToInstantiate, solidToInstantiate.gameObject.transform.position, solidToInstantiate.gameObject.transform.rotation, SculptorCurrentSettings.MaterialColor));
+            InstantiatedSolids.Add(SolidNetworkManager.SpawnSolid(solidToInstantiate, solidToInstantiate.gameObject.transform.position, solidToInstantiate.gameObject.transform.rotation));
         }
 
         public void OnRadiusSliderValueChanged(Slider callingObject)
