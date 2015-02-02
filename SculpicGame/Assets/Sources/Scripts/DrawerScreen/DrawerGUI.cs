@@ -35,9 +35,10 @@ namespace Assets.Sources.Scripts.DrawerScreen
             ClientSide.ClearScene();
         }
 
-        public void AddSolidClick(GameObject solidToInstantiate)
+        public void AddSolidClick(string solidType)
         {
-            Debug.Log("Method DrawerGUI.AddSolidClick");
+            Debug.Log("Method DrawerGUI.AddSolidClick: " + solidType + SculptorCurrentSettings.MaterialColorName);
+            var solidToInstantiate = (GameObject)Resources.Load(solidType + SculptorCurrentSettings.MaterialColorName);
             InstantiatedSolids.Add(SolidNetworkManager.SpawnSolid(solidToInstantiate, solidToInstantiate.gameObject.transform.position, solidToInstantiate.gameObject.transform.rotation));
         }
 
