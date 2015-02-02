@@ -8,8 +8,8 @@ namespace Assets.Sources.Scripts.GameRoom
 {
     public static class ServerSide
     {
-        private const int WinnerBasePoints = 30;
-        private const int DrawerBasePoints = 90;
+        private const int WinnerBasePoints = 20;
+        private const int DrawerBasePoints = 30;
         private static readonly List<PlayerData> Drawers = new List<PlayerData>();
 
         public static bool DrawingStarted { get; set; }
