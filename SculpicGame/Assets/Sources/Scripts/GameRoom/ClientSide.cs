@@ -128,6 +128,7 @@ namespace Assets.Sources.Scripts.GameRoom
         public static void ClearScene()
         {
             Debug.Log("Method ClientSide.ClearScene");
+            Network.RemoveRPCs(Network.player);
             Network.DestroyPlayerObjects(Network.player);
         }
     }
